@@ -1,0 +1,327 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>FastLifeTravel</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f1f2f4] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#121517]">
+            <div class="flex items-center gap-4 text-[#111418]">
+              <img class="d-inline-block align-top img-fluid" src="/assets/img/logo.png" alt="" width="90" />
+              
+            </div>
+   
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#121517] text-sm font-medium leading-normal" href="dashboard.html">Explore</a>
+              <a class="text-[#121517] text-sm font-medium leading-normal" href="wishlist.html">Wishlist</a>
+              <a class="text-[#121517] text-sm font-medium leading-normal" href="completedbookings.html">Trips</a>
+        
+            </div>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f1f2f4] text-[#121517] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+            >
+              <div class="text-[#121517]" data-icon="Globe" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM101.63,168h52.74C149,186.34,140,202.87,128,215.89,116,202.87,107,186.34,101.63,168ZM98,152a145.72,145.72,0,0,1,0-48h60a145.72,145.72,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.79a161.79,161.79,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154.37,88H101.63C107,69.66,116,53.13,128,40.11,140,53.13,149,69.66,154.37,88Zm19.84,16h38.46a88.15,88.15,0,0,1,0,48H174.21a161.79,161.79,0,0,0,0-48Zm32.16-16H170.94a142.39,142.39,0,0,0-20.26-45A88.37,88.37,0,0,1,206.37,88ZM105.32,43A142.39,142.39,0,0,0,85.06,88H49.63A88.37,88.37,0,0,1,105.32,43ZM49.63,168H85.06a142.39,142.39,0,0,0,20.26,45A88.37,88.37,0,0,1,49.63,168Zm101.05,45a142.39,142.39,0,0,0,20.26-45h35.43A88.37,88.37,0,0,1,150.68,213Z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <a href="usersettings.html">
+              <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQZYCTo-i-mYv84YdWgTzVoc-jjwbUgOm2mNvYOthyCKH4-DJDYfbmf7vLhmMqUnUrRtombouxbmJOJeMmfAc8GNOQgIGKUPKkp3_AwPXAmBRb5HZ6aDTN2AIGoyKQsBo6VFJFvJFgtoSo6DZyZAI5zuaRQ_-x-ZWQq6Yxv9Jg_LflIjVv5PHHHiJ1S0qoYA9Yf6HgDXABNs6gSeFinb4okmkyJ5_uYd2vP7AY1CBmnN-Rs0vqSxpuWOBltphqPTWYsMdEOFgGNXs");'
+            ></div>
+            </a>
+          </div>
+        </header>
+          <div class="px-40 flex flex-1 justify-center py-5">
+            <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+              <div class="flex p-4 @container">
+                <div class="flex w-full flex-col gap-4 items-center">
+                  <div class="flex gap-4 flex-col items-center">
+                    <div
+                      class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                      style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB94DhNVUQAp0LbWraDPxnemu9qY7K2Uki1q2US4JyFCwTy0q5zfGyacGRodXqx_Adn8fceclvuBWnu7_yrJ-fVJFHIjfFDSwINmx7JWA23TfeVhAJ6fFAimsjO4JfolpJZIr6booJQAT6Gwj-zMB78NXryxWhmgTLEYi_2MG-ErPYlLLnFntuv4vCQeIGuI3kHpTaAXgPOsygAQnymDaLjl6nLFypTXBoDGRcoiKRC0sz47nBsb5EsRQJmdn2CLYjYT_RYFtDoHTQ");'
+                    ></div>
+                    <div class="flex flex-col items-center justify-center justify-center">
+                        <p id="user-fullname" class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Loading...</p>
+                        <p id="user-email" class="text-[#60758a] text-base font-normal leading-normal text-center">...</p>
+                        
+                        
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+                
+              </div>
+              <div class="pb-3">
+                <div class="flex border-b border-[#dbe0e6] px-4 gap-8">
+                    <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#111418] text-[#111418] pb-[13px] pt-4" href="dashboard.html">
+                        <p class="text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">Wishlist</p>
+                      </a>
+                  <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#60758a] pb-[13px] pt-4" href="completedbookings.html">
+                    <p class="text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">My Bookings</p>
+                  </a>
+               
+                  <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#60758a] pb-[13px] pt-4" href="#">
+                    <p class="text-[#60758a] text-sm font-bold leading-normal tracking-[0.015em]">Payment Methods</p>
+                  </a>
+                  <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#60758a] pb-[13px] pt-4" href="#">
+                    <p class="text-[#60758a] text-sm font-bold leading-normal tracking-[0.015em]">Settings</p>
+                  </a>
+                </div>
+                
+              </div>
+            
+                
+                </div>
+                
+              
+              
+      </div>
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight min-w-72">My Wishlist</p></div>
+         
+          <div id="wishlist-items" class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+          </div>
+
+          <div class="flex justify-stretch">
+            <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
+             <!-- Book Now Button -->
+<button
+id="book-now-btn"
+class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#147edb] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+>
+<span class="truncate">Book Now</span>
+</button>
+
+<!-- Clear Wishlist Button -->
+<button
+id="clear-wishlist-btn"
+class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f0f2f4] text-[#111518] text-sm font-bold leading-normal tracking-[0.015em]"
+>
+<span class="truncate">Remove from Wishlist</span>
+</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="flex justify-center">
+        <div class="flex max-w-[960px] flex-1 flex-col">
+          <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+            <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+              <a class="text-[#617789] text-base font-normal leading-normal min-w-40" href="#">About</a>
+              <a class="text-[#617789] text-base font-normal leading-normal min-w-40" href="#">Terms</a>
+              <a class="text-[#617789] text-base font-normal leading-normal min-w-40" href="#">Privacy</a>
+              <a class="text-[#617789] text-base font-normal leading-normal min-w-40" href="#">Site Map</a>
+            </div>
+            <p class="text-[#617789] text-base font-normal leading-normal">@2024 AdventureTime. All rights reserved.</p>
+          </footer>
+        </div>
+      </footer>
+      </div>
+      
+    </div>
+    <div id="clear-confirm-box" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg border rounded-xl p-4 w-[90%] max-w-sm text-center">
+        <p class="text-[#111418] text-base font-medium mb-4">Are you sure you want to clear your entire wishlist?</p>
+        <div class="flex justify-center gap-4">
+          <button id="confirm-clear" class="px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700">Proceed</button>
+          <button id="cancel-clear" class="px-4 py-2 rounded-md bg-gray-200 text-[#111418] font-medium hover:bg-gray-300">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+          const container = document.getElementById('wishlist-items');
+        
+          try {
+            const res = await fetch('/api/wishlist', {
+              credentials: 'include'
+            });
+        
+            if (!res.ok) {
+              if (res.status === 401) {
+                container.innerHTML = '<p class="text-red-600">Please log in to view your wishlist.</p>';
+              } else {
+                container.innerHTML = '<p class="text-red-600">Failed to fetch wishlist.</p>';
+              }
+              return;
+            }
+        
+            const wishlist = await res.json();
+        
+            if (!Array.isArray(wishlist) || wishlist.length === 0) {
+              container.innerHTML = '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
+              return;
+            }
+        
+            container.innerHTML = wishlist.map(item => `
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                  style='background-image: url("${item.image_url}")'
+                ></div>
+                <div>
+                  <p class="text-[#111518] text-base font-medium leading-normal">${item.title}</p>
+                  <p class="text-[#617789] text-sm font-normal leading-normal">${item.location}</p>
+                  <p class="text-[#617789] text-sm font-normal leading-normal">
+                    ${item.category_name || 'Activity'} · €${Number(item.price).toFixed(2)}
+                  </p>
+                  <button
+                    onclick="removeFromWishlist(${item.id})"
+                    class="text-sm text-red-500 mt-1 hover:underline"
+                  >Remove</button>
+                </div>
+              </div>
+            `).join('');
+          } catch (err) {
+            console.error('❌ Error fetching wishlist:', err);
+            container.innerHTML = '<p class="text-red-600">An error occurred while loading your wishlist.</p>';
+          }
+        });
+        
+        async function removeFromWishlist(activityId) {
+          try {
+            const res = await fetch('/api/wishlist', {
+              method: 'DELETE',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ activity_id: activityId })
+            });
+        
+            if (res.ok) {
+              location.reload(); // Refresh to show updated wishlist
+            } else {
+              const { error } = await res.json();
+              alert(error || 'Failed to remove item.');
+            }
+          } catch (err) {
+            console.error('❌ Remove error:', err);
+            alert('Could not remove from wishlist.');
+          }
+        }
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+              try {
+                const res = await fetch('/session', { credentials: 'include' });
+                const data = await res.json();
+          
+                const nameElement = document.getElementById('user-fullname');
+                const emailElement = document.getElementById('user-email');
+          
+                if (data.loggedIn) {
+                  const fullName = (data.firstName && data.lastName)
+                    ? `${data.firstName} ${data.lastName}`
+                    : data.userName || 'User';
+          
+                  nameElement.textContent = fullName;
+                  emailElement.textContent = data.email;
+                } else {
+                  nameElement.textContent = 'Guest';
+                  emailElement.textContent = 'Not logged in';
+                }
+              } catch (err) {
+                console.error('Failed to load session data:', err);
+              }
+            });
+          </script>
+          
+
+
+
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const confirmBox = document.getElementById('clear-confirm-box');
+              const clearBtn = document.getElementById('clear-wishlist-btn');
+              const confirmClear = document.getElementById('confirm-clear');
+              const cancelClear = document.getElementById('cancel-clear');
+              const bookBtn = document.getElementById('book-now-btn');
+          
+              // Show confirmation modal
+              clearBtn?.addEventListener('click', () => {
+                if (confirmBox) confirmBox.classList.remove('hidden');
+              });
+          
+              // Cancel clear
+              cancelClear?.addEventListener('click', () => {
+                if (confirmBox) confirmBox.classList.add('hidden');
+              });
+          
+              // Confirm and clear wishlist
+              confirmClear?.addEventListener('click', async () => {
+                try {
+                  const res = await fetch('/api/wishlist/all', {
+                    method: 'DELETE',
+                    credentials: 'include'
+                  });
+          
+                  if (res.ok) {
+                    location.reload();
+                  } else {
+                    const err = await res.json();
+                    alert(err?.error || 'Failed to clear wishlist.');
+                  }
+                } catch (err) {
+                  console.error('❌ Clear wishlist error:', err);
+                  alert('An error occurred while clearing your wishlist.');
+                } finally {
+                  if (confirmBox) confirmBox.classList.add('hidden');
+                }
+              });
+          
+              // Book Now
+              bookBtn?.addEventListener('click', async () => {
+                try {
+                  const res = await fetch('/api/wishlist', {
+                    credentials: 'include'
+                  });
+          
+                  if (!res.ok) {
+                    alert('Failed to fetch wishlist.');
+                    return;
+                  }
+          
+                  const wishlist = await res.json();
+          
+                  if (!Array.isArray(wishlist) || wishlist.length === 0) {
+                    alert('Your wishlist is empty.');
+                    return;
+                  }
+          
+                  const ids = wishlist.map(item => item.id).join(',');
+                  window.location.href = `/bookings.html?activityIds=${encodeURIComponent(ids)}`;
+                } catch (err) {
+                  console.error('❌ Booking redirect error:', err);
+                  alert('An error occurred while redirecting to bookings.');
+                }
+              });
+            });
+          </script>
+          
+          <!-- clear alll js  -->
+
+         
+          
+  </body>
+</html>

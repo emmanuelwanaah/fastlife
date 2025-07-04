@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Email</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="/css/loginstyle.css">
+  <style>
+    .login__box { margin-top: 1rem; }
+    .code-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .code-inputs input {
+      width: 45px;
+      height: 50px;
+      font-size: 1.5rem;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .code-inputs input:focus {
+      border-color: #0d6efd;
+    }
+    #verify-message {
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="image-info">
+    <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
+      <mask id="mask0" mask-type="alpha">
+        <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+        0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+        591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+        167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+      </mask>
+      <g mask="url(#mask0)">
+        <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+        0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+        591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+        167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+        <image class="login__img" href="/images/image.png"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="login container grid" id="loginAccessRegister">
+    <div class="login__access">
+      <h1 class="login__title">Verify Your Email</h1>
+      
+
+      <div class="login__area">
+        <form id="verify-form" class="login__form">
+          <div id="verify-message" class="alert d-none" role="alert"></div>
+
+          <div class="code-inputs">
+            <input type="text" maxlength="1" class="code-input" required />
+            <input type="text" maxlength="1" class="code-input" required />
+            <input type="text" maxlength="1" class="code-input" required />
+            <input type="text" maxlength="1" class="code-input" required />
+            <input type="text" maxlength="1" class="code-input" required />
+            <input type="text" maxlength="1" class="code-input" required />
+          </div>
+
+          <button type="submit" class="login__button">Verify</button>
+        </form>
+
+        <p class="login__switch text-center mt-3">
+          Didn’t receive the code? <a href="#">Resend</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Autofocus & move to next input
+    const inputs = document.querySelectorAll(".code-input");
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && input.value === "" && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    // Email masking
+    document.addEventListener("DOMContentLoaded", () => {
+      const maskedEmailEl = document.getElementById("maskedEmail");
+      const sessionEmail = sessionStorage.getItem("resetEmail") || "";
+      if (sessionEmail) {
+        const [user, domain] = sessionEmail.split("@");
+        const masked = `${"*".repeat(user.length)}@${domain}`;
+        maskedEmailEl.textContent = masked;
+      }
+    });
+
+    // Verification script
+    document.getElementById("verify-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const code = Array.from(document.querySelectorAll(".code-input"))
+        .map(input => input.value.trim())
+        .join("");
+      const messageDiv = document.getElementById("verify-message");
+
+      try {
+        const res = await fetch("/api/verify-reset-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code }),
+        });
+
+        const data = await res.json();
+
+        messageDiv.classList.remove("d-none", "alert-danger", "alert-success");
+        messageDiv.classList.add(data.success ? "alert-success" : "alert-danger");
+        messageDiv.textContent = data.message;
+
+        if (data.success) {
+          setTimeout(() => window.location.href = "login.html", 2500);
+        }
+      } catch (err) {
+        messageDiv.classList.remove("d-none", "alert-success");
+        messageDiv.classList.add("alert-danger");
+        messageDiv.textContent = "Something went wrong.";
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

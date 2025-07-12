@@ -80,75 +80,65 @@
       </div>
     </div>
   </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const inputs = document.querySelectorAll(".code-input");
-      const maskedEmailEl = document.getElementById("maskedEmail");
-      const messageDiv = document.getElementById("verify-message");
-  
-      // Autofocus & move to next input
-      inputs.forEach((input, index) => {
-        input.addEventListener("input", () => {
-          if (input.value.length === 1 && index < inputs.length - 1) {
-            inputs[index + 1].focus();
-          }
-        });
-        input.addEventListener("keydown", (e) => {
-          if (e.key === "Backspace" && input.value === "" && index > 0) {
-            inputs[index - 1].focus();
-          }
-        });
+    // Autofocus & move to next input
+    const inputs = document.querySelectorAll(".code-input");
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
       });
-  
-      // Email masking
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && input.value === "" && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    // Email masking
+    document.addEventListener("DOMContentLoaded", () => {
+      const maskedEmailEl = document.getElementById("maskedEmail");
       const sessionEmail = sessionStorage.getItem("resetEmail") || "";
       if (sessionEmail) {
         const [user, domain] = sessionEmail.split("@");
         const masked = `${"*".repeat(user.length)}@${domain}`;
         maskedEmailEl.textContent = masked;
       }
-  
-      // Verification form
-      document.getElementById("verify-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-  
-        const code = Array.from(document.querySelectorAll(".code-input"))
-          .map(input => input.value.trim())
-          .join("");
-  
-        if (code.length !== 6) {
-          messageDiv.classList.remove("d-none", "alert-success");
-          messageDiv.classList.add("alert-danger");
-          messageDiv.textContent = "Please enter a valid 6-digit code.";
-          return;
+    });
+
+    // Verification script
+    document.getElementById("verify-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const code = Array.from(document.querySelectorAll(".code-input"))
+        .map(input => input.value.trim())
+        .join("");
+      const messageDiv = document.getElementById("verify-message");
+
+      try {
+        const res = await fetch("/api/verify-reset-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code }),
+        });
+
+        const data = await res.json();
+
+        messageDiv.classList.remove("d-none", "alert-danger", "alert-success");
+        messageDiv.classList.add(data.success ? "alert-success" : "alert-danger");
+        messageDiv.textContent = data.message;
+
+        if (data.success) {
+          setTimeout(() => window.location.href = "login.html", 2500);
         }
-  
-        try {
-          const res = await fetch("https://fastlife-production.up.railway.app/api/verify-reset-code", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code }),
-          });
-  
-          const data = await res.json();
-  
-          messageDiv.classList.remove("d-none", "alert-danger", "alert-success");
-          messageDiv.classList.add(data.success ? "alert-success" : "alert-danger");
-          messageDiv.textContent = data.message;
-  
-          if (data.success) {
-            setTimeout(() => window.location.href = "login.html", 2500);
-          }
-        } catch (err) {
-          console.error("Verification error:", err);
-          messageDiv.classList.remove("d-none", "alert-success");
-          messageDiv.classList.add("alert-danger");
-          messageDiv.textContent = "Something went wrong.";
-        }
-      });
+      } catch (err) {
+        messageDiv.classList.remove("d-none", "alert-success");
+        messageDiv.classList.add("alert-danger");
+        messageDiv.textContent = "Something went wrong.";
+      }
     });
   </script>
-  
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

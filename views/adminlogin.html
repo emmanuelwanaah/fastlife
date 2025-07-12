@@ -80,8 +80,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/adminscript.js"></script>
   <script>
-    const API_BASE = 'https://fastlife-production.up.railway.app';
-  
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
   
@@ -90,7 +88,7 @@
       const alertBox = document.getElementById('loginAlert');
       const alertText = document.getElementById('loginAlertText');
   
-      // Show loading, hide form
+      // Show loading screen and hide login section temporarily
       loading?.classList.remove('d-none');
       loginSection?.classList.add('d-none');
       alertBox?.classList.add('d-none');
@@ -98,27 +96,17 @@
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
   
-      if (!email || !password) {
-        alertText.textContent = 'Please enter both email and password.';
-        alertBox.classList.remove('d-none');
-        loading?.classList.add('d-none');
-        loginSection?.classList.remove('d-none');
-        return;
-      }
-  
       try {
-        const response = await fetch(`${API_BASE}/adminlogin`, {
+        const response = await fetch('/adminlogin', {
           method: 'POST',
-          credentials: 'include', // if you use cookies/session
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
   
+        // Check if the response is JSON and OK
         const contentType = response.headers.get('content-type');
-        if (!response.ok || !contentType?.includes('application/json')) {
-          throw new Error('Invalid response from server.');
+        if (!response.ok || !contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid server response (expected JSON).');
         }
   
         const result = await response.json();
@@ -128,21 +116,21 @@
             window.location.href = '/admin.html';
           }, 1000);
         } else {
+          // Display backend error
+          loginSection?.classList.remove('d-none');
+          loading?.classList.add('d-none');
           alertText.textContent = result.message || 'Invalid Email or Password.';
           alertBox.classList.remove('d-none');
-          loading?.classList.add('d-none');
-          loginSection?.classList.remove('d-none');
         }
       } catch (err) {
         console.error('Login error:', err);
+        loginSection?.classList.remove('d-none');
+        loading?.classList.add('d-none');
         alertText.textContent = 'Something went wrong. Please try again.';
         alertBox.classList.remove('d-none');
-        loading?.classList.add('d-none');
-        loginSection?.classList.remove('d-none');
       }
     });
   </script>
-  
   
 </body>
 </html>

@@ -154,11 +154,6 @@
       document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
     
-        const backendBaseURL =
-          location.hostname === "localhost"
-            ? "http://localhost:3000"
-            : "https://fastlife-production.up.railway.app";
-    
         document.getElementById('loadingScreen')?.classList.remove('d-none');
         document.getElementById('loginAccessRegister').classList.add('d-none');
     
@@ -166,7 +161,7 @@
         const password = document.getElementById('password').value;
     
         try {
-          const response = await fetch(`${backendBaseURL}/login`, {
+          const response = await fetch('/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -201,9 +196,10 @@
       });
     </script>
     
-    
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-  type="module"></script>
+    <script
+  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+  type="module"
+></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const passwordInput = document.getElementById("newPassword");
@@ -238,118 +234,44 @@
   });
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const backendBaseURL = "https://fastlife-production.up.railway.app";
-
-    // ✅ LOGIN FORM
-    const loginForm = document.querySelector(".login__form");
-    if (loginForm) {
-      loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(loginForm);
-        const userData = Object.fromEntries(formData.entries());
-
-        document.getElementById("loadingScreen")?.classList.remove("d-none");
-        document.getElementById("loginAccessRegister")?.classList.add("d-none");
-
-        try {
-          const response = await fetch(`${backendBaseURL}/login`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData),
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            setTimeout(() => {
-              window.location.href = "/dashboard.html";
-            }, 1000);
-          } else {
-            throw new Error(result.message || "Login failed");
-          }
-        } catch (err) {
-          console.error("❌ Login error:", err);
-          alert(err.message || "An error occurred. Please try again.");
-          document.getElementById("loadingScreen")?.classList.add("d-none");
-          document.getElementById("loginAccessRegister")?.classList.remove("d-none");
-        }
+  document.querySelector('.login__register .login__form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+  
+    const form = e.target;
+    const formData = new FormData(form);
+    const userData = Object.fromEntries(formData.entries());
+  
+    // Show loading screen
+    document.getElementById('loadingScreen')?.classList.remove('d-none');
+    document.getElementById('loginAccessRegister')?.classList.add('d-none');
+  
+    try {
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
       });
-    }
-
-    // ✅ PASSWORD RULE CHECKER
-    const passwordInput = document.getElementById("newPassword");
-    if (passwordInput) {
-      const rules = {
-        length: document.getElementById("rule-length"),
-        upper: document.getElementById("rule-upper"),
-        lower: document.getElementById("rule-lower"),
-        number: document.getElementById("rule-number"),
-      };
-
-      passwordInput.addEventListener("input", () => {
-        const val = passwordInput.value;
-
-        const checks = {
-          length: val.length >= 8,
-          upper: /[A-Z]/.test(val),
-          lower: /[a-z]/.test(val),
-          number: /[0-9]/.test(val),
-        };
-
-        for (const key in rules) {
-          if (rules[key]) {
-            rules[key].classList.toggle("text-success", checks[key]);
-            rules[key].classList.toggle("text-danger", !checks[key]);
-          }
-        }
-      });
-    }
-
-    // ✅ REGISTRATION FORM
-    const registerForm = document.querySelector(".login__register .login__form");
-    if (registerForm) {
-      registerForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(registerForm);
-        const userData = Object.fromEntries(formData.entries());
-
-        document.getElementById("loadingScreen")?.classList.remove("d-none");
-        document.getElementById("loginAccessRegister")?.classList.add("d-none");
-
-        try {
-          const response = await fetch(`${backendBaseURL}/register`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData),
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            setTimeout(() => {
-              window.location.href = "/dashboard.html";
-            }, 2000);
-          } else {
-            throw new Error(result.message || "Registration failed");
-          }
-        } catch (err) {
-          console.error("❌ Registration error:", err);
-          alert(err.message || "An error occurred. Please try again.");
-          document.getElementById("loginAccessRegister")?.classList.remove("d-none");
-          document.getElementById("loadingScreen")?.classList.add("d-none");
-        }
-      });
-    } else {
-      console.warn("⚠️ Registration form not found.");
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 2000);
+      } else {
+        document.getElementById('loginAccessRegister')?.classList.remove('d-none');
+        document.getElementById('loadingScreen')?.classList.add('d-none');
+        alert(result.message || "Registration failed. Please try again.");
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      document.getElementById('loginAccessRegister')?.classList.remove('d-none');
+      document.getElementById('loadingScreen')?.classList.add('d-none');
+      alert("An error occurred. Please try again.");
     }
   });
-</script>
-
+  </script>
+  
 
 </body>
 </html>

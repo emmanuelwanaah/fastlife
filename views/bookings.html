@@ -219,11 +219,6 @@
       <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
       
-
-      <script>
-        const API_BASE = 'https://fastlife-production.up.railway.app';
-      </script>
-      
       <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('date-range');
@@ -255,196 +250,206 @@
     </script>
 
 
-    <script>
-      document.addEventListener('DOMContentLoaded', async () => {
-        const API_BASE = 'https://fastlife-production.up.railway.app';
-        const summaryContainer = document.getElementById('trip-summary');
-        const subtotalElement = document.getElementById('trip-subtotal');
-        const totalElement = document.getElementById('trip-total');
-    
-        const urlParams = new URLSearchParams(window.location.search);
-        const idsParam = urlParams.get('activityIds');
-        if (!idsParam) {
-          subtotalElement.textContent = '€0.00';
-          totalElement.textContent = '€0.00';
-          return;
-        }
-    
-        try {
-          const res = await fetch(`${API_BASE}/api/wishlist`, { credentials: 'include' });
-          const activities = await res.json();
-          const selectedIds = idsParam.split(',').map(id => parseInt(id));
-          const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
-    
-          let subtotal = 0;
-          const subtotalRow = subtotalElement.closest('div.col-span-2');
-    
-          for (const activity of selectedActivities) {
-            const row = document.createElement('div');
-            row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
-            row.innerHTML = `
-              <p class="text-[#677683] text-sm font-normal leading-normal">${activity.title}</p>
-              <p class="text-[#121517] text-sm font-normal leading-normal">€${Number(activity.price).toFixed(2)}</p>
-            `;
-            summaryContainer.insertBefore(row, subtotalRow);
-            subtotal += parseFloat(activity.price || 0);
-          }
-    
-          subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-          const serviceFee = 0;
-          totalElement.textContent = `€${(subtotal + serviceFee).toFixed(2)}`;
-        } catch (err) {
-          console.error('❌ Failed to load trip summary:', err);
-          subtotalElement.textContent = 'Error';
-          totalElement.textContent = 'Error';
-        }
-      });
-    </script>
-    
-
 
     <script>
-      let formattedDateRange = '';
-      let formattedNights = '';
-    
-      document.addEventListener('DOMContentLoaded', () => {
-        const input = document.getElementById('date-range');
-        const nightsDisplay = document.getElementById('nights-display');
-        const dateDisplay = document.getElementById('date-display');
-    
-        const picker = new Litepicker({
-          element: input,
-          singleMode: false,
-          numberOfMonths: 2,
-          numberOfColumns: 2,
-          minDate: new Date(),
-          autoApply: true,
-          format: 'YYYY-MM-DD',
-          setup: (picker) => {
-            picker.on('selected', (start, end) => {
-              const nights = end.diff(start, 'day');
-              const formattedStart = start.format('MMMM D, YYYY');
-              const formattedEnd = end.format('MMMM D, YYYY');
-    
-              formattedDateRange = `${formattedStart} → ${formattedEnd}`;
-              formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
-              nightsDisplay.textContent = formattedNights;
-              dateDisplay.textContent = `From ${formattedStart} to ${formattedEnd}`;
-              input.value = formattedDateRange;
-            });
-          }
-        });
-      });
-    
-      document.getElementById('continue-btn').addEventListener('click', async () => {
-        const API_BASE = 'https://fastlife-production.up.railway.app';
-        const dateRange = formattedDateRange;
-        const nights = formattedNights;
-        const total = document.getElementById('trip-total').textContent;
-    
-        const paymentActivities = document.getElementById('payment-activities');
-        const paymentTotal = document.getElementById('payment-total-display');
-    
-        const urlParams = new URLSearchParams(window.location.search);
-        const idsParam = urlParams.get('activityIds');
-        const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
-    
-        if (!dateRange || selectedIds.length === 0) {
-          alert('Please select a date range and at least one activity before continuing.');
-          return;
-        }
-    
-        try {
-          const res = await fetch(`${API_BASE}/api/wishlist`, { credentials: 'include' });
-          const wishlist = await res.json();
-          const activities = wishlist.filter(item => selectedIds.includes(item.id));
-          const activitySummary = [];
-    
-          paymentActivities.innerHTML = activities.map(act => {
-            activitySummary.push({
-              id: act.id,
-              title: act.title,
-              price: Number(act.price),
-              location: act.location,
-              image: act.image_url,
-              dateRange,
-              nights
-            });
-    
-            return `
-              <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
-                <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image_url}')"></div>
-                <div class="flex flex-col flex-1">
-                  <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
-                  <p class="text-[#677683] text-sm">${act.location}</p>
-                  <p class="text-[#677683] text-xs">${dateRange}</p>
-                  <p class="text-[#677683] text-xs">${nights}</p>
-                </div>
-                <p class="text-[#121517] font-medium text-sm">€${Number(act.price).toFixed(2)}</p>
-              </div>
-            `;
-          }).join('');
-    
-          paymentTotal.textContent = total;
-    
-          window.bookingData = {
-            dateRange,
-            nights,
-            total,
-            activities: activitySummary
-          };
-    
-          document.getElementById('order-content').classList.add('hidden');
-          document.getElementById('payment-section').classList.remove('hidden');
-        } catch (err) {
-          console.error('❌ Booking display error:', err);
-          alert('Something went wrong.');
-        }
-      });
-    </script>
-    
-    <script>
-      const payNowBtn = document.getElementById('pay-now');
-    
-      payNowBtn.addEventListener('click', async () => {
-        const API_BASE = 'https://fastlife-production.up.railway.app';
-    
-        try {
-          const booking = window.bookingData;
-    
-          if (!booking || !booking.activities || booking.activities.length === 0) {
-            alert('No booking information found. Please try again.');
+        document.addEventListener('DOMContentLoaded', async () => {
+          const summaryContainer = document.getElementById('trip-summary');
+          const subtotalElement = document.getElementById('trip-subtotal');
+          const totalElement = document.getElementById('trip-total');
+        
+          const urlParams = new URLSearchParams(window.location.search);
+          const idsParam = urlParams.get('activityIds');
+          if (!idsParam) {
+            subtotalElement.textContent = '€0.00';
+            totalElement.textContent = '€0.00';
             return;
           }
-    
-          if (!booking.reference) {
-            booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
+        
+          try {
+            const res = await fetch('/api/wishlist', { credentials: 'include' });
+            const activities = await res.json();
+            const selectedIds = idsParam.split(',').map(id => parseInt(id));
+        
+            const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
+            let subtotal = 0;
+        
+            const subtotalRow = subtotalElement.closest('div.col-span-2');
+        
+            for (const activity of selectedActivities) {
+              const row = document.createElement('div');
+              row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
+              row.innerHTML = `
+                <p class="text-[#677683] text-sm font-normal leading-normal">${activity.title}</p>
+                <p class="text-[#121517] text-sm font-normal leading-normal">€${Number(activity.price).toFixed(2)}</p>
+              `;
+              summaryContainer.insertBefore(row, subtotalRow);
+              subtotal += parseFloat(activity.price || 0);
+            }
+        
+            subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
+        
+            // Add taxes or fees if you want (e.g., 10% fee)
+            const serviceFee = 0; // or: const serviceFee = subtotal * 0.1;
+            const total = subtotal + serviceFee;
+        
+            totalElement.textContent = `€${total.toFixed(2)}`;
+        
+          } catch (err) {
+            console.error('❌ Failed to load trip summary:', err);
+            subtotalElement.textContent = 'Error';
+            totalElement.textContent = 'Error';
           }
-    
-          localStorage.setItem('booking', JSON.stringify(booking));
-          localStorage.removeItem('bookingConfirmed');
-    
-          const response = await fetch(`${API_BASE}/api/create-checkout-session`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(booking)
-          });
-    
-          const session = await response.json();
-          if (!session.id) throw new Error('No session ID returned from Stripe.');
-    
-          const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ');
-          stripe.redirectToCheckout({ sessionId: session.id });
-        } catch (err) {
-          console.error('❌ Payment initiation failed:', err);
-          alert('Payment failed to start. Please try again.');
-        }
-      });
-    </script>
-    
+        });
+        </script>
+
+
+
+            <script>
+                let formattedDateRange = '';
+                let formattedNights = '';
+              
+                // Setup date picker
+                document.addEventListener('DOMContentLoaded', () => {
+                  const input = document.getElementById('date-range');
+                  const nightsDisplay = document.getElementById('nights-display');
+                  const dateDisplay = document.getElementById('date-display');
+              
+                  const picker = new Litepicker({
+                    element: input,
+                    singleMode: false,
+                    numberOfMonths: 2,
+                    numberOfColumns: 2,
+                    minDate: new Date(),
+                    autoApply: true,
+                    format: 'YYYY-MM-DD',
+                    setup: (picker) => {
+                      picker.on('selected', (start, end) => {
+                        const nights = end.diff(start, 'day');
+                        const formattedStart = start.format('MMMM D, YYYY');
+                        const formattedEnd = end.format('MMMM D, YYYY');
+              
+                        formattedDateRange = `${formattedStart} → ${formattedEnd}`;
+                        formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
+              
+                        nightsDisplay.textContent = formattedNights;
+                        dateDisplay.textContent = `From ${formattedStart} to ${formattedEnd}`;
+                        input.value = formattedDateRange;
+                      });
+                    }
+                  });
+                });
+                document.getElementById('continue-btn').addEventListener('click', async () => {
+                  const dateRange = formattedDateRange;
+                  const nights = formattedNights;
+                  const total = document.getElementById('trip-total').textContent;
+                
+                  const paymentActivities = document.getElementById('payment-activities');
+                  const paymentTotal = document.getElementById('payment-total-display');
+                
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const idsParam = urlParams.get('activityIds');
+                  const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
+                
+                  if (!dateRange || selectedIds.length === 0) {
+                    alert('Please select a date range and at least one activity before continuing.');
+                    return;
+                  }
+                
+                  try {
+                    const res = await fetch('/api/wishlist', { credentials: 'include' });
+                    const wishlist = await res.json();
+                    const activities = wishlist.filter(item => selectedIds.includes(item.id));
+                    const activitySummary = [];
+                
+                    paymentActivities.innerHTML = activities.map(act => {
+                      // ✅ PUT THIS HERE:
+                      activitySummary.push({
+                        id: act.id, // <--- Important!
+                        title: act.title,
+                        price: Number(act.price),
+                        location: act.location,
+                        image: act.image_url,
+                        dateRange,
+                        nights
+                      });
+                
+                      return `
+                        <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
+                          <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image_url}')"></div>
+                          <div class="flex flex-col flex-1">
+                            <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
+                            <p class="text-[#677683] text-sm">${act.location}</p>
+                            <p class="text-[#677683] text-xs">${dateRange}</p>
+                            <p class="text-[#677683] text-xs">${nights}</p>
+                          </div>
+                          <p class="text-[#121517] font-medium text-sm">€${Number(act.price).toFixed(2)}</p>
+                        </div>
+                      `;
+                    }).join('');
+                
+                    paymentTotal.textContent = total;
+                
+                    // ✅ Store full booking data including activity IDs
+                    window.bookingData = {
+                      dateRange,
+                      nights,
+                      total,
+                      activities: activitySummary
+                    };
+                
+                    // Show the payment section
+                    document.getElementById('order-content').classList.add('hidden');
+                    document.getElementById('payment-section').classList.remove('hidden');
+                  } catch (err) {
+                    console.error('❌ Booking display error:', err);
+                    alert('Something went wrong.');
+                  }
+                });
+                
+              </script>
+             
+              <script>
+                const payNowBtn = document.getElementById('pay-now');
+              
+                payNowBtn.addEventListener('click', async () => {
+                  try {
+                    const booking = window.bookingData;
+              
+                    if (!booking || !booking.activities || booking.activities.length === 0) {
+                      alert('No booking information found. Please try again.');
+                      return;
+                    }
+              
+                    // ✅ Generate a reference if it doesn't exist
+                    if (!booking.reference) {
+                      booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
+                    }
+              
+                    // ✅ Store booking info temporarily (will be confirmed on success page)
+                    localStorage.setItem('booking', JSON.stringify(booking));
+                    localStorage.removeItem('bookingConfirmed'); // Reset in case user retries
+              
+                    const response = await fetch('/api/create-checkout-session', {
+                      method: 'POST',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(booking)
+                    });
+              
+                    const session = await response.json();
+                    if (!session.id) throw new Error('No session ID returned from Stripe.');
+              
+                    const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ'); // ✅ Your Stripe public key
+                    stripe.redirectToCheckout({ sessionId: session.id });
+                  } catch (err) {
+                    console.error('❌ Payment initiation failed:', err);
+                    alert('Payment failed to start. Please try again.');
+                  }
+                });
+              </script>
+              
   </body>
 </html>
 

@@ -22,25 +22,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS for frontend on Netlify
-
-
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://fastlifetravel.netlify.app'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
   credentials: true
 }));
-
-
 
 // Session config
 app.use(session({
@@ -54,6 +39,11 @@ app.use(session({
 if (process.env.NODE_ENV !== 'production') {
   app.use(express.static(path.join(__dirname, 'views')));
   app.use(express.static(path.join(__dirname, 'public')));
+  
+  // Optional: fallback route to serve index.html for SPA-style navigation
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  });
 }
 
 // DB Connection
@@ -679,4 +669,10 @@ app.use((req, res, next) => {
 // 404 Handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+// Start Server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });

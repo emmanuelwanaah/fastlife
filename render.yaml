@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: fastlifetravel
-    env: node
-    buildCommand: npm install
-    startCommand: node server.js
-    autoDeploy: true
-    rootDir: ./

@@ -35,16 +35,31 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
-// Serve static files locally (not used in prod)
-if (process.env.NODE_ENV !== 'production') {
-  app.use(express.static(path.join(__dirname, 'views')));
-  app.use(express.static(path.join(__dirname, 'public')));
-  
-  // Optional: fallback route to serve index.html for SPA-style navigation
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
-  });
-}
+// Serve static files in all environments (production and dev)
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve individual HTML pages
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+app.get('/adminlogin.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'adminlogin.html'));
+});
+app.get('/bookings.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'bookings.html'));
+});
+// Add other pages as needed
+
+
+// Optional: fallback route to serve index.html for SPA-style navigation
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
 
 // DB Connection
 let db;

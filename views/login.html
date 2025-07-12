@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastLifeTravel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Add Bootstrap Icons in your <head> -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> -->
+ <!--=============== REMIXICONS ===============-->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <link rel="stylesheet" href="/css/loginstyle.css">
+    
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loadingScreen" class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="z-index: 9999;">
+      <dotlottie-player
+     src="https://lottie.host/ec744bf8-f532-4904-b377-2e2f4eda3726/n5efoFqxgD.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay>
+    
+      </dotlottie-player>
+    </div>
+ 
+      <!--=============== LOGIN IMAGE ===============-->
+   <div class="image-info">
+    <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
+        <mask id="mask0" mask-type="alpha">
+           <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+           0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+           591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+           167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+        </mask>
+     
+        <g mask="url(#mask0)">
+           <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+           0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+           591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+           167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+     
+           <!-- Insert your image (recommended size: 1000 x 1200) -->
+           <image class="login__img" href="/images/image.png"/>
+        </g>
+     </svg> 
+   </div>     
+
+     <!--=============== LOGIN ===============-->
+     <div class="login container grid" id="loginAccessRegister">
+        <!--===== LOGIN ACCESS =====-->
+        <div class="login__access">
+           <h1 class="login__title">Log in to your account.</h1>
+           
+           <div class="login__area">
+            <form action="/login" method="POST" class="login__form" id="loginForm">
+               <div id="loginAlert" class="alert alert-danger d-flex align-items-center gap-2 d-none" role="alert" style="font-size: 0.95rem;">
+                  <i class="ri-close-circle-fill" style="font-size: 1.2rem; color: red;"></i>
+                  <span id="loginAlertText">Invalid Email or Password.</span>
+                </div>
+                
+              
+                 <div class="login__content grid">
+                    <div class="login__box">
+                     <input type="email" id="email" name="email" required placeholder=" " class="login__input">
+                     <label for="email" class="login__label">Email</label>
+                     
+           
+                       <i class="ri-mail-fill login__icon"></i>
+                    </div>
+        
+                    <div class="login__box">
+                       <input type="password" id="password" name="password" required placeholder=" " class="login__input">
+                       <label for="password" class="login__label">Password</label>
+           
+                       <i class="ri-eye-off-fill login__icon login__password" id="loginPassword"></i>
+                    </div>
+                 </div>
+        
+                 <a href="password-reset.html" class="login__forgot">Forgot your Email/Password?</a>
+        
+                 <button type="submit" class="login__button">Login</button>
+              </form>
+     
+           </div>
+           <p class="login__switch">
+            Don't have an account? 
+            <button id="loginButtonRegister">Create Account</button>
+         </p>
+  
+        </div>
+      
+        <!--===== LOGIN REGISTER =====-->
+        <div class="login__register">
+         <h1 class="login__title">Create new account.</h1>
+
+       
+         <div class="login__area">
+           <form action="/register" method="POST" class="login__form">
+             <div class="login__content grid">
+               <div class="login__group grid">
+                 <div class="login__box">
+                   <input type="text" name="first_name" id="firstName" required placeholder=" " class="login__input">
+                   <label for="firstName" class="login__label">First Name</label>
+                   <i class="ri-user-fill login__icon"></i>
+                 </div>
+       
+                 <div class="login__box">
+                   <input type="text" name="last_name" id="lastName" required placeholder=" " class="login__input">
+                   <label for="lastName" class="login__label">Last Name</label>
+                   <i class="ri-user-fill login__icon"></i>
+                 </div>
+               </div>
+       
+               <div class="login__box">
+                 <input type="email" name="email" id="email" required placeholder=" " class="login__input">
+                 <label for="email" class="login__label">Email</label>
+                 <i class="ri-mail-fill login__icon"></i>
+               </div>
+       
+               <div class="login__box">
+                 <input type="text" name="phone" id="phone" required placeholder=" " class="login__input">
+                 <label for="phone" class="login__label">Phone</label>
+                 <i class="ri-phone-fill login__icon"></i>
+               </div>
+       
+               <div class="login__box">
+                 <input type="password" name="password" id="passwordCreate" required placeholder=" " class="login__input">
+                 <label for="passwordCreate" class="login__label">Password</label>
+                 <i class="ri-eye-off-fill login__icon login__password" id="loginPasswordCreate"></i>
+               </div>
+               
+             </div>
+       
+             <button type="submit" class="login__button">Create account</button>
+           </form>
+       
+           <p class="login__switch">
+             Already have an account? 
+             <button id="loginButtonAccess">Log In</button>
+           </p>
+         </div>
+       </div>
+       
+     </div>
+  
+       </div>
+        
+     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/js/app.js"></script> -->
+    <script src="/js/script.js"></script>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+    
+        document.getElementById('loadingScreen')?.classList.remove('d-none');
+        document.getElementById('loginAccessRegister').classList.add('d-none');
+    
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+    
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+    
+          const result = await response.json();
+    
+          if (result.success) {
+            setTimeout(() => {
+              window.location.href = '/dashboard.html';
+            }, 2000);
+          } else {
+            document.getElementById('loginAccessRegister').classList.remove('d-none');
+            document.getElementById('loadingScreen')?.classList.add('d-none');
+    
+            const alertBox = document.getElementById('loginAlert');
+            const alertText = document.getElementById('loginAlertText');
+            alertText.textContent = result.message || 'Invalid Email or Password.';
+            alertBox.classList.remove('d-none');
+          }
+        } catch (err) {
+          console.error('Login error:', err);
+    
+          document.getElementById('loginAccessRegister').classList.remove('d-none');
+          document.getElementById('loadingScreen')?.classList.add('d-none');
+    
+          const alertBox = document.getElementById('loginAlert');
+          const alertText = document.getElementById('loginAlertText');
+          alertText.textContent = 'Something went wrong. Please try again.';
+          alertBox.classList.remove('d-none');
+        }
+      });
+    </script>
+    
+    <script
+  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+  type="module"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const passwordInput = document.getElementById("newPassword");
+
+    const rules = {
+      length: document.getElementById("rule-length"),
+      upper: document.getElementById("rule-upper"),
+      lower: document.getElementById("rule-lower"),
+      number: document.getElementById("rule-number"),
+    };
+
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+
+      const checks = {
+        length: val.length >= 8,
+        upper: /[A-Z]/.test(val),
+        lower: /[a-z]/.test(val),
+        number: /[0-9]/.test(val),
+      };
+
+      for (const key in rules) {
+        if (checks[key]) {
+          rules[key].classList.remove("text-danger");
+          rules[key].classList.add("text-success");
+        } else {
+          rules[key].classList.remove("text-success");
+          rules[key].classList.add("text-danger");
+        }
+      }
+    });
+  });
+</script>
+<script>
+  document.querySelector('.login__register .login__form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+  
+    const form = e.target;
+    const formData = new FormData(form);
+    const userData = Object.fromEntries(formData.entries());
+  
+    // Show loading screen
+    document.getElementById('loadingScreen')?.classList.remove('d-none');
+    document.getElementById('loginAccessRegister')?.classList.add('d-none');
+  
+    try {
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 2000);
+      } else {
+        document.getElementById('loginAccessRegister')?.classList.remove('d-none');
+        document.getElementById('loadingScreen')?.classList.add('d-none');
+        alert(result.message || "Registration failed. Please try again.");
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      document.getElementById('loginAccessRegister')?.classList.remove('d-none');
+      document.getElementById('loadingScreen')?.classList.add('d-none');
+      alert("An error occurred. Please try again.");
+    }
+  });
+  </script>
+  
+
+</body>
+</html>
+
+
+
+   
+
+
+
+

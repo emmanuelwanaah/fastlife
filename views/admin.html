@@ -1,0 +1,635 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>FastlifeTravel</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-gray-50 group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#eaedf1] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#101518]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="text-[#101518] text-lg font-bold leading-tight tracking-[-0.015em]">Travel Platform Admin</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#101518] text-sm font-medium leading-normal" href="#">Dashboard</a>
+              <a class="text-[#101518] text-sm font-medium leading-normal" href="#">Bookings</a>
+              <a class="text-[#101518] text-sm font-medium leading-normal" href="#">Categories</a>
+              <a class="text-[#101518] text-sm font-medium leading-normal" href="#">Users</a>
+            </div>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiYETkTEP0LHVOgyKH7AThJbnm9sI0x6aqfVbz8-FK1i-swSn03hekdv-ZukotjzR_FKuoRzmNQB6u8sfJHN2hFjRwKzZjSYHbir4Rey6T1gcsaPuHvl0X1ocuGR43MXWv5sZE36TZInEpcmx4HiiTfzL_XhNaYzkvEdGgkBBx9xoROE_Q2NLAu1TzElE6udG95jbKnTFg6jJkMHFkFEWvh1G1lZPLOpatincUP_mqf_cNkMOd1-bZYj3MUb7lQAtT8gRZN3yWKq4");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="px-4 py-3">
+             
+            </div>
+          
+
+            <!-- sort bars switch? -->
+            <div class="pb-3">
+              <div class="flex border-b border-[#dbe0e6] px-4 gap-8" id="sort-options">
+                <button data-sort="category" class="sort-btn border-b-[3px] border-b-[#111418] text-[#111418] pb-[13px] pt-4">
+                  <p class="text-sm font-bold tracking-[0.015em]">Categories</p>
+                </button>
+                <button data-sort="experience" class="sort-btn border-b-[3px] border-b-transparent text-[#60758a] pb-[13px] pt-4">
+                  <p class="text-sm font-bold tracking-[0.015em]">Experience</p>
+                </button>
+                
+                <button data-sort="activity" class="sort-btn border-b-[3px] border-b-transparent text-[#60758a] pb-[13px] pt-4">
+                  <p class="text-sm font-bold tracking-[0.015em]">Add Activity</p>
+                </button>
+              
+              </div>
+            </div>
+            
+            <!-- explore content----------------------------------- -->
+            <!-- explore content----------------------------------- -->
+           
+            
+          
+          </div>
+        </div>
+        
+        <!-- Tab Switcher -->
+
+<div id="categorySection">
+  <div class="px-40 flex flex-1 justify-center py-5">
+          
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#101518] tracking-light text-[32px] font-bold leading-tight min-w-72">Add New Category</p></div>
+      <div class="p-4">
+        <div
+          class="bg-cover bg-center flex flex-col items-stretch justify-end rounded-xl pt-[132px]"
+          style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCChLSB8aCoE1zgjlKr708CJTCjAH9QJUr3_V3F5fVtm0kXuep2RZcemODdg0LdKo28N_OIs90bfOK1cpWlkwqy622ZOFO6WRgUi2Cp2z_L8XyX6l2VeMDSa7WOcorOYm025leqvcRamMQCr-vpoKqoNicelkLQyjSI04ns8PlXchW2u2lUJoIz2Mmob9KQ9yHks031qf94xF7v1PnXl77OBPgayWGLuywvgPHzBCa6PPAk5kFbMp5GHBgqC2zJ3_Bje0TMtnZw0hM");'
+        >
+          <div class="flex w-full items-end justify-between gap-4 p-4">
+            <div class="flex max-w-[440px] flex-1 flex-col gap-1">
+              <p class="text-white tracking-light text-2xl font-bold leading-tight max-w-[440px]">Category Details</p>
+              <p class="text-white text-base font-medium leading-normal">Enter the details for the new category you want to add.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Category Name</p>
+          <input
+            placeholder="e.g., Adventure Tours"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Description</p>
+          <textarea
+            placeholder="Provide a brief description of the category"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] min-h-36 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+          ></textarea>
+        </label>
+      </div>
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Image URL</p>
+          <input
+            placeholder="Enter the URL for the category image"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+      <div class="flex px-4 py-3 justify-end">
+        <button
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#6299ca] text-[#101518] text-sm font-bold leading-normal tracking-[0.015em]"
+        >
+          <span class="truncate">Save Category</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="categoryList" class="px-4 space-y-2"></div>
+
+</div>
+<div id="experienceSection" class="hidden">
+  <div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p class="text-[#101518] tracking-light text-[32px] font-bold leading-tight min-w-72">Add New Experience</p>
+      </div>
+
+      <div class="flex flex-col gap-4 px-4">
+        <!-- Title -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Experience Title</p>
+          <input type="text" id="exp-title" placeholder="e.g., Kayaking in the Volta River"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Location -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Location</p>
+          <input type="text" id="exp-location" placeholder="e.g., Volta River, Ghana"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Category -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Category</p>
+          <input type="text" id="exp-category" placeholder="e.g., Adventure"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Rating -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Rating (0.0 - 5.0)</p>
+          <input type="number" id="exp-rating" placeholder="e.g., 4.5" step="0.1" min="0" max="5"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Duration -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Duration (minutes)</p>
+          <input type="number" id="exp-duration" placeholder="e.g., 90" min="0"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Price -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Price (USD)</p>
+          <input type="number" id="exp-price" placeholder="e.g., 75" step="0.01"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Image URL -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Image URL</p>
+          <input type="url" id="exp-image" placeholder="e.g., https://example.com/image.jpg"
+            class="form-input h-14 rounded-xl p-3 bg-gray-50 border border-[#d4dce2]" />
+        </label>
+
+        <!-- Description -->
+        <label class="flex flex-col">
+          <p class="text-base font-medium pb-2">Description</p>
+          <textarea id="exp-description" rows="5"
+            class="form-input rounded-xl p-3 bg-gray-50 border border-[#d4dce2]"
+            placeholder="Enter a short description of the experience."></textarea>
+        </label>
+
+        <!-- Save Button -->
+        <div class="flex justify-end">
+          <button id="saveExperienceBtn"
+            class="px-6 h-10 rounded-full bg-[#6299ca] text-white font-bold hover:bg-[#4a7cb1] transition">
+            Save Experience
+          </button>
+        </div>
+      </div>
+
+      <!-- List Display -->
+      <div id="experienceList" class="px-4 space-y-2 mt-4"></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="activitySection" class="hidden">
+  <div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p class="text-[#101518] tracking-light text-[32px] font-bold leading-tight min-w-72">Add New Activity</p>
+      </div>
+
+      <div class="p-4">
+        <div
+          class="bg-cover bg-center flex flex-col items-stretch justify-end rounded-xl pt-[132px]"
+          style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%), url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");'
+        >
+          <div class="flex w-full items-end justify-between gap-4 p-4">
+            <div class="flex max-w-[440px] flex-1 flex-col gap-1">
+              <p class="text-white tracking-light text-2xl font-bold leading-tight max-w-[440px]">Activity Details</p>
+              <p class="text-white text-base font-medium leading-normal">Enter the details for the new activity you want to add.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Date Available -->
+<div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+  <label class="flex flex-col min-w-40 flex-1">
+    <p class="text-[#101518] text-base font-medium leading-normal pb-2">Date Available</p>
+    <input
+      type="date"
+      id="activity-date"
+      class="form-input w-full rounded-xl border border-[#d4dce2] bg-gray-50 text-[#101518] focus:outline-0 focus:ring-0 h-14 p-[15px] text-base"
+    />
+  </label>
+</div>
+
+<!-- Category -->
+<div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+  <label class="flex flex-col min-w-40 flex-1">
+    <p class="text-[#101518] text-base font-medium leading-normal pb-2">Select Category</p>
+    <select
+      id="activity-category"
+      class="form-input w-full rounded-xl border border-[#d4dce2] bg-gray-50 text-[#101518] focus:outline-0 focus:ring-0 h-14 p-[15px] text-base"
+    >
+      <option value="">-- Choose Category --</option>
+    </select>
+  </label>
+</div>
+
+
+      <!-- Activity Title -->
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Activity Title</p>
+          <input
+            placeholder="e.g., Ziplining through Kakum Forest"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+
+      <!-- Description -->
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Description</p>
+          <textarea
+            placeholder="Provide a detailed description of the activity"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] min-h-36 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+          ></textarea>
+        </label>
+      </div>
+
+      <!-- Price -->
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Price (EURO)</p>
+          <input
+            type="number"
+            placeholder="e.g., 50"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+
+      <!-- Image URL -->
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Image URL</p>
+          <input
+            placeholder="Paste a direct link to the activity image"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+
+      <!-- Location -->
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+          <p class="text-[#101518] text-base font-medium leading-normal pb-2">Location</p>
+          <input
+            placeholder="e.g., Cape Coast, Ghana"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101518] focus:outline-0 focus:ring-0 border border-[#d4dce2] bg-gray-50 focus:border-[#d4dce2] h-14 placeholder:text-[#5c748a] p-[15px] text-base font-normal leading-normal"
+            value=""
+          />
+        </label>
+      </div>
+
+      <!-- Save Button -->
+      <div class="flex px-4 py-3 justify-end">
+        <button id="saveActivityBtn"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#6299ca] text-[#101518] text-sm font-bold leading-normal tracking-[0.015em]"
+        >
+          <span class="truncate">Save Activity</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="activityList" class="px-4 space-y-2"></div>
+
+</div>
+
+      </div>
+    </div>
+
+
+    <!-- other category ------------------- -->
+   
+    
+  
+ 
+    
+    <script>
+      const categorySaveBtn = document.querySelector('#categorySection button');
+    
+      categorySaveBtn.addEventListener('click', async () => {
+        const nameInput = document.querySelector('#categorySection input');
+        const descriptionInput = document.querySelector('#categorySection textarea');
+        const imageUrlInput = document.querySelectorAll('#categorySection input')[1];
+    
+        const name = nameInput.value.trim();
+        const description = descriptionInput.value.trim();
+        const image_url = imageUrlInput.value.trim();
+    
+        if (!name || !description || !image_url) {
+          alert('Please fill out all fields.');
+          return;
+        }
+    
+        const response = await fetch('http://localhost:3000/api/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, description, image_url })
+        });
+    
+        const data = await response.json();
+        alert(data.message || 'Category saved!');
+    
+        nameInput.value = '';
+        descriptionInput.value = '';
+        imageUrlInput.value = '';
+    
+        fetchCategories();
+      });
+    </script>
+    
+    <script>
+      const experienceSaveBtn = document.querySelector('#experienceSection button');
+    
+      experienceSaveBtn.addEventListener('click', async () => {
+        const inputs = document.querySelectorAll('#experienceSection input');
+        const textarea = document.querySelector('#experienceSection textarea');
+    
+        const [titleInput, locationInput, categoryInput, ratingInput, durationInput, priceInput, imageInput] = inputs;
+    
+        const experienceData = {
+          title: titleInput.value.trim(),
+          location: locationInput.value.trim(),
+          category: categoryInput.value.trim(),
+          rating: parseFloat(ratingInput.value.trim()),
+          duration_minutes: parseInt(durationInput.value.trim()),
+          price: parseFloat(priceInput.value.trim()),
+          image_url: imageInput.value.trim(),
+          description: textarea.value.trim()
+        };
+    
+        if (
+          !experienceData.title || !experienceData.location || !experienceData.category ||
+          isNaN(experienceData.rating) || isNaN(experienceData.duration_minutes) || isNaN(experienceData.price) ||
+          !experienceData.image_url || !experienceData.description
+        ) {
+          alert('Please fill out all fields correctly.');
+          return;
+        }
+    
+        const response = await fetch('http://localhost:3000/api/experiences', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(experienceData)
+        });
+    
+        const data = await response.json();
+        alert(data.message || 'Experience saved!');
+    
+        inputs.forEach(input => input.value = '');
+        textarea.value = '';
+    
+        fetchExperiences();
+      });
+    </script>
+    
+    <script>
+      const activitySaveBtn = document.querySelector('#activitySection button');
+    
+      // Fetch categories and populate select
+      async function loadCategories() {
+        try {
+          const res = await fetch('http://localhost:3000/api/categories');
+          const data = await res.json();
+          const select = document.getElementById('activity-category');
+    
+          // Reset options
+          select.innerHTML = '<option value="">-- Choose Category --</option>';
+    
+          data.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.name;
+            select.appendChild(option);
+          });
+        } catch (err) {
+          console.error('Failed to load categories:', err);
+        }
+      }
+    
+      // Submit new activity
+      activitySaveBtn.addEventListener('click', async () => {
+        const dateInput = document.getElementById('activity-date');
+        const titleInput = document.querySelector('#activitySection input[placeholder="e.g., Ziplining through Kakum Forest"]');
+        const priceInput = document.querySelector('#activitySection input[placeholder="e.g., 50"]');
+        const imageUrlInput = document.querySelector('#activitySection input[placeholder="Paste a direct link to the activity image"]');
+        const locationInput = document.querySelector('#activitySection input[placeholder="e.g., Cape Coast, Ghana"]');
+        const textarea = document.querySelector('#activitySection textarea');
+        const categorySelect = document.getElementById('activity-category');
+    
+        const activityData = {
+          title: titleInput.value.trim(),
+          description: textarea.value.trim(),
+          location: locationInput.value.trim(),
+          price: parseFloat(priceInput.value.trim()),
+          date_available: dateInput.value.trim(),
+          category_id: parseInt(categorySelect.value),
+          image_url: imageUrlInput.value.trim(),
+          created_by: 1 // Replace with actual logged-in admin ID if available
+        };
+    
+        // Validation
+        if (
+          !activityData.title ||
+          !activityData.description ||
+          !activityData.location ||
+          isNaN(activityData.price) ||
+          !activityData.date_available ||
+          isNaN(activityData.category_id) ||
+          !activityData.image_url
+        ) {
+          alert('Please fill in all fields');
+          return;
+        }
+    
+        try {
+          const response = await fetch('http://localhost:3000/api/activities', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(activityData)
+          });
+    
+          const result = await response.json();
+          alert(result.message || 'Activity saved!');
+          window.location.reload(); // Reload to reflect the new data
+        } catch (err) {
+          console.error('Failed to save activity:', err);
+          alert('An error occurred while saving the activity');
+        }
+      });
+    
+      // Load categories on page load
+      loadCategories();
+    </script>
+    
+    <!-- tab switchting  -->
+    <script>
+      document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Reset all buttons' styles
+          document.querySelectorAll('.sort-btn').forEach(b => {
+            b.classList.remove('border-b-[#111418]', 'text-[#111418]');
+            b.classList.add('border-b-transparent', 'text-[#60758a]');
+          });
+    
+          // Highlight the active tab
+          btn.classList.add('border-b-[#111418]', 'text-[#111418]');
+          btn.classList.remove('border-b-transparent', 'text-[#60758a]');
+    
+          // Section switching
+          const selectedTab = btn.dataset.sort;
+          const categorySection = document.getElementById('categorySection');
+          const experienceSection = document.getElementById('experienceSection');
+          const activitySection = document.getElementById('activitySection');
+    
+          // Hide all first
+          categorySection.classList.add('hidden');
+          experienceSection.classList.add('hidden');
+          activitySection.classList.add('hidden');
+    
+          // Show selected
+          if (selectedTab === 'category') {
+            categorySection.classList.remove('hidden');
+          } else if (selectedTab === 'experience') {
+            experienceSection.classList.remove('hidden');
+          } else if (selectedTab === 'activity') {
+            activitySection.classList.remove('hidden');
+          }
+        });
+      });
+    </script>
+    
+    <script>
+      // Fetch and display categories
+      async function fetchCategories() {
+        const res = await fetch('http://localhost:3000/api/categories');
+        const data = await res.json();
+        const list = document.getElementById('categoryList');
+        const select = document.getElementById('activity-category');
+        list.innerHTML = '';
+        select.innerHTML = '<option value="">-- Choose Category --</option>';
+    
+        data.forEach(cat => {
+          // Add to dropdown
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.name;
+          select.appendChild(opt);
+    
+          // Add to category list
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${cat.name}</span>
+            <button onclick="deleteCategory(${cat.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      // Fetch and display experiences
+      async function fetchExperiences() {
+        const res = await fetch('http://localhost:3000/api/experiences');
+        const data = await res.json();
+        const list = document.getElementById('experienceList');
+        list.innerHTML = '';
+    
+        data.forEach(exp => {
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${exp.name}</span>
+            <button onclick="deleteExperience(${exp.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      // Fetch and display activities
+      async function fetchActivities() {
+        const res = await fetch('http://localhost:3000/api/activities');
+        const data = await res.json();
+        const list = document.getElementById('activityList');
+        list.innerHTML = '';
+    
+        data.forEach(act => {
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${act.title} (${act.location})</span>
+            <button onclick="deleteActivity(${act.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      // Delete functions
+      async function deleteCategory(id) {
+        if (!confirm('Delete this category?')) return;
+        await fetch(`http://localhost:3000/api/categories/${id}`, { method: 'DELETE' });
+        fetchCategories();
+      }
+    
+      async function deleteExperience(id) {
+        if (!confirm('Delete this experience?')) return;
+        await fetch(`http://localhost:3000/api/experiences/${id}`, { method: 'DELETE' });
+        fetchExperiences();
+      }
+    
+      async function deleteActivity(id) {
+        if (!confirm('Delete this activity?')) return;
+        await fetch(`http://localhost:3000/api/activities/${id}`, { method: 'DELETE' });
+        fetchActivities();
+      }
+    
+      // Call on load
+      window.addEventListener('DOMContentLoaded', () => {
+        fetchCategories();
+        fetchExperiences();
+        fetchActivities();
+      });
+    </script>
+    
+  </body>
+</html>

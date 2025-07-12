@@ -107,29 +107,30 @@
   </body>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
+      const API_BASE = 'https://fastlife-production.up.railway.app';
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
       const container = document.getElementById('related-activities');
       const countDisplay = document.getElementById('wishlist-count');
-    
+  
       if (!id) {
         container.innerHTML = '<p class="text-red-600">Invalid explore ID.</p>';
         return;
       }
-    
+  
       try {
-        const exploreRes = await fetch(`/api/explore/${id}`);
+        const exploreRes = await fetch(`${API_BASE}/api/explore/${id}`);
         const explore = await exploreRes.json();
         document.getElementById('location-heading').textContent = `Activities in ${explore.location}`;
-    
-        const activitiesRes = await fetch(`/api/activities?location=${encodeURIComponent(explore.location)}`);
+  
+        const activitiesRes = await fetch(`${API_BASE}/api/activities?location=${encodeURIComponent(explore.location)}`);
         const activities = await activitiesRes.json();
-    
-        const wishlistRes = await fetch('/api/wishlist');
+  
+        const wishlistRes = await fetch(`${API_BASE}/api/wishlist`, { credentials: 'include' });
         const wishlist = wishlistRes.ok ? await wishlistRes.json() : [];
         const wishlistSet = new Set(wishlist.map(item => item.id));
         if (countDisplay) countDisplay.textContent = wishlistSet.size;
-    
+  
         container.innerHTML = activities.map(act => `
           <div class="flex flex-col gap-3 pb-3 group cursor-pointer" data-id="${act.id}">
             <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
@@ -146,21 +147,22 @@
             </div>
           </div>
         `).join('');
-    
+  
         container.querySelectorAll('.wishlist-btn').forEach(btn => {
           btn.addEventListener('click', async e => {
             e.stopPropagation();
             const activityId = btn.dataset.id;
             const icon = btn.querySelector('ion-icon');
             const isInWishlist = icon.getAttribute('name') === 'heart';
-    
+  
             try {
-              const res = await fetch('/api/wishlist', {
+              const res = await fetch(`${API_BASE}/api/wishlist`, {
                 method: isInWishlist ? 'DELETE' : 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ activity_id: activityId })
               });
-    
+  
               if (res.ok) {
                 icon.setAttribute('name', isInWishlist ? 'heart-outline' : 'heart');
                 if (countDisplay) {
@@ -181,6 +183,6 @@
         container.innerHTML = '<p class="text-red-600">Failed to load activities.</p>';
       }
     });
-    </script>
-    
+  </script>
+  
 </html>

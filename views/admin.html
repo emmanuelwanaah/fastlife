@@ -339,10 +339,13 @@
     </div>
 
 
-    <!-- other category ------------------- -->
+    
    
     
-  
+    <script>
+      const API_BASE = 'https://fastlife-production.up.railway.app';
+    </script>
+    
  
     
     <script>
@@ -362,7 +365,7 @@
           return;
         }
     
-        const response = await fetch('http://localhost:3000/api/categories', {
+        const response = await fetch(`${API_BASE}/api/categories`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, description, image_url })
@@ -408,7 +411,7 @@
           return;
         }
     
-        const response = await fetch('http://localhost:3000/api/experiences', {
+        const response = await fetch(`${API_BASE}/api/experiences`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(experienceData)
@@ -427,14 +430,11 @@
     <script>
       const activitySaveBtn = document.querySelector('#activitySection button');
     
-      // Fetch categories and populate select
       async function loadCategories() {
         try {
-          const res = await fetch('http://localhost:3000/api/categories');
+          const res = await fetch(`${API_BASE}/api/categories`);
           const data = await res.json();
           const select = document.getElementById('activity-category');
-    
-          // Reset options
           select.innerHTML = '<option value="">-- Choose Category --</option>';
     
           data.forEach(cat => {
@@ -448,7 +448,6 @@
         }
       }
     
-      // Submit new activity
       activitySaveBtn.addEventListener('click', async () => {
         const dateInput = document.getElementById('activity-date');
         const titleInput = document.querySelector('#activitySection input[placeholder="e.g., Ziplining through Kakum Forest"]');
@@ -466,17 +465,12 @@
           date_available: dateInput.value.trim(),
           category_id: parseInt(categorySelect.value),
           image_url: imageUrlInput.value.trim(),
-          created_by: 1 // Replace with actual logged-in admin ID if available
+          created_by: 1
         };
     
-        // Validation
         if (
-          !activityData.title ||
-          !activityData.description ||
-          !activityData.location ||
-          isNaN(activityData.price) ||
-          !activityData.date_available ||
-          isNaN(activityData.category_id) ||
+          !activityData.title || !activityData.description || !activityData.location ||
+          isNaN(activityData.price) || !activityData.date_available || isNaN(activityData.category_id) ||
           !activityData.image_url
         ) {
           alert('Please fill in all fields');
@@ -484,7 +478,7 @@
         }
     
         try {
-          const response = await fetch('http://localhost:3000/api/activities', {
+          const response = await fetch(`${API_BASE}/api/activities`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(activityData)
@@ -492,17 +486,101 @@
     
           const result = await response.json();
           alert(result.message || 'Activity saved!');
-          window.location.reload(); // Reload to reflect the new data
+          window.location.reload();
         } catch (err) {
           console.error('Failed to save activity:', err);
           alert('An error occurred while saving the activity');
         }
       });
     
-      // Load categories on page load
       loadCategories();
     </script>
     
+    <script>
+      async function fetchCategories() {
+        const res = await fetch(`${API_BASE}/api/categories`);
+        const data = await res.json();
+        const list = document.getElementById('categoryList');
+        const select = document.getElementById('activity-category');
+        list.innerHTML = '';
+        select.innerHTML = '<option value="">-- Choose Category --</option>';
+    
+        data.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.name;
+          select.appendChild(opt);
+    
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${cat.name}</span>
+            <button onclick="deleteCategory(${cat.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      async function fetchExperiences() {
+        const res = await fetch(`${API_BASE}/api/experiences`);
+        const data = await res.json();
+        const list = document.getElementById('experienceList');
+        list.innerHTML = '';
+    
+        data.forEach(exp => {
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${exp.name}</span>
+            <button onclick="deleteExperience(${exp.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      async function fetchActivities() {
+        const res = await fetch(`${API_BASE}/api/activities`);
+        const data = await res.json();
+        const list = document.getElementById('activityList');
+        list.innerHTML = '';
+    
+        data.forEach(act => {
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
+          div.innerHTML = `
+            <span class="font-medium text-[#101518]">${act.title} (${act.location})</span>
+            <button onclick="deleteActivity(${act.id})" class="text-red-500 text-sm font-semibold">Remove</button>
+          `;
+          list.appendChild(div);
+        });
+      }
+    
+      async function deleteCategory(id) {
+        if (!confirm('Delete this category?')) return;
+        await fetch(`${API_BASE}/api/categories/${id}`, { method: 'DELETE' });
+        fetchCategories();
+      }
+    
+      async function deleteExperience(id) {
+        if (!confirm('Delete this experience?')) return;
+        await fetch(`${API_BASE}/api/experiences/${id}`, { method: 'DELETE' });
+        fetchExperiences();
+      }
+    
+      async function deleteActivity(id) {
+        if (!confirm('Delete this activity?')) return;
+        await fetch(`${API_BASE}/api/activities/${id}`, { method: 'DELETE' });
+        fetchActivities();
+      }
+    
+      window.addEventListener('DOMContentLoaded', () => {
+        fetchCategories();
+        fetchExperiences();
+        fetchActivities();
+      });
+    </script>
+    
+      
     <!-- tab switchting  -->
     <script>
       document.querySelectorAll('.sort-btn').forEach(btn => {
@@ -539,97 +617,5 @@
         });
       });
     </script>
-    
-    <script>
-      // Fetch and display categories
-      async function fetchCategories() {
-        const res = await fetch('http://localhost:3000/api/categories');
-        const data = await res.json();
-        const list = document.getElementById('categoryList');
-        const select = document.getElementById('activity-category');
-        list.innerHTML = '';
-        select.innerHTML = '<option value="">-- Choose Category --</option>';
-    
-        data.forEach(cat => {
-          // Add to dropdown
-          const opt = document.createElement('option');
-          opt.value = cat.id;
-          opt.textContent = cat.name;
-          select.appendChild(opt);
-    
-          // Add to category list
-          const div = document.createElement('div');
-          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
-          div.innerHTML = `
-            <span class="font-medium text-[#101518]">${cat.name}</span>
-            <button onclick="deleteCategory(${cat.id})" class="text-red-500 text-sm font-semibold">Remove</button>
-          `;
-          list.appendChild(div);
-        });
-      }
-    
-      // Fetch and display experiences
-      async function fetchExperiences() {
-        const res = await fetch('http://localhost:3000/api/experiences');
-        const data = await res.json();
-        const list = document.getElementById('experienceList');
-        list.innerHTML = '';
-    
-        data.forEach(exp => {
-          const div = document.createElement('div');
-          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
-          div.innerHTML = `
-            <span class="font-medium text-[#101518]">${exp.name}</span>
-            <button onclick="deleteExperience(${exp.id})" class="text-red-500 text-sm font-semibold">Remove</button>
-          `;
-          list.appendChild(div);
-        });
-      }
-    
-      // Fetch and display activities
-      async function fetchActivities() {
-        const res = await fetch('http://localhost:3000/api/activities');
-        const data = await res.json();
-        const list = document.getElementById('activityList');
-        list.innerHTML = '';
-    
-        data.forEach(act => {
-          const div = document.createElement('div');
-          div.className = 'flex justify-between items-center bg-white border rounded-lg px-4 py-2';
-          div.innerHTML = `
-            <span class="font-medium text-[#101518]">${act.title} (${act.location})</span>
-            <button onclick="deleteActivity(${act.id})" class="text-red-500 text-sm font-semibold">Remove</button>
-          `;
-          list.appendChild(div);
-        });
-      }
-    
-      // Delete functions
-      async function deleteCategory(id) {
-        if (!confirm('Delete this category?')) return;
-        await fetch(`http://localhost:3000/api/categories/${id}`, { method: 'DELETE' });
-        fetchCategories();
-      }
-    
-      async function deleteExperience(id) {
-        if (!confirm('Delete this experience?')) return;
-        await fetch(`http://localhost:3000/api/experiences/${id}`, { method: 'DELETE' });
-        fetchExperiences();
-      }
-    
-      async function deleteActivity(id) {
-        if (!confirm('Delete this activity?')) return;
-        await fetch(`http://localhost:3000/api/activities/${id}`, { method: 'DELETE' });
-        fetchActivities();
-      }
-    
-      // Call on load
-      window.addEventListener('DOMContentLoaded', () => {
-        fetchCategories();
-        fetchExperiences();
-        fetchActivities();
-      });
-    </script>
-    
   </body>
 </html>

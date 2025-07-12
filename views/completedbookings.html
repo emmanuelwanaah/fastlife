@@ -69,6 +69,8 @@
     </div>
   
     <script>
+      const API_BASE = 'https://fastlife-production.up.railway.app'; // ✅ your Railway backend
+    
       const formatDateRange = range => {
         if (!range.includes('→')) return 'N/A';
         const [start, end] = range.split('→').map(s => s.trim());
@@ -91,7 +93,7 @@
               booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
             }
     
-            const confirmRes = await fetch('/api/confirm-booking', {
+            const confirmRes = await fetch(`${API_BASE}/api/confirm-booking`, {
               method: 'POST',
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
@@ -110,7 +112,7 @@
           }
     
           // ✅ Fetch confirmed bookings for user
-          const res = await fetch('/api/completed-bookings', { credentials: 'include' });
+          const res = await fetch(`${API_BASE}/api/completed-bookings`, { credentials: 'include' });
           const data = await res.json();
           container.innerHTML = '';
     

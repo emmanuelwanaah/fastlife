@@ -210,8 +210,9 @@
       </div>
     </div>
  <!-- scripts  -->
-
  <script>
+  const BASE_URL = 'https://fastlife-production.up.railway.app';
+
   let currentSort = '';
   let searchTerm = '';
   let currentPage = 1;
@@ -219,44 +220,55 @@
 
   async function fetchexplore() {
     const params = new URLSearchParams();
-    if (currentSort) params.append('sortBy', currentSort); // still included if you decide to use it later
+    if (currentSort) params.append('sortBy', currentSort);
     if (searchTerm) params.append('search', searchTerm);
     params.append('page', currentPage);
     params.append('limit', limit);
 
-    const res = await fetch(`/api/explore?${params.toString()}`);
-    const data = await res.json();
+    try {
+      const res = await fetch(`${BASE_URL}/api/explore?${params.toString()}`);
+      if (!res.ok) throw new Error('Failed to fetch experiences');
+      const data = await res.json();
 
-    const container = document.getElementById('experience-grid');
-    container.innerHTML = data.map(exp => `
-      <div class="flex flex-col gap-3 pb-3 cursor-pointer experience-card" data-id="${exp.id}">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
-             style="background-image: url('${exp.image_url}')"></div>
-        <div>
-          <p class="text-[#111418] text-base font-medium leading-normal">${exp.title}</p>
-          <p class="text-[#60758a] text-sm font-normal leading-normal">${exp.location}</p>
+      const container = document.getElementById('experience-grid');
+      container.innerHTML = data.map(exp => `
+        <div class="flex flex-col gap-3 pb-3 cursor-pointer experience-card" data-id="${exp.id}">
+          <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+               style="background-image: url('${exp.image_url}')"></div>
+          <div>
+            <p class="text-[#111418] text-base font-medium leading-normal">${exp.title}</p>
+            <p class="text-[#60758a] text-sm font-normal leading-normal">${exp.location}</p>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
 
-    renderPagination(data.length);
+      renderPagination(data.length);
 
-    // 🔗 Make cards clickable
-    document.querySelectorAll('.experience-card').forEach(card => {
-      card.addEventListener('click', async () => {
-        const sessionRes = await fetch('/session');
-        const session = await sessionRes.json();
+      // Clickable cards with session check
+      document.querySelectorAll('.experience-card').forEach(card => {
+        card.addEventListener('click', async () => {
+          try {
+            const sessionRes = await fetch(`${BASE_URL}/session`, { credentials: 'include' });
+            const session = await sessionRes.json();
 
-        if (!session.loggedIn) {
-          alert('Please log in to view this experience.');
-          return window.location.href = '/login.html';
-        }
+            if (!session.loggedIn) {
+              alert('Please log in to view this experience.');
+              return window.location.href = '/login.html';
+            }
 
-        const id = card.dataset.id;
-        window.location.href = `/activities.html?id=${id}`;
-
+            const id = card.dataset.id;
+            window.location.href = `/activities.html?id=${id}`;
+          } catch (err) {
+            console.error('Session check failed:', err);
+            alert('Unable to verify session. Please try again.');
+          }
+        });
       });
-    });
+    } catch (err) {
+      console.error('❌ fetchExplore error:', err);
+      const container = document.getElementById('experience-grid');
+      container.innerHTML = `<p class="text-red-500">Failed to load experiences. Please try again.</p>`;
+    }
   }
 
   function renderPagination(currentBatchSize) {
@@ -274,29 +286,31 @@
     fetchexplore();
   }
 
-  // Optional: Sort buttons
+  // Sort button behavior
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       currentSort = btn.dataset.sort;
       currentPage = 1;
+
       document.querySelectorAll('.sort-btn').forEach(b => {
         b.classList.remove('border-b-[#111418]', 'text-[#111418]');
         b.classList.add('border-b-transparent', 'text-[#60758a]');
       });
+
       btn.classList.add('border-b-[#111418]', 'text-[#111418]');
       btn.classList.remove('border-b-transparent', 'text-[#60758a]');
       fetchexplore();
     });
   });
 
-  // Search bar input
+  // Search input
   document.getElementById('search')?.addEventListener('input', (e) => {
     searchTerm = e.target.value.trim();
     currentPage = 1;
     fetchexplore();
   });
 
-  // Init
+  // Initial load
   fetchexplore();
 </script>
 

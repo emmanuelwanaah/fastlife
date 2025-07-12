@@ -22,10 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS for frontend on Netlify
-app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
-  credentials: true
-}));
+
 
 // Session config
 app.use(session({
@@ -666,8 +663,18 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// Start Server
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://fastlifetravel.netlify.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));

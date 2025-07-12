@@ -150,128 +150,129 @@ class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-cente
       </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-          const container = document.getElementById('wishlist-items');
-        
-          try {
-            const res = await fetch('/api/wishlist', {
-              credentials: 'include'
-            });
-        
-            if (!res.ok) {
-              if (res.status === 401) {
-                container.innerHTML = '<p class="text-red-600">Please log in to view your wishlist.</p>';
-              } else {
-                container.innerHTML = '<p class="text-red-600">Failed to fetch wishlist.</p>';
-              }
-              return;
-            }
-        
-            const wishlist = await res.json();
-        
-            if (!Array.isArray(wishlist) || wishlist.length === 0) {
-              container.innerHTML = '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
-              return;
-            }
-        
-            container.innerHTML = wishlist.map(item => `
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
-                  style='background-image: url("${item.image_url}")'
-                ></div>
-                <div>
-                  <p class="text-[#111518] text-base font-medium leading-normal">${item.title}</p>
-                  <p class="text-[#617789] text-sm font-normal leading-normal">${item.location}</p>
-                  <p class="text-[#617789] text-sm font-normal leading-normal">
-                    ${item.category_name || 'Activity'} · €${Number(item.price).toFixed(2)}
-                  </p>
-                  <button
-                    onclick="removeFromWishlist(${item.id})"
-                    class="text-sm text-red-500 mt-1 hover:underline"
-                  >Remove</button>
-                </div>
-              </div>
-            `).join('');
-          } catch (err) {
-            console.error('❌ Error fetching wishlist:', err);
-            container.innerHTML = '<p class="text-red-600">An error occurred while loading your wishlist.</p>';
-          }
-        });
-        
-        async function removeFromWishlist(activityId) {
-          try {
-            const res = await fetch('/api/wishlist', {
-              method: 'DELETE',
-              credentials: 'include',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ activity_id: activityId })
-            });
-        
-            if (res.ok) {
-              location.reload(); // Refresh to show updated wishlist
+      const API_BASE = 'https://fastlife-production.up.railway.app';
+    
+      document.addEventListener('DOMContentLoaded', async () => {
+        const container = document.getElementById('wishlist-items');
+    
+        try {
+          const res = await fetch(`${API_BASE}/api/wishlist`, {
+            credentials: 'include'
+          });
+    
+          if (!res.ok) {
+            if (res.status === 401) {
+              container.innerHTML = '<p class="text-red-600">Please log in to view your wishlist.</p>';
             } else {
-              const { error } = await res.json();
-              alert(error || 'Failed to remove item.');
+              container.innerHTML = '<p class="text-red-600">Failed to fetch wishlist.</p>';
             }
-          } catch (err) {
-            console.error('❌ Remove error:', err);
-            alert('Could not remove from wishlist.');
+            return;
           }
+    
+          const wishlist = await res.json();
+    
+          if (!Array.isArray(wishlist) || wishlist.length === 0) {
+            container.innerHTML = '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
+            return;
+          }
+    
+          container.innerHTML = wishlist.map(item => `
+            <div class="flex flex-col gap-3 pb-3">
+              <div
+                class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                style='background-image: url("${item.image_url}")'
+              ></div>
+              <div>
+                <p class="text-[#111518] text-base font-medium leading-normal">${item.title}</p>
+                <p class="text-[#617789] text-sm font-normal leading-normal">${item.location}</p>
+                <p class="text-[#617789] text-sm font-normal leading-normal">
+                  ${item.category_name || 'Activity'} · €${Number(item.price).toFixed(2)}
+                </p>
+                <button
+                  onclick="removeFromWishlist(${item.id})"
+                  class="text-sm text-red-500 mt-1 hover:underline"
+                >Remove</button>
+              </div>
+            </div>
+          `).join('');
+        } catch (err) {
+          console.error('❌ Error fetching wishlist:', err);
+          container.innerHTML = '<p class="text-red-600">An error occurred while loading your wishlist.</p>';
         }
-        </script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-              try {
-                const res = await fetch('/session', { credentials: 'include' });
-                const data = await res.json();
-          
-                const nameElement = document.getElementById('user-fullname');
-                const emailElement = document.getElementById('user-email');
-          
-                if (data.loggedIn) {
-                  const fullName = (data.firstName && data.lastName)
-                    ? `${data.firstName} ${data.lastName}`
-                    : data.userName || 'User';
-          
-                  nameElement.textContent = fullName;
-                  emailElement.textContent = data.email;
-                } else {
-                  nameElement.textContent = 'Guest';
-                  emailElement.textContent = 'Not logged in';
-                }
-              } catch (err) {
-                console.error('Failed to load session data:', err);
-              }
-            });
-          </script>
-          
-
-
+      });
+    
+      async function removeFromWishlist(activityId) {
+        try {
+          const res = await fetch(`${API_BASE}/api/wishlist`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ activity_id: activityId })
+          });
+    
+          if (res.ok) {
+            location.reload(); // Refresh to show updated wishlist
+          } else {
+            const { error } = await res.json();
+            alert(error || 'Failed to remove item.');
+          }
+        } catch (err) {
+          console.error('❌ Remove error:', err);
+          alert('Could not remove from wishlist.');
+        }
+      }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const API_BASE = 'https://fastlife-production.up.railway.app';
+    
+        try {
+          const res = await fetch(`${API_BASE}/session`, { credentials: 'include' });
+          const data = await res.json();
+    
+          const nameElement = document.getElementById('user-fullname');
+          const emailElement = document.getElementById('user-email');
+    
+          if (data.loggedIn) {
+            const fullName = (data.firstName && data.lastName)
+              ? `${data.firstName} ${data.lastName}`
+              : data.userName || 'User';
+    
+            nameElement.textContent = fullName;
+            emailElement.textContent = data.email;
+          } else {
+            nameElement.textContent = 'Guest';
+            emailElement.textContent = 'Not logged in';
+          }
+        } catch (err) {
+          console.error('Failed to load session data:', err);
+        }
+      });
+    </script>
+        
+          <!-- clear alll js  -->
 
           <script>
             document.addEventListener('DOMContentLoaded', () => {
+              const API_BASE = 'https://fastlife-production.up.railway.app';
+          
               const confirmBox = document.getElementById('clear-confirm-box');
               const clearBtn = document.getElementById('clear-wishlist-btn');
               const confirmClear = document.getElementById('confirm-clear');
               const cancelClear = document.getElementById('cancel-clear');
               const bookBtn = document.getElementById('book-now-btn');
           
-              // Show confirmation modal
               clearBtn?.addEventListener('click', () => {
                 if (confirmBox) confirmBox.classList.remove('hidden');
               });
           
-              // Cancel clear
               cancelClear?.addEventListener('click', () => {
                 if (confirmBox) confirmBox.classList.add('hidden');
               });
           
-              // Confirm and clear wishlist
               confirmClear?.addEventListener('click', async () => {
                 try {
-                  const res = await fetch('/api/wishlist/all', {
+                  const res = await fetch(`${API_BASE}/api/wishlist/all`, {
                     method: 'DELETE',
                     credentials: 'include'
                   });
@@ -290,10 +291,9 @@ class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-cente
                 }
               });
           
-              // Book Now
               bookBtn?.addEventListener('click', async () => {
                 try {
-                  const res = await fetch('/api/wishlist', {
+                  const res = await fetch(`${API_BASE}/api/wishlist`, {
                     credentials: 'include'
                   });
           
@@ -319,9 +319,6 @@ class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-cente
             });
           </script>
           
-          <!-- clear alll js  -->
-
-         
           
   </body>
 </html>

@@ -39,17 +39,17 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve individual HTML pages
+// Serve individual HTML pages safely
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
-app.get(/^\/([a-zA-Z0-9_-]+)\.html$/, (req, res) => {
-  const page = req.params[0]; // because regex capturing group
+
+app.get('/:page.html', (req, res) => {
+  const page = req.params.page;
   res.sendFile(path.join(__dirname, 'views', `${page}.html`));
 });
 
-
-// Optional: fallback route to serve index.html for SPA-style navigation
+// Fallback route (for SPA-style routing or 404 fallback)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });

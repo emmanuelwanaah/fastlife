@@ -43,8 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
-app.get('/:page.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', `${req.params.page}.html`));
+app.get(/^\/([a-zA-Z0-9_-]+)\.html$/, (req, res) => {
+  const page = req.params[0]; // because regex capturing group
+  res.sendFile(path.join(__dirname, 'views', `${page}.html`));
 });
 
 

@@ -43,16 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
-app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+app.get('/:page.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', `${req.params.page}.html`));
 });
-app.get('/adminlogin.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'adminlogin.html'));
-});
-app.get('/bookings.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'bookings.html'));
-});
-// Add other pages as needed
 
 
 // Optional: fallback route to serve index.html for SPA-style navigation

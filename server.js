@@ -66,7 +66,8 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-const db = pool.promise();
+const db = pool;
+
 
 db.getConnection()
   .then(() => console.log("✅ Connected to Railway DB via pool"))

@@ -27,13 +27,24 @@ app.use(cors({
   credentials: true
 }));
 
-// Session config
+const MySQLStore = require('express-mysql-session')(session);
+
+const sessionStore = new MySQLStore({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'default_secret',
   resave: false,
   saveUninitialized: false,
+  store: sessionStore,
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
+
 
 // Serve static files locally (not used in prod)
 if (process.env.NODE_ENV !== 'production') {
@@ -42,22 +53,25 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // DB Connection
-let db;
-(async () => {
-  try {
-    db = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      ssl: { rejectUnauthorized: false }
-    });
-    console.log("✅ Connected to Railway DB");
-  } catch (err) {
-    console.error("❌ DB Connection Error:", err);
-  }
-})();
+// Connection Pool Setup
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: { rejectUnauthorized: false },
+  waitForConnections: true,
+  connectionLimit: 10, // You can adjust based on expected load
+  queueLimit: 0
+});
+
+const db = pool.promise();
+
+db.getConnection()
+  .then(() => console.log("✅ Connected to Railway DB via pool"))
+  .catch(err => console.error("❌ Pool connection error:", err));
+
 
 // ROUTES: Insert your existing routes here exactly as written (login, register, bookings, wishlist, etc.)
 // Paste from your full server code

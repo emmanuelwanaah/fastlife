@@ -21,11 +21,12 @@ const io = socketIO(server);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS for frontend on Netlify
+// CORS for Railway (same-origin frontend + backend)
 app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
+  origin: 'https://fastlife-production.up.railway.app',
   credentials: true
 }));
+
 
 const MySQLStore = require('express-mysql-session')(session);
 
@@ -46,11 +47,16 @@ app.use(session({
 }));
 
 
-// Serve static files locally (not used in prod)
-if (process.env.NODE_ENV !== 'production') {
-  app.use(express.static(path.join(__dirname, 'views')));
-  app.use(express.static(path.join(__dirname, 'public')));
-}
+
+// Serve static files in production too
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Optional: fallback to index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
 
 // DB Connection
 // Connection Pool Setup

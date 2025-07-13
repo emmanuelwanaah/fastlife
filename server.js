@@ -35,25 +35,11 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
-// Serve static files in all environments (production and dev)
-app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve individual HTML pages safely
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
-app.get('/:page.html', (req, res) => {
-  const page = req.params.page;
-  res.sendFile(path.join(__dirname, 'views', `${page}.html`));
-});
-
-// Fallback route (for SPA-style routing or 404 fallback)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
+// Serve static files locally (not used in prod)
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static(path.join(__dirname, 'views')));
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 // DB Connection
 let db;

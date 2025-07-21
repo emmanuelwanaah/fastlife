@@ -27,9 +27,10 @@ app.use(cors({
   credentials: true
 }));
 
+// Redirect non-www to www
 app.use((req, res, next) => {
-  if (req.hostname === 'fastlifetraveltour.com') {
-    return res.redirect(301, 'https://www.fastlifetraveltour.com' + req.url);
+  if (req.headers.host === 'fastlifetraveltour.com') {
+    return res.redirect(301, 'https://www.fastlifetraveltour.com' + req.originalUrl);
   }
   next();
 });

@@ -26,6 +26,12 @@ app.use(cors({
   origin: 'https://fastlife-production.up.railway.app',
   credentials: true
 }));
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  next();
+});
 
 
 const MySQLStore = require('express-mysql-session')(session);

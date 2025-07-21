@@ -27,6 +27,12 @@ app.use(cors({
   credentials: true
 }));
 
+app.use((req, res, next) => {
+  if (req.hostname === 'fastlifetraveltour.com') {
+    return res.redirect(301, 'https://www.fastlifetraveltour.com' + req.url);
+  }
+  next();
+});
 
 
 

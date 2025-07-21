@@ -25,12 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: 'https://fastlife-production.up.railway.app',
   credentials: true
-}));app.use((req, res, next) => {
-  if (req.headers.host === 'fastlifetraveltour.com') {
-    return res.redirect(301, 'https://www.fastlifetraveltour.com' + req.url);
-  }
-  next();
-});
+}));
+
 
 
 

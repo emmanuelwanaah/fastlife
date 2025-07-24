@@ -331,7 +331,7 @@
               const checkoutData = await checkoutRes.json();
               if (!checkoutData.id) throw new Error('No session ID received');
         
-              const stripe = Stripe('pk_test_51OEf9YHY9X6WvGyM0UWjMZKMObN8TFCXzNreTuzGH7GpRVGBRfAczvliGd0B7HZpefZB8L7vY0xRM5VJ9kKJ1iFb00QZ5KeOlO');
+              const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh');
               await stripe.redirectToCheckout({ sessionId: checkoutData.id });
         
             } catch (err) {

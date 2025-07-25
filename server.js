@@ -138,21 +138,21 @@ app.post('/adminlogin', async (req, res) => {
       res.json({ success: false, message: 'Server error' });
     }
   });
-   // Logout
-   app.post('/logout', (req, res) => {
-    req.session.destroy(err => {
-      if (err) {
-        return res.status(500).json({ error: 'Logout failed' });
-      }
-      res.clearCookie('connect.sid', {
-        path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-      });
-      res.redirect('/login.html');
-    });
-  });
+  //  // Logout
+  //  app.post('/logout', (req, res) => {
+  //   req.session.destroy(err => {
+  //     if (err) {
+  //       return res.status(500).json({ error: 'Logout failed' });
+  //     }
+  //     res.clearCookie('connect.sid', {
+  //       path: '/',
+  //       httpOnly: true,
+  //       secure: true,
+  //       sameSite: 'none'
+  //     });
+  //     res.redirect('/login.html');
+  //   });
+  // });
   
   
   // Registration

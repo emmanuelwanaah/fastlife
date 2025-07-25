@@ -287,7 +287,6 @@
           // --------------------------------------
           // 2. Trip Summary Calculation
           // --------------------------------------
-          const summaryContainer = document.getElementById('trip-summary');
           const subtotalElement = document.getElementById('trip-subtotal');
           const totalElement = document.getElementById('trip-total');
           const urlParams = new URLSearchParams(window.location.search);
@@ -449,8 +448,16 @@
                   body: JSON.stringify(booking)
                 });
         
+                if (!response.ok) {
+                  const errorDetails = await response.json().catch(() => ({}));
+                  throw new Error(errorDetails.error || 'Failed to create checkout session');
+                }
+        
                 const session = await response.json();
-                if (!session.id) throw new Error('No session ID returned from Stripe.');
+        
+                if (!session.id) {
+                  throw new Error('No session ID returned from Stripe.');
+                }
         
                 const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh');
                 stripe.redirectToCheckout({ sessionId: session.id });

@@ -419,7 +419,6 @@ app.post('/adminlogin', async (req, res) => {
         const generateBookingRef = () => 'REF' + Math.floor(100000000 + Math.random() * 900000000);
     
       // Create Stripe checkout session
-     
       app.post('/api/create-checkout-session', async (req, res) => {
         try {
           const userId = req.session.userId;
@@ -427,7 +426,6 @@ app.post('/adminlogin', async (req, res) => {
       
           const { activities, total, date, time, persons } = req.body;
       
-          // Input validation
           if (
             !Array.isArray(activities) || activities.length === 0 ||
             !total || !date || !time || !persons
@@ -446,7 +444,7 @@ app.post('/adminlogin', async (req, res) => {
             return res.status(400).json({ error: 'Invalid total amount' });
           }
       
-          // Create line items for Stripe
+          // Create Stripe line items
           const lineItems = activities.map(act => {
             if (!act.title || !act.price || !act.image || !act.location) {
               throw new Error('Missing required activity fields');
@@ -460,20 +458,20 @@ app.post('/adminlogin', async (req, res) => {
                   images: [act.image],
                   description: `${act.location} | ${date} at ${time} (${personsCount} person${personsCount > 1 ? 's' : ''})`
                 },
-                unit_amount: Math.round(Number(act.price) * 100) // cents
+                unit_amount: Math.round(Number(act.price) * 100) // price in cents
               },
               quantity: personsCount
             };
           });
       
           const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'], // Only card
+            payment_method_types: ['card'], // Klarna removed
             mode: 'payment',
             line_items: lineItems,
             success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
             cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
             metadata: {
-              userId: userId.toString(),
+              userId: String(userId),
               date,
               time,
               persons: personsCount.toString(),
@@ -488,8 +486,7 @@ app.post('/adminlogin', async (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       });
-      
-
+        
             app.post('/api/confirm-booking', async (req, res) => {
         const userId = req.session.userId;
         const { reference, dateRange, total, activities } = req.body;

@@ -20,12 +20,17 @@ const io = socketIO(server);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// CORS for Railway (same-origin frontend + backend)
 app.use(cors({
-  origin: 'https://fastlife-production.up.railway.app',
+  origin: 'https://www.fastlifetraveltour.com',
   credentials: true
 }));
+
+
+// // CORS for Railway (same-origin frontend + backend)
+// app.use(cors({
+//   origin: 'https://fastlife-production.up.railway.app',
+//   credentials: true
+// }));
 
 // Redirect non-www to www
 app.use((req, res, next) => {
@@ -52,7 +57,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: {
+    maxAge: 60 * 60 * 1000,
+    secure: true,          // required for HTTPS
+    sameSite: 'none'       // required for cross-origin cookies
+  }
 }));
 
 

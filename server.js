@@ -20,10 +20,14 @@ const io = socketIO(server);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
 app.use(cors({
-  origin: 'https://www.fastlifetraveltour.com',
-  credentials: true
+  origin: 'https://www.fastlifetraveltour.com', // your frontend domain
+  credentials: true // allow cookies (like session ID) to be sent
 }));
+
+
 
 
 // // CORS for Railway (same-origin frontend + backend)
@@ -59,6 +63,7 @@ app.use(session({
   store: sessionStore,
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
+ 
 
 
 

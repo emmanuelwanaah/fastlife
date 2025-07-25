@@ -289,6 +289,8 @@
           // --------------------------------------
           const subtotalElement = document.getElementById('trip-subtotal');
           const totalElement = document.getElementById('trip-total');
+          const summaryContainer = document.getElementById('trip-summary');
+        
           const urlParams = new URLSearchParams(window.location.search);
           const idsParam = urlParams.get('activityIds');
           const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
@@ -296,14 +298,13 @@
           const personCountInput = document.getElementById('person-count');
           const personCount = parseInt(personCountInput?.value || '1');
         
-          if (subtotalElement && totalElement && selectedIds.length > 0) {
+          if (subtotalElement && totalElement && selectedIds.length > 0 && summaryContainer) {
             try {
               const res = await fetch('/api/wishlist', { credentials: 'include' });
               const activities = await res.json();
               const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
         
               let subtotal = 0;
-              const subtotalRow = subtotalElement.closest('div.col-span-2');
         
               selectedActivities.forEach(activity => {
                 const pricePerPerson = parseFloat(activity.price || 0);
@@ -316,7 +317,7 @@
                   <p class="text-[#677683] text-sm font-normal">${activity.title} (${personCount} person${personCount > 1 ? 's' : ''})</p>
                   <p class="text-[#121517] text-sm font-normal">€${totalForActivity.toFixed(2)}</p>
                 `;
-                summaryContainer.insertBefore(row, subtotalRow);
+                summaryContainer.insertBefore(row, subtotalElement.closest('div.col-span-2'));
               });
         
               subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
@@ -438,6 +439,12 @@
                   return;
                 }
         
+                const total = Number(booking.total);
+                if (!total || isNaN(total) || total <= 0) {
+                  alert('Invalid total amount. Please check your booking.');
+                  return;
+                }
+        
                 localStorage.setItem('booking', JSON.stringify(booking));
                 localStorage.removeItem('bookingConfirmed');
         
@@ -449,15 +456,12 @@
                 });
         
                 if (!response.ok) {
-                  const errorDetails = await response.json().catch(() => ({}));
-                  throw new Error(errorDetails.error || 'Failed to create checkout session');
+                  const error = await response.json();
+                  throw new Error(error.message || 'Failed to create checkout session.');
                 }
         
                 const session = await response.json();
-        
-                if (!session.id) {
-                  throw new Error('No session ID returned from Stripe.');
-                }
+                if (!session.id) throw new Error('No session ID returned from Stripe.');
         
                 const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh');
                 stripe.redirectToCheckout({ sessionId: session.id });

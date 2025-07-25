@@ -112,46 +112,10 @@
                 </label>
               </div>
             </div>
-            <h3 class="text-[#111518] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Language &amp; Currency</h3>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#111518] text-base font-medium leading-normal pb-2">Language</p>
-                <select
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111518] focus:outline-0 focus:ring-0 border border-[#dbe1e6] bg-white focus:border-[#dbe1e6] h-14 bg-[image:--select-button-svg] placeholder:text-[#617789] p-[15px] text-base font-normal leading-normal"
-                >
-                  <option value="one"></option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
-                </select>
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#111518] text-base font-medium leading-normal pb-2">Currency</p>
-                <select
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111518] focus:outline-0 focus:ring-0 border border-[#dbe1e6] bg-white focus:border-[#dbe1e6] h-14 bg-[image:--select-button-svg] placeholder:text-[#617789] p-[15px] text-base font-normal leading-normal"
-                >
-                  <option value="one"></option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
-                </select>
-              </label>
-            </div>
-            <h3 class="text-[#111518] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Privacy &amp; Security</h3>
-            <div class="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2 justify-between">
-              <div class="flex flex-col justify-center">
-                <p class="text-[#111518] text-base font-medium leading-normal line-clamp-1">Two-Factor Authentication</p>
-                <p class="text-[#617789] text-sm font-normal leading-normal line-clamp-2">Add an extra layer of security to your account.</p>
-              </div>
-              <div class="shrink-0">
-                <label
-                  class="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-[#f0f2f4] p-0.5 has-[:checked]:justify-end has-[:checked]:bg-[#147edb]"
-                >
-                  <div class="h-full w-[27px] rounded-full bg-white" style="box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px;"></div>
-                  <input type="checkbox" class="invisible absolute" />
-                </label>
-              </div>
-            </div>
+           
+          
+           
+           
             <div class="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2 justify-between">
               <div class="flex flex-col justify-center">
                 <p class="text-[#111518] text-base font-medium leading-normal line-clamp-1">Manage Sessions</p>
@@ -192,28 +156,39 @@
                 </div>
               </div>
             </div>
-            <div class="flex items-center gap-4 bg-white px-4 min-h-14 justify-between">
-              <p class="text-[#111518] text-base font-normal leading-normal flex-1 truncate">Report a Problem</p>
-              <div class="shrink-0">
-                <div class="text-[#111518] flex size-7 items-center justify-center" data-icon="ArrowRight" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
+           
             <div class="flex px-4 py-3 justify-start">
               <button
-                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#147edb] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-              >
-                <span class="truncate">Log Out</span>
-              </button>
+              id="logoutBtn"
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#147edb] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+              <span class="truncate">Log Out</span>
+            </button>
+            
             </div>
           </div>
         </div>
       </div>
     </div>
+    <script>
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        try {
+          const res = await fetch('/logout', {
+            method: 'POST',
+            credentials: 'include' // send session cookie
+          });
+    
+          if (res.redirected) {
+            // Redirect to login page if server sent a redirect
+            window.location.href = res.url;
+          } else {
+            // Fallback redirect
+            window.location.href = '/login.html';
+          }
+        } catch (err) {
+          console.error('Logout failed:', err);
+        }
+      });
+    </script>
+    
   </body>
 </html>

@@ -278,184 +278,191 @@
           console.error('❌ Failed to fetch wishlist:', err);
         }
       
-        // --------------------------------------
-        // 2. Trip Summary Calculation
-        // --------------------------------------
-        const summaryContainer = document.getElementById('trip-summary');
-        const subtotalElement = document.getElementById('trip-subtotal');
-        const totalElement = document.getElementById('trip-total');
-        const urlParams = new URLSearchParams(window.location.search);
-        const idsParam = urlParams.get('activityIds');
-        const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
-      
-        if (subtotalElement && totalElement && selectedIds.length > 0) {
-          try {
-            const res = await fetch('/api/wishlist', { credentials: 'include' });
-            const activities = await res.json();
-            const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
-      
-            let subtotal = 0;
-            const subtotalRow = subtotalElement.closest('div.col-span-2');
-      
-            selectedActivities.forEach(activity => {
-              const row = document.createElement('div');
-              row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
-              row.innerHTML = `
-                <p class="text-[#677683] text-sm font-normal">${activity.title}</p>
-                <p class="text-[#121517] text-sm font-normal">€${Number(activity.price).toFixed(2)}</p>
-              `;
-              summaryContainer.insertBefore(row, subtotalRow);
-              subtotal += parseFloat(activity.price || 0);
-            });
-      
-            subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-            totalElement.textContent = `€${subtotal.toFixed(2)}`;
-          } catch (err) {
-            console.error('❌ Failed to load trip summary:', err);
-            subtotalElement.textContent = 'Error';
-            totalElement.textContent = 'Error';
-          }
-        }
-      
-        // --------------------------------------
-        // 3. Date Picker Setup
-        // --------------------------------------
-        let formattedDateRange = '';
-        let formattedNights = '';
-      
-        const dateInput = document.getElementById('date-range');
-        const nightsDisplay = document.getElementById('nights-display');
-        const dateDisplay = document.getElementById('date-display');
-      
-        if (dateInput) {
-          const picker = new Litepicker({
-            element: dateInput,
-            singleMode: false,
-            numberOfMonths: 2,
-            numberOfColumns: 2,
-            minDate: new Date(),
-            autoApply: true,
-            format: 'YYYY-MM-DD',
-            setup: (picker) => {
-              picker.on('selected', (start, end) => {
-                const nights = end.diff(start, 'day');
-                formattedDateRange = `${start.format('MMMM D, YYYY')} → ${end.format('MMMM D, YYYY')}`;
-                formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
-      
-                if (nightsDisplay) nightsDisplay.textContent = formattedNights;
-                if (dateDisplay) dateDisplay.textContent = `From ${formattedDateRange}`;
-                dateInput.value = formattedDateRange;
-              });
-            }
-          });
-        }
-      
-        // --------------------------------------
-        // 4. Continue Button Handler
-        // --------------------------------------
-        const continueBtn = document.getElementById('continue-btn');
-        if (continueBtn) {
-          continueBtn.addEventListener('click', async () => {
-            const total = document.getElementById('trip-total')?.textContent || '€0.00';
-            const paymentActivities = document.getElementById('payment-activities');
-            const paymentTotal = document.getElementById('payment-total-display');
-      
-            if (!formattedDateRange || selectedIds.length === 0) {
-              alert('Please select a date range and at least one activity before continuing.');
-              return;
-            }
-      
+       
+
+      });
+      </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+          // --------------------------------------
+          // 2. Trip Summary Calculation
+          // --------------------------------------
+          const summaryContainer = document.getElementById('trip-summary');
+          const subtotalElement = document.getElementById('trip-subtotal');
+          const totalElement = document.getElementById('trip-total');
+          const urlParams = new URLSearchParams(window.location.search);
+          const idsParam = urlParams.get('activityIds');
+          const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
+        
+          const personCountInput = document.getElementById('person-count');
+          const personCount = parseInt(personCountInput?.value || '1');
+        
+          if (subtotalElement && totalElement && selectedIds.length > 0) {
             try {
               const res = await fetch('/api/wishlist', { credentials: 'include' });
-              const wishlist = await res.json();
-              const activities = wishlist.filter(item => selectedIds.includes(item.id));
-      
-              const activitySummary = [];
-      
-              paymentActivities.innerHTML = activities.map(act => {
-                activitySummary.push({
+              const activities = await res.json();
+              const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
+        
+              let subtotal = 0;
+              const subtotalRow = subtotalElement.closest('div.col-span-2');
+        
+              selectedActivities.forEach(activity => {
+                const pricePerPerson = parseFloat(activity.price || 0);
+                const totalForActivity = pricePerPerson * personCount;
+                subtotal += totalForActivity;
+        
+                const row = document.createElement('div');
+                row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
+                row.innerHTML = `
+                  <p class="text-[#677683] text-sm font-normal">${activity.title} (${personCount} person${personCount > 1 ? 's' : ''})</p>
+                  <p class="text-[#121517] text-sm font-normal">€${totalForActivity.toFixed(2)}</p>
+                `;
+                summaryContainer.insertBefore(row, subtotalRow);
+              });
+        
+              subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
+              totalElement.textContent = `€${subtotal.toFixed(2)}`;
+            } catch (err) {
+              console.error('❌ Failed to load trip summary:', err);
+              subtotalElement.textContent = 'Error';
+              totalElement.textContent = 'Error';
+            }
+          }
+        
+          // --------------------------------------
+          // 3. Date Picker Setup (UNCHANGED)
+          // --------------------------------------
+          let formattedDateRange = '';
+          let formattedNights = '';
+        
+          const dateInput = document.getElementById('date-range');
+          const nightsDisplay = document.getElementById('nights-display');
+          const dateDisplay = document.getElementById('date-display');
+        
+          if (dateInput) {
+            const picker = new Litepicker({
+              element: dateInput,
+              singleMode: false,
+              numberOfMonths: 2,
+              numberOfColumns: 2,
+              minDate: new Date(),
+              autoApply: true,
+              format: 'YYYY-MM-DD',
+              setup: (picker) => {
+                picker.on('selected', (start, end) => {
+                  const nights = end.diff(start, 'day');
+                  formattedDateRange = `${start.format('MMMM D, YYYY')} → ${end.format('MMMM D, YYYY')}`;
+                  formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
+        
+                  if (nightsDisplay) nightsDisplay.textContent = formattedNights;
+                  if (dateDisplay) dateDisplay.textContent = `From ${formattedDateRange}`;
+                  dateInput.value = formattedDateRange;
+                });
+              }
+            });
+          }
+        
+          // --------------------------------------
+          // 4. Continue Button Handler
+          // --------------------------------------
+          const continueBtn = document.getElementById('continue-btn');
+          if (continueBtn) {
+            continueBtn.addEventListener('click', async () => {
+              const selectedDate = document.getElementById('booking-date')?.value;
+              const timeSlot = document.getElementById('time-slot')?.value;
+              const personCount = parseInt(document.getElementById('person-count')?.value || '1');
+              const total = parseFloat(document.getElementById('trip-total')?.textContent.replace('€', '') || '0');
+        
+              if (!selectedDate || !timeSlot || !personCount || selectedIds.length === 0) {
+                alert('Please select a date, time, number of persons, and at least one activity.');
+                return;
+              }
+        
+              try {
+                const res = await fetch('/api/wishlist', { credentials: 'include' });
+                const wishlist = await res.json();
+                const activities = wishlist.filter(item => selectedIds.includes(item.id));
+        
+                const activitySummary = activities.map(act => ({
                   id: act.id,
                   title: act.title,
                   price: Number(act.price),
                   location: act.location,
-                  image: act.image_url,
-                  dateRange: formattedDateRange,
-                  nights: formattedNights
-                });
-      
-                return `
+                  image: act.image_url
+                }));
+        
+                const paymentActivities = document.getElementById('payment-activities');
+                const paymentTotal = document.getElementById('payment-total-display');
+        
+                paymentActivities.innerHTML = activities.map(act => `
                   <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
                     <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image_url}')"></div>
                     <div class="flex flex-col flex-1">
                       <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
                       <p class="text-[#677683] text-sm">${act.location}</p>
-                      <p class="text-[#677683] text-xs">${formattedDateRange}</p>
-                      <p class="text-[#677683] text-xs">${formattedNights}</p>
+                      <p class="text-[#677683] text-xs">${selectedDate} at ${timeSlot}</p>
+                      <p class="text-[#677683] text-xs">${personCount} person${personCount > 1 ? 's' : ''}</p>
                     </div>
-                    <p class="text-[#121517] font-medium text-sm">€${Number(act.price).toFixed(2)}</p>
+                    <p class="text-[#121517] font-medium text-sm">€${(Number(act.price) * personCount).toFixed(2)}</p>
                   </div>
-                `;
-              }).join('');
-      
-              paymentTotal.textContent = total;
-      
-              window.bookingData = {
-                dateRange: formattedDateRange,
-                nights: formattedNights,
-                total,
-                activities: activitySummary
-              };
-      
-              document.getElementById('order-content').classList.add('hidden');
-              document.getElementById('payment-section').classList.remove('hidden');
-            } catch (err) {
-              console.error('❌ Booking display error:', err);
-              alert('Something went wrong.');
-            }
-          });
-        }
-      
-        // --------------------------------------
-        // 5. Pay Now Button
-        // --------------------------------------
-        const payNowBtn = document.getElementById('pay-now');
-        if (payNowBtn) {
-          payNowBtn.addEventListener('click', async () => {
-            try {
-              const booking = window.bookingData;
-              if (!booking || !booking.activities || booking.activities.length === 0) {
-                alert('No booking information found. Please try again.');
-                return;
+                `).join('');
+        
+                paymentTotal.textContent = `€${total.toFixed(2)}`;
+        
+                window.bookingData = {
+                  date: selectedDate,
+                  time: timeSlot,
+                  persons: personCount,
+                  total: total.toFixed(2),
+                  activities: activitySummary
+                };
+        
+                document.getElementById('order-content').classList.add('hidden');
+                document.getElementById('payment-section').classList.remove('hidden');
+              } catch (err) {
+                console.error('❌ Booking display error:', err);
+                alert('Something went wrong. Please try again.');
               }
-      
-              if (!booking.reference) {
-                booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
+            });
+          }
+        
+          // --------------------------------------
+          // 5. Pay Now Button
+          // --------------------------------------
+          const payNowBtn = document.getElementById('pay-now');
+          if (payNowBtn) {
+            payNowBtn.addEventListener('click', async () => {
+              try {
+                const booking = window.bookingData;
+                if (!booking || !booking.activities || booking.activities.length === 0) {
+                  alert('No booking information found. Please try again.');
+                  return;
+                }
+        
+                localStorage.setItem('booking', JSON.stringify(booking));
+                localStorage.removeItem('bookingConfirmed');
+        
+                const response = await fetch('/api/create-checkout-session', {
+                  method: 'POST',
+                  credentials: 'include',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(booking)
+                });
+        
+                const session = await response.json();
+                if (!session.id) throw new Error('No session ID returned from Stripe.');
+        
+                const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ');
+                stripe.redirectToCheckout({ sessionId: session.id });
+              } catch (err) {
+                console.error('❌ Payment initiation failed:', err);
+                alert('Payment failed to start. Please try again.');
               }
-      
-              localStorage.setItem('booking', JSON.stringify(booking));
-              localStorage.removeItem('bookingConfirmed');
-      
-              const response = await fetch('/api/create-checkout-session', {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(booking)
-              });
-      
-              const session = await response.json();
-              if (!session.id) throw new Error('No session ID returned from Stripe.');
-      
-              const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ');
-              stripe.redirectToCheckout({ sessionId: session.id });
-            } catch (err) {
-              console.error('❌ Payment initiation failed:', err);
-              alert('Payment failed to start. Please try again.');
-            }
-          });
-        }
-      });
-      </script>
-      
+            });
+          }
+        });
+        </script>
+        
         
 <!--       
       <script>

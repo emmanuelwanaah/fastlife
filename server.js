@@ -419,57 +419,76 @@ app.post('/adminlogin', async (req, res) => {
         const generateBookingRef = () => 'REF' + Math.floor(100000000 + Math.random() * 900000000);
     
       // Create Stripe checkout session
-     // Create Stripe checkout session
-app.post('/api/create-checkout-session', async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-
-    const { activities, total, date, time, persons } = req.body;
-
-    if (
-      !Array.isArray(activities) ||
-      activities.length === 0 ||
-      !total || !date || !time || !persons
-    ) {
-      return res.status(400).json({ error: 'Invalid booking data' });
-    }
-
-    const lineItems = activities.map(act => ({
-      price_data: {
-        currency: 'eur', // Klarna supports EUR
-        product_data: {
-          name: act.title,
-          images: [act.image],
-          description: `${act.location} | ${date} at ${time} (${persons} person${persons > 1 ? 's' : ''})`
-        },
-        unit_amount: Math.round(Number(act.price) * 100)
-      },
-      quantity: persons
-    }));
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'klarna'], // Add Klarna here
-      mode: 'payment',
-      line_items: lineItems,
-      success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
-      cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
-      metadata: {
-        userId: userId.toString(),
-        date,
-        time,
-        persons: persons.toString(),
-        total: total.toString()
-      }
-    });
-
-    res.json({ id: session.id });
-
-  } catch (error) {
-    console.error('❌ Stripe Session Error:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+     
+      app.post('/api/create-checkout-session', async (req, res) => {
+        try {
+          const userId = req.session.userId;
+          if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      
+          const { activities, total, date, time, persons } = req.body;
+      
+          // Input validation
+          if (
+            !Array.isArray(activities) || activities.length === 0 ||
+            !total || !date || !time || !persons
+          ) {
+            return res.status(400).json({ error: 'Invalid booking data' });
+          }
+      
+          const personsCount = parseInt(persons);
+          const totalAmount = parseFloat(total);
+      
+          if (!Number.isInteger(personsCount) || personsCount <= 0) {
+            return res.status(400).json({ error: 'Invalid number of persons' });
+          }
+      
+          if (isNaN(totalAmount) || totalAmount <= 0) {
+            return res.status(400).json({ error: 'Invalid total amount' });
+          }
+      
+          // Create line items for Stripe
+          const lineItems = activities.map(act => {
+            if (!act.title || !act.price || !act.image || !act.location) {
+              throw new Error('Missing required activity fields');
+            }
+      
+            return {
+              price_data: {
+                currency: 'eur',
+                product_data: {
+                  name: act.title,
+                  images: [act.image],
+                  description: `${act.location} | ${date} at ${time} (${personsCount} person${personsCount > 1 ? 's' : ''})`
+                },
+                unit_amount: Math.round(Number(act.price) * 100) // cents
+              },
+              quantity: personsCount
+            };
+          });
+      
+          const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'], // Only card
+            mode: 'payment',
+            line_items: lineItems,
+            success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
+            cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
+            metadata: {
+              userId: userId.toString(),
+              date,
+              time,
+              persons: personsCount.toString(),
+              total: totalAmount.toFixed(2)
+            }
+          });
+      
+          res.json({ id: session.id });
+      
+        } catch (error) {
+          console.error('❌ Stripe Session Error:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      });
+      
 
             app.post('/api/confirm-booking', async (req, res) => {
         const userId = req.session.userId;

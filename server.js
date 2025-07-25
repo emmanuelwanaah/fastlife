@@ -448,8 +448,9 @@ app.post('/adminlogin', async (req, res) => {
             ,
             mode: 'payment',
             line_items: lineItems,
-            success_url: 'https://fastlife-production.up.railway.app/completedbookings.html',
-            cancel_url: 'https://fastlife-production.up.railway.app/bookings.html',
+            success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
+            cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
+            
             metadata: {
               userId: userId.toString(),
               dateRange,

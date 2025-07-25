@@ -282,11 +282,12 @@
                   title: act.title,
                   price: price,
                   location: act.location,
-                  image: act.image_url,
+                  image: act.image_url || act.image,  // 👈 FIXED
                   date: selectedDate,
                   time: selectedTime,
                   persons: numPersons
                 });
+                
         
                 return `
                   <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">

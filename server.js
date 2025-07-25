@@ -444,13 +444,11 @@ app.post('/adminlogin', async (req, res) => {
           }));
       
           const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'klarna']
-            ,
+            payment_method_types: ['card', 'klarna'],
             mode: 'payment',
             line_items: lineItems,
             success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
             cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
-            
             metadata: {
               userId: userId.toString(),
               dateRange,
@@ -461,8 +459,8 @@ app.post('/adminlogin', async (req, res) => {
           res.json({ id: session.id });
       
         } catch (error) {
-          console.error('❌ Error creating Stripe session:', error);
-          res.status(500).json({ error: 'Internal Server Error' });
+          console.error('❌ Error creating Stripe session:', error.message, error.stack);
+          res.status(500).json({ error: error.message || 'Internal Server Error' });
         }
       });
       

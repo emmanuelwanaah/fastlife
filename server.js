@@ -463,9 +463,8 @@ app.post('/adminlogin', async (req, res) => {
               quantity: personsCount
             };
           });
-      
           const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'], // Klarna removed
+            payment_method_types: ['card', 'klarna'], // Klarna added back
             mode: 'payment',
             line_items: lineItems,
             success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
@@ -478,6 +477,7 @@ app.post('/adminlogin', async (req, res) => {
               total: totalAmount.toFixed(2)
             }
           });
+          
       
           res.json({ id: session.id });
       
@@ -486,7 +486,7 @@ app.post('/adminlogin', async (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       });
-        
+
             app.post('/api/confirm-booking', async (req, res) => {
         const userId = req.session.userId;
         const { reference, dateRange, total, activities } = req.body;

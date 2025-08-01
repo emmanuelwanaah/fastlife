@@ -418,161 +418,145 @@ app.post('/adminlogin', async (req, res) => {
         // Booking
         const generateBookingRef = () => 'REF' + Math.floor(100000000 + Math.random() * 900000000);
     
-      // Create Stripe checkout session
-      app.post('/api/create-checkout-session', async (req, res) => {
-        try {
-          const userId = req.session.userId;
-          if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-      
-          const { activities, total, date, time, persons } = req.body;
-      
-          if (
-            !Array.isArray(activities) || activities.length === 0 ||
-            !total || !date || !time || !persons
-          ) {
-            return res.status(400).json({ error: 'Invalid booking data' });
-          }
-      
-          const personsCount = parseInt(persons);
-          const totalAmount = parseFloat(total);
-      
-          if (!Number.isInteger(personsCount) || personsCount <= 0) {
-            return res.status(400).json({ error: 'Invalid number of persons' });
-          }
-      
-          if (isNaN(totalAmount) || totalAmount <= 0) {
-            return res.status(400).json({ error: 'Invalid total amount' });
-          }
-      
-          // Create Stripe line items
-          const lineItems = activities.map(act => {
-            if (!act.title || !act.price || !act.image || !act.location) {
-              throw new Error('Missing required activity fields');
-            }
-      
-            return {
-              price_data: {
-                currency: 'eur',
-                product_data: {
-                  name: act.title,
-                  images: [act.image],
-                  description: `${act.location} | ${date} at ${time} (${personsCount} person${personsCount > 1 ? 's' : ''})`
-                },
-                unit_amount: Math.round(Number(act.price) * 100) // price in cents
-              },
-              quantity: personsCount
-            };
-          });
-          const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'klarna'], // Klarna added back
-            mode: 'payment',
-            line_items: lineItems,
-            success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
-            cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
-            metadata: {
-              userId: String(userId),
-              date,
-              time,
-              persons: personsCount.toString(),
-              total: totalAmount.toFixed(2)
-            }
-          });
           
-      
-          res.json({ id: session.id });
-      
-        } catch (error) {
-          console.error('❌ Stripe Session Error:', error);
-          res.status(500).json({ error: 'Internal Server Error' });
-        }
-      });
-
-            app.post('/api/confirm-booking', async (req, res) => {
-        const userId = req.session.userId;
-        const { reference, dateRange, total, activities } = req.body;
-      
-        if (!userId || !reference || !activities || !Array.isArray(activities)) {
-          return res.status(400).json({ success: false, message: 'Invalid booking data.' });
-        }
-      
-        try {
-          const now = new Date();
-      
-          for (const activity of activities) {
-            if (!activity?.id || isNaN(activity.price)) {
-              console.warn('⚠️ Skipping invalid activity:', activity);
-              continue;
-            }
-      
-            // Insert confirmed booking
-            await db.execute(
-              `INSERT INTO bookings (
-                user_id,
-                activity_id,
-                booking_reference,
-                total_price,
-                date_range,
-                created_at,
-                payment_status,
-                status
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-              [
-                userId,
-                activity.id,
-                reference,
-                parseFloat(activity.price),
-                dateRange,
-                now,
-                'paid',
-                'confirmed'
-              ]
-            );
-      
-            // Remove from wishlist
-            await db.execute(
-              `DELETE FROM wishlist WHERE user_id = ? AND activity_id = ?`,
-              [userId, activity.id]
-            );
-          }
-      
-          res.json({ success: true });
-        } catch (err) {
-          console.error('❌ Failed to insert booking:', err.message);
-          res.status(500).json({ success: false, message: 'Database error' });
-        }
-      });
-      
-    
-  
-    // FETCH COMPLETED BOOKINGS
-    // FETCH COMPLETED BOOKINGS
-    app.get('/api/completed-bookings', async (req, res) => {
+  // Add at the top:
+  app.post('/api/create-checkout-session', async (req, res) => {
+    try {
       const userId = req.session.userId;
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-    
-      try {
-        const [bookings] = await db.query(
-          `SELECT 
-             b.booking_reference AS reference,
-             a.title,
-             a.image_url AS image, -- ✅ pull from activities
-             a.location,
-             b.date_range,
-             b.total_price AS price
-           FROM bookings b
-           JOIN activities a ON b.activity_id = a.id
-           WHERE b.user_id = ?
-           ORDER BY b.created_at DESC`,
-          [userId]
-        );
-        
-        res.json({ bookings });
-      } catch (err) {
-        console.error('Error fetching completed bookings:', err);
-        res.status(500).json({ error: 'Failed to load bookings' });
+  
+      const { activities, total, dateRange, nights } = req.body;
+  
+      if (!Array.isArray(activities) || activities.length === 0 || !total || !dateRange) {
+        return res.status(400).json({ error: 'Invalid booking data' });
       }
-    });
-    
+  
+      const lineItems = activities.map(act => ({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: act.title,
+            images: [act.image],
+            description: `${act.location} | ${dateRange} (${nights})`
+          },
+          unit_amount: Math.round(Number(act.price) * 100)
+        },
+        quantity: 1
+      }));
+  
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: lineItems,
+        success_url: 'http://localhost:3000/completedbookings.html',
+        cancel_url: 'http://localhost:3000/bookings.html',
+        metadata: {
+          userId: userId.toString(),
+          dateRange,
+          nights,
+          total: total.toString()
+          // ⚠️ You can also serialize activity IDs here for saving later if needed
+        }
+      });
+  
+      res.json({ id: session.id });
+  
+    } catch (error) {
+      console.error('❌ Error creating Stripe session:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  
+  
+
+  app.post('/api/confirm-booking', async (req, res) => {
+    const userId = req.session.userId;
+    const { reference, dateRange, nights, total, activities } = req.body;
+  
+    if (!userId || !reference || !activities || !Array.isArray(activities)) {
+      return res.status(400).json({ success: false, message: 'Invalid booking data.' });
+    }
+  
+    try {
+      const now = new Date();
+  
+      for (const activity of activities) {
+        if (!activity?.id || isNaN(activity.price)) {
+          console.warn('⚠️ Skipping invalid activity:', activity);
+          continue;
+        }
+  
+        // ✅ Insert booking
+        await db.execute(
+          `INSERT INTO bookings (
+            user_id,
+            activity_id,
+            booking_reference,
+            total_price,
+            date_range,
+            created_at,
+            payment_status,
+            status
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            userId,
+            activity.id,
+            reference,
+            parseFloat(activity.price),
+            dateRange,
+            now,
+            'paid',
+            'confirmed'
+          ]
+        );
+  
+        // ✅ Remove from wishlist (if exists)
+        await db.execute(
+          `DELETE FROM wishlist WHERE user_id = ? AND activity_id = ?`,
+          [userId, activity.id]
+        );
+      }
+  
+      res.json({ success: true });
+    } catch (err) {
+      console.error('❌ Failed to insert booking:', err.message);
+      res.status(500).json({ success: false, message: 'Database error' });
+    }
+  });
+  
+  
+
+  // FETCH COMPLETED BOOKINGS
+  // FETCH COMPLETED BOOKINGS
+  app.get('/api/completed-bookings', async (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+  
+    try {
+      const [bookings] = await db.query(
+        `SELECT 
+           b.booking_reference AS reference,
+           a.title,
+           a.image_url AS image, -- ✅ pull from activities
+           a.location,
+           b.date_range,
+           b.total_price AS price
+         FROM bookings b
+         JOIN activities a ON b.activity_id = a.id
+         WHERE b.user_id = ?
+         ORDER BY b.created_at DESC`,
+        [userId]
+      );
+      
+      res.json({ bookings });
+    } catch (err) {
+      console.error('Error fetching completed bookings:', err);
+      res.status(500).json({ error: 'Failed to load bookings' });
+    }
+  });
+  
+  
     
     
     

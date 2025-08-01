@@ -119,37 +119,19 @@
             <h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Activities</h3>
             <div id="wishlist-activities" class="space-y-4 p-4"></div>
 <!-- activities end  -->
-        <!-- Date Selection -->
-<h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Date & Time</h3>
-<div class="p-4 space-y-4">
+            <!-- dates  -->
+<!<h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Dates</h3>
+<div class="p-4">
+  <h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Select Dates</h3>
   <input
-    id="booking-date"
-    type="date"
-    class="w-full max-w-md border border-gray-300 rounded-xl p-3 text-[#121517] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    min="{{today}}"
+    id="date-range"
+    class="w-full max-w-md border border-gray-300 rounded-xl p-3 text-[#121517] placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    placeholder="Pick a start and end date"
+    readonly
   />
-
-  <div>
-    <label class="text-[#121517] font-medium block mb-2">Select Time Slot</label>
-    <select id="time-slot" class="border border-gray-300 rounded-xl p-3 w-full max-w-md text-sm">
-      <option value="">Choose a time</option>
-      <option value="11:00">11:00 AM</option>
-      <option value="14:00">2:00 PM</option>
-      <option value="16:00">4:00 PM</option>
-    </select>
-  </div>
-
-  <div>
-    <label class="text-[#121517] font-medium block mb-2">Number of Persons</label>
-    <input
-      id="person-count"
-      type="number"
-      min="1"
-      value="1"
-      class="border border-gray-300 rounded-xl p-3 w-full max-w-md text-sm"
-    />
-  </div>
 </div>
+<p id="nights-display" class="text-[#677683] text-sm font-normal leading-normal pb-1 pt-1 px-4">...</p>
+<p id="date-display" class="text-[#677683] text-sm font-normal leading-normal px-4">...</p>
 
 <!-- dates end  -->
 
@@ -236,247 +218,7 @@
 
       <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
-      <!-- <script src="/assets/js/scripttwo.js"></script> -->
-      <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
       
-      <script>
-      document.addEventListener('DOMContentLoaded', async () => {
-        // --------------------------------------
-        // 1. Wishlist Display on Activities Page
-        // --------------------------------------
-        const wishlistContainer = document.getElementById('wishlist-activities');
-        try {
-          const res = await fetch('/api/wishlist', { credentials: 'include' });
-          const wishlist = await res.json();
-      
-          if (wishlistContainer) {
-            if (!Array.isArray(wishlist) || wishlist.length === 0) {
-              wishlistContainer.innerHTML = '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
-            } else {
-              wishlistContainer.innerHTML = wishlist.map(item => `
-                <div class="flex items-stretch justify-between gap-4 rounded-xl">
-                  <div class="flex flex-[2_2_0px] flex-col gap-4">
-                    <div class="flex flex-col gap-1">
-                      <p class="text-[#677683] text-sm font-normal leading-normal">Wishlist</p>
-                      <p class="text-[#121517] text-base font-bold leading-tight">${item.title}</p>
-                      <p class="text-[#677683] text-sm font-normal leading-normal">${item.location} · ${new Date().toLocaleDateString()}</p>
-                    </div>
-                    <button class="flex h-8 px-4 items-center justify-center rounded-full bg-[#f1f2f4] text-[#121517] text-sm font-medium">
-                      <span class="truncate">€${Number(item.price).toFixed(2)}</span>
-                    </button>
-                  </div>
-                  <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1" style='background-image: url("${item.image_url}")'></div>
-                </div>
-              `).join('');
-            }
-          }
-        } catch (err) {
-          if (wishlistContainer) {
-            wishlistContainer.innerHTML = '<p class="text-red-600">Failed to load wishlist.</p>';
-          }
-          console.error('❌ Failed to fetch wishlist:', err);
-        }
-      
-       
-
-      });
-      </script>
-      <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-          // --------------------------------------
-          // 2. Trip Summary Calculation
-          // --------------------------------------
-          const subtotalElement = document.getElementById('trip-subtotal');
-          const totalElement = document.getElementById('trip-total');
-          const summaryContainer = document.getElementById('trip-summary');
-        
-          const urlParams = new URLSearchParams(window.location.search);
-          const idsParam = urlParams.get('activityIds');
-          const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
-        
-          const personCountInput = document.getElementById('person-count');
-          const personCount = parseInt(personCountInput?.value || '1');
-        
-          if (subtotalElement && totalElement && selectedIds.length > 0 && summaryContainer) {
-            try {
-              const res = await fetch('/api/wishlist', { credentials: 'include' });
-              const activities = await res.json();
-              const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
-        
-              let subtotal = 0;
-        
-              selectedActivities.forEach(activity => {
-                const pricePerPerson = parseFloat(activity.price || 0);
-                const totalForActivity = pricePerPerson * personCount;
-                subtotal += totalForActivity;
-        
-                const row = document.createElement('div');
-                row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
-                row.innerHTML = `
-                  <p class="text-[#677683] text-sm font-normal">${activity.title} (${personCount} person${personCount > 1 ? 's' : ''})</p>
-                  <p class="text-[#121517] text-sm font-normal">€${totalForActivity.toFixed(2)}</p>
-                `;
-                summaryContainer.insertBefore(row, subtotalElement.closest('div.col-span-2'));
-              });
-        
-              subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-              totalElement.textContent = `€${subtotal.toFixed(2)}`;
-            } catch (err) {
-              console.error('❌ Failed to load trip summary:', err);
-              subtotalElement.textContent = 'Error';
-              totalElement.textContent = 'Error';
-            }
-          }
-        
-          // --------------------------------------
-          // 3. Date Picker Setup (UNCHANGED)
-          // --------------------------------------
-          let formattedDateRange = '';
-          let formattedNights = '';
-        
-          const dateInput = document.getElementById('date-range');
-          const nightsDisplay = document.getElementById('nights-display');
-          const dateDisplay = document.getElementById('date-display');
-        
-          if (dateInput) {
-            const picker = new Litepicker({
-              element: dateInput,
-              singleMode: false,
-              numberOfMonths: 2,
-              numberOfColumns: 2,
-              minDate: new Date(),
-              autoApply: true,
-              format: 'YYYY-MM-DD',
-              setup: (picker) => {
-                picker.on('selected', (start, end) => {
-                  const nights = end.diff(start, 'day');
-                  formattedDateRange = `${start.format('MMMM D, YYYY')} → ${end.format('MMMM D, YYYY')}`;
-                  formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
-        
-                  if (nightsDisplay) nightsDisplay.textContent = formattedNights;
-                  if (dateDisplay) dateDisplay.textContent = `From ${formattedDateRange}`;
-                  dateInput.value = formattedDateRange;
-                });
-              }
-            });
-          }
-        
-          // --------------------------------------
-          // 4. Continue Button Handler
-          // --------------------------------------
-          const continueBtn = document.getElementById('continue-btn');
-          if (continueBtn) {
-            continueBtn.addEventListener('click', async () => {
-              const selectedDate = document.getElementById('booking-date')?.value;
-              const timeSlot = document.getElementById('time-slot')?.value;
-              const personCount = parseInt(document.getElementById('person-count')?.value || '1');
-              const total = parseFloat(document.getElementById('trip-total')?.textContent.replace('€', '') || '0');
-        
-              if (!selectedDate || !timeSlot || !personCount || selectedIds.length === 0) {
-                alert('Please select a date, time, number of persons, and at least one activity.');
-                return;
-              }
-        
-              try {
-                const res = await fetch('/api/wishlist', { credentials: 'include' });
-                const wishlist = await res.json();
-                const activities = wishlist.filter(item => selectedIds.includes(item.id));
-        
-                const activitySummary = activities.map(act => ({
-                  id: act.id,
-                  title: act.title,
-                  price: Number(act.price),
-                  location: act.location,
-                  image: act.image_url
-                }));
-        
-                const paymentActivities = document.getElementById('payment-activities');
-                const paymentTotal = document.getElementById('payment-total-display');
-        
-                paymentActivities.innerHTML = activities.map(act => `
-                  <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
-                    <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image_url}')"></div>
-                    <div class="flex flex-col flex-1">
-                      <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
-                      <p class="text-[#677683] text-sm">${act.location}</p>
-                      <p class="text-[#677683] text-xs">${selectedDate} at ${timeSlot}</p>
-                      <p class="text-[#677683] text-xs">${personCount} person${personCount > 1 ? 's' : ''}</p>
-                    </div>
-                    <p class="text-[#121517] font-medium text-sm">€${(Number(act.price) * personCount).toFixed(2)}</p>
-                  </div>
-                `).join('');
-        
-                paymentTotal.textContent = `€${total.toFixed(2)}`;
-        
-                window.bookingData = {
-                  date: selectedDate,
-                  time: timeSlot,
-                  persons: personCount,
-                  total: total.toFixed(2),
-                  activities: activitySummary
-                };
-        
-                document.getElementById('order-content').classList.add('hidden');
-                document.getElementById('payment-section').classList.remove('hidden');
-              } catch (err) {
-                console.error('❌ Booking display error:', err);
-                alert('Something went wrong. Please try again.');
-              }
-            });
-          }
-        
-          // --------------------------------------
-          // 5. Pay Now Button
-          // --------------------------------------
-          const payNowBtn = document.getElementById('pay-now');
-          if (payNowBtn) {
-            payNowBtn.addEventListener('click', async () => {
-              try {
-                const booking = window.bookingData;
-                if (!booking || !booking.activities || booking.activities.length === 0) {
-                  alert('No booking information found. Please try again.');
-                  return;
-                }
-        
-                const total = Number(booking.total);
-                if (!total || isNaN(total) || total <= 0) {
-                  alert('Invalid total amount. Please check your booking.');
-                  return;
-                }
-        
-                localStorage.setItem('booking', JSON.stringify(booking));
-                localStorage.removeItem('bookingConfirmed');
-        
-                const response = await fetch('/api/create-checkout-session', {
-                  method: 'POST',
-                  credentials: 'include',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(booking)
-                });
-        
-                if (!response.ok) {
-                  const error = await response.json();
-                  throw new Error(error.message || 'Failed to create checkout session.');
-                }
-        
-                const session = await response.json();
-                if (!session.id) throw new Error('No session ID returned from Stripe.');
-        
-                const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh');
-                stripe.redirectToCheckout({ sessionId: session.id });
-              } catch (err) {
-                console.error('❌ Payment initiation failed:', err);
-                alert('Payment failed to start. Please try again.');
-              }
-            });
-          }
-        
-        });
-        </script>
-        
-        
-<!--       
       <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('date-range');
@@ -699,7 +441,7 @@
                     const session = await response.json();
                     if (!session.id) throw new Error('No session ID returned from Stripe.');
               
-                    const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh'); // ✅ Your Stripe public key
+                    const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ'); // ✅ Your Stripe public key
                     stripe.redirectToCheckout({ sessionId: session.id });
                   } catch (err) {
                     console.error('❌ Payment initiation failed:', err);
@@ -707,7 +449,7 @@
                   }
                 });
               </script>
-               -->
+              
   </body>
 </html>
 

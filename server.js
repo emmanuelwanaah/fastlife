@@ -583,14 +583,13 @@ app.post('/adminlogin', async (req, res) => {
       req.session.destroy(err => {
         if (err) {
           console.error('❌ Session destruction error:', err);
-          return res.status(500).send('Logout failed');
+          return res.status(500).json({ success: false, message: 'Logout failed' });
         }
     
-        res.clearCookie('connect.sid'); // Use the same cookie name as your session
-        res.redirect('/login.html');   // Or send a JSON response if using fetch
+        res.clearCookie('connect.sid');
+        res.json({ success: true });
       });
     });
-    
     
     
     

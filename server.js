@@ -588,8 +588,8 @@ app.post('/adminlogin', async (req, res) => {
         payment_method_types: ['card'],
         mode: 'payment',
         line_items: lineItems,
-        success_url: 'http://localhost:3000/completedbookings.html',
-        cancel_url: 'http://localhost:3000/bookings.html',
+        success_url: 'https://www.fastlifetraveltour.com/completedbookings.html',
+        cancel_url: 'https://www.fastlifetraveltour.com/bookings.html',
         metadata: {
           userId: userId.toString(),
           date,

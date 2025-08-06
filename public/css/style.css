@@ -1,0 +1,35 @@
+/* Container Styling */
+#persons-select, 
+#time-period {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 12px 40px 12px 16px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #1F2937; /* blue-black */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='12' height='7' viewBox='0 0 12 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231F2937' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 12px 7px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+#persons-select:focus, 
+#time-period:focus {
+  border-color: #2563eb; /* Blue focus border */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+#persons-select option, 
+#time-period option {
+  font-weight: bold;
+  color: #1F2937;
+}
+

@@ -9,7 +9,7 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800"
     />
-    <title>FastlifeTravel – Confirmed Bookings</title>
+    <title>Journey – Confirmed Bookings</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
@@ -69,20 +69,16 @@
     </div>
   
     <script>
-      const formatDateRange = range => {
-        if (!range.includes('→')) return 'N/A';
-        const [start, end] = range.split('→').map(s => s.trim());
-        const startDate = new Date(start);
-        const endDate = new Date(end);
+      const formatBookingDate = dateStr => {
+        const date = new Date(dateStr);
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return `${startDate.toLocaleDateString('en-US', options)} – ${endDate.toLocaleDateString('en-US', options)}`;
+        return date.toLocaleDateString('en-US', options);
       };
     
       document.addEventListener('DOMContentLoaded', async () => {
         const container = document.getElementById('completed-bookings');
     
         try {
-          // ✅ Attempt to confirm the booking from localStorage
           const booking = JSON.parse(localStorage.getItem('booking'));
           const alreadyConfirmed = localStorage.getItem('bookingConfirmed');
     
@@ -109,7 +105,7 @@
             localStorage.removeItem('booking');
           }
     
-          // ✅ Fetch confirmed bookings for user
+          // ✅ Fetch completed bookings
           const res = await fetch('/api/completed-bookings', { credentials: 'include' });
           const data = await res.json();
           container.innerHTML = '';
@@ -120,11 +116,13 @@
           }
     
           data.bookings.forEach(b => {
-            const dateRange = b.date_range ? formatDateRange(b.date_range) : 'N/A';
+            const date = b.booking_date ? formatBookingDate(b.booking_date) : 'N/A';
             const price = b.price ? Number(b.price).toFixed(2) : 'N/A';
             const title = b.title || 'Untitled Booking';
             const image = b.image || 'https://via.placeholder.com/400x225?text=No+Image';
             const reference = b.reference || 'N/A';
+            const time = b.time_selected || 'N/A';
+            const persons = b.number_of_persons || 'N/A';
     
             const card = document.createElement('div');
             card.className = 'flex items-stretch justify-between gap-4 rounded-xl bg-[#f9fafb] p-4';
@@ -132,7 +130,9 @@
               <div class="flex flex-col gap-1 flex-[2_2_0px]">
                 <p class="text-[#00aa66] text-sm font-medium">✅ Confirmed</p>
                 <p class="text-[#111418] text-base font-bold">${title}</p>
-                <p class="text-[#60758a] text-sm">${dateRange}</p>
+                <p class="text-[#60758a] text-sm">Date: ${date}</p>
+                <p class="text-[#60758a] text-sm">Time: ${time}</p>
+                <p class="text-[#60758a] text-sm">Persons: ${persons}</p>
                 <p class="text-[#60758a] text-sm">Booking · €${price}</p>
                 <p class="text-[#60758a] text-xs">Reference: #${reference}</p>
               </div>

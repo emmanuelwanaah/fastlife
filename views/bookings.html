@@ -14,6 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+     <!-- Ionicons CDN (add once in <head>) -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 
 
@@ -21,6 +24,7 @@
 
 
 
+    <link href="/css/style.css" rel="stylesheet">
 
     <style>
         .litepicker .container__days .day-item.is-start-date,
@@ -110,6 +114,7 @@
       </div>
     </div>
   </div>
+  <!-- date and other selections  -->
         <div id="order-content" class="px-40 flex flex-1 justify-center py-5">
 
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
@@ -120,17 +125,72 @@
             <div id="wishlist-activities" class="space-y-4 p-4"></div>
 <!-- activities end  -->
             <!-- dates  -->
-<!<h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Dates</h3>
-<div class="p-4">
-  <h3 class="text-[#121517] text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Select Dates</h3>
-  <input
-    id="date-range"
-    class="w-full max-w-md border border-gray-300 rounded-xl p-3 text-[#121517] placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    placeholder="Pick a start and end date"
-    readonly
-  />
-</div>
-<p id="nights-display" class="text-[#677683] text-sm font-normal leading-normal pb-1 pt-1 px-4">...</p>
+<!-- Replace Dates Section -->
+<!-- Date & Guests Section -->
+<section class="bg-white  shadow-md p-6 md:p-8 space-y-6">
+  <h3 class="text-[#121517] text-xl font-bold tracking-tight">Date & Participants</h3>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Date Picker -->
+    <div>
+      <label class="block text-sm font-semibold text-[#121517] mb-2">Select Day</label>
+      <input 
+        type="text" 
+        id="date-range" 
+        placeholder="Select Date" 
+        readonly 
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#121517]" 
+      />
+    </div>
+
+    <!-- Number of Persons -->
+    <div>
+      <label class="block text-sm font-semibold text-[#121517] mb-2">Number of Persons</label>
+      <select 
+        id="persons-select" 
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#121517]"
+      >
+        <option value="1">1 Person</option>
+        <option value="2">2 Persons</option>
+        <option value="3">3 Persons</option>
+        <option value="4">4 Persons</option>
+        <option value="5">5 Persons</option>
+      </select>
+    </div>
+
+    <!-- Time Period -->
+    <div>
+      <label class="block text-sm font-semibold text-[#121517] mb-2">Select Time</label>
+      <select 
+        id="time-period" 
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#121517]"
+      >
+        <option value="">-- Select Time --</option>
+        <option value="11:00">11:00</option>
+        <option value="14:00">14:00</option>
+        <option value="16:00">16:00</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Date & Nights Display -->
+  <div class="text-sm text-[#677683] space-y-1">
+    <p id="date-display" class="px-1">Selected Date: ...</p>
+   
+  </div>
+
+  <!-- Meeting Point Highlight -->
+
+<!-- Meeting Point Box -->
+
+</section>
+
+
+<p id="date-display" class="text-[#677683] text-sm font-normal leading-normal px-4 pb-4">...</p>
+
+
 <p id="date-display" class="text-[#677683] text-sm font-normal leading-normal px-4">...</p>
 
 <!-- dates end  -->
@@ -219,7 +279,7 @@
       <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
       
-      <script>
+      <!-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('date-range');
             const nightsDisplay = document.getElementById('nights-display');
@@ -407,8 +467,201 @@
                 });
                 
               </script>
-             
+              -->
+              
+              
               <script>
+                let selectedDate = '';
+                let selectedTime = '';
+                let selectedPersons = 1;
+                let activitySummary = [];
+              
+                document.addEventListener('DOMContentLoaded', async () => {
+                  const input = document.getElementById('date-range');
+                  const dateDisplay = document.getElementById('date-display');
+                  const timeSelect = document.getElementById('time-period');
+                  const personsSelect = document.getElementById('persons-select');
+              
+                  const picker = new Litepicker({
+                    element: input,
+                    singleMode: true,
+                    minDate: new Date(),
+                    format: 'YYYY-MM-DD',
+                    setup: (picker) => {
+                      picker.on('selected', (start) => {
+                        selectedDate = start.format('YYYY-MM-DD');
+                        const formatted = start.format('MMMM D, YYYY');
+                        dateDisplay.textContent = `Selected Date: ${formatted}`;
+                        input.value = formatted;
+                        updateTripSummary();
+                      });
+                    }
+                  });
+              
+                  timeSelect.addEventListener('change', () => {
+                    selectedTime = timeSelect.value;
+                    updateTripSummary();
+                  });
+              
+                  personsSelect.addEventListener('change', () => {
+                    selectedPersons = parseInt(personsSelect.value);
+                    updateTripSummary();
+                  });
+              
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const idsParam = urlParams.get('activityIds');
+                  const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
+              
+                  if (!idsParam) {
+                    document.getElementById('trip-subtotal').textContent = '€0.00';
+                    document.getElementById('trip-total').textContent = '€0.00';
+                    return;
+                  }
+              
+                  try {
+                    const res = await fetch('/api/wishlist', { credentials: 'include' });
+                    const allActivities = await res.json();
+              
+                    activitySummary = allActivities
+                      .filter(item => selectedIds.includes(item.id))
+                      .map((act) => ({
+                        id: act.id,
+                        title: act.title,
+                        price: Number(act.price),
+                        location: act.location,
+                        image: act.image_url,
+                      }));
+              
+                    updateTripSummary();
+                  } catch (err) {
+                    console.error('❌ Failed to load trip summary:', err);
+                  }
+                });
+              
+                function updateTripSummary() {
+                  const summaryContainer = document.getElementById('trip-summary');
+                  const subtotalElem = document.getElementById('trip-subtotal');
+                  const totalElem = document.getElementById('trip-total');
+              
+                  if (!activitySummary || activitySummary.length === 0) return;
+              
+                  const oldRows = summaryContainer.querySelectorAll('.summary-row');
+                  oldRows.forEach(row => row.remove());
+              
+                  let subtotal = 0;
+              
+                  activitySummary.forEach(activity => {
+                    const totalPrice = activity.price * selectedPersons;
+                    subtotal += totalPrice;
+              
+                    const row = document.createElement('div');
+                    row.className = 'col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5 summary-row';
+                    row.innerHTML = `
+                      <div class="flex items-center gap-x-4">
+                        <img src="${activity.image}" alt="${activity.title}" class="w-[70px] h-[70px] object-cover rounded-xl" />
+                        <div>
+                          <p class="text-sm font-medium text-[#121517]">${activity.title}</p>
+                          <p class="text-xs text-[#677683]">${selectedDate || '--'}, ${selectedTime || '--'}</p>
+                          <p class="text-xs text-[#677683]">${selectedPersons} person${selectedPersons > 1 ? 's' : ''}</p>
+                        </div>
+                      </div>
+                      <div class="text-right">
+                        <p class="text-sm font-semibold text-[#121517]">€${totalPrice.toFixed(2)}</p>
+                      </div>
+                    `;
+                    subtotalElem.parentElement.before(row);
+                  });
+              
+                  subtotalElem.textContent = `€${subtotal.toFixed(2)}`;
+                  totalElem.textContent = `€${subtotal.toFixed(2)}`;
+                }
+              
+                document.getElementById('continue-btn').addEventListener('click', async () => {
+                  const total = document.getElementById('trip-total').textContent;
+              
+                  if (!selectedDate || !selectedTime || !activitySummary.length || selectedPersons <= 0) {
+                    alert('Please select a date, time, persons, and activities.');
+                    return;
+                  }
+              
+                  const paymentActivities = document.getElementById('payment-activities');
+                  const paymentTotal = document.getElementById('payment-total-display');
+              
+                  try {
+                    paymentActivities.innerHTML = activitySummary.map(act => {
+                      return `
+                        <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
+                          <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image}')"></div>
+                          <div class="flex flex-col flex-1">
+                            <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
+                            <p class="text-[#677683] text-sm">${act.location}</p>
+                            <p class="text-[#677683] text-xs">${selectedDate} at ${selectedTime}</p>
+                            <p class="text-[#677683] text-xs">${selectedPersons} person${selectedPersons > 1 ? 's' : ''}</p>
+                          </div>
+                          <p class="text-[#121517] font-medium text-sm">€${(act.price * selectedPersons).toFixed(2)}</p>
+                        </div>
+                      `;
+                    }).join('');
+              
+                    paymentTotal.textContent = total;
+              
+                    window.bookingData = {
+                      date: selectedDate,
+                      time: selectedTime,
+                      numberOfPersons: selectedPersons,
+                      total,
+                      activities: activitySummary
+                    };
+              
+                    document.getElementById('order-content').classList.add('hidden');
+                    document.getElementById('payment-section').classList.remove('hidden');
+                  } catch (err) {
+                    console.error('❌ Booking display error:', err);
+                    alert('Something went wrong.');
+                  }
+                });
+              
+                const payNowBtn = document.getElementById('pay-now');
+              
+                payNowBtn.addEventListener('click', async () => {
+                  try {
+                    const booking = window.bookingData;
+              
+                    if (!booking || !booking.activities || booking.activities.length === 0) {
+                      alert('No booking information found. Please try again.');
+                      return;
+                    }
+              
+                    if (!booking.reference) {
+                      booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
+                    }
+              
+                    localStorage.setItem('booking', JSON.stringify(booking));
+                    localStorage.removeItem('bookingConfirmed');
+              
+                    const response = await fetch('/api/create-checkout-session', {
+                      method: 'POST',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(booking)
+                    });
+              
+                    const session = await response.json();
+                    if (!session.id) throw new Error('No session ID returned from Stripe.');
+              
+                    const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ');
+                    stripe.redirectToCheckout({ sessionId: session.id });
+                  } catch (err) {
+                    console.error('❌ Payment initiation failed:', err);
+                    alert('Payment failed to start. Please try again.');
+                  }
+                });
+              </script>
+              
+              
+              <!-- <script>
                 const payNowBtn = document.getElementById('pay-now');
               
                 payNowBtn.addEventListener('click', async () => {
@@ -448,7 +701,7 @@
                     alert('Payment failed to start. Please try again.');
                   }
                 });
-              </script>
+              </script> -->
               
   </body>
 </html>

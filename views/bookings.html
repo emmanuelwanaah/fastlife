@@ -737,7 +737,7 @@
                     const session = await response.json();
                     if (!session.id) throw new Error('No session ID returned from Stripe.');
               
-                    const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ');
+                    const stripe = Stripe('pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh');
                     stripe.redirectToCheckout({ sessionId: session.id });
                   } catch (err) {
                     console.error('❌ Payment initiation failed:', err);

@@ -1,21 +1,150 @@
 <html>
   <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
-      rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
-    />
-
-    <title>FastLifeTravel</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800">
+    
+    <!-- Language targeting -->
+    <link rel="alternate" hreflang="en" href="https://fastlifetraveltour.com/activities.html" />
+    <link rel="alternate" hreflang="fr" href="https://fastlifetraveltour.com/activities.html" />
+  
+    <!-- Title & Meta (Bilingual) -->
+    <title>FastLifeTravel - Activities & Excursions | Activités & Excursions</title>
+    <meta name="description" content="Discover and book unforgettable activities worldwide | Découvrez et réservez des activités inoubliables dans le monde entier.">
+    <meta name="keywords" content="activities, excursions, tours, Caribbean, Europe, adventures, travel, activités, excursions, circuits, voyages">
+    <meta name="author" content="FastLifeTravel">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0099ff">
+    <meta name="language" content="fr,en">
+  
+    <!-- Open Graph -->
+    <meta property="og:title" content="FastLifeTravel - Activities & Excursions | Activités & Excursions">
+    <meta property="og:description" content="Find the best tours and activities across the Caribbean and beyond. Découvrez les meilleures activités aux Caraïbes et ailleurs.">
+    <meta property="og:image" content="/asset/img/meta.jpg">
+    <meta property="og:url" content="https://fastlifetraveltour.com/activities.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+  
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FastLifeTravel - Activities & Excursions | Activités & Excursions">
+    <meta name="twitter:description" content="Book amazing activities & tours worldwide. Réservez des activités et circuits incroyables partout dans le monde.">
+    <meta name="twitter:image" content="/asset/img/meta.jpg">
+  
+    <!-- Canonical -->
+    <link rel="canonical" href="https://fastlifetraveltour.com/activities.html">
+  
+    <!-- Global Website Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://fastlifetraveltour.com",
+      "name": "FastLifeTravelTour",
+      "inLanguage": ["en", "fr"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fastlifetraveltour.com/search?query={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+  
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home | Accueil",
+          "item": "https://fastlifetraveltour.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Activities | Activités",
+          "item": "https://fastlifetraveltour.com/activities.html"
+        }
+      ]
+    }
+    </script>
+  
+    <!-- Activities List Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "@id": "https://fastlifetraveltour.com/activities",
+        "url": "https://fastlifetraveltour.com/activities",
+        "name": "Activities List",
+        "alternateName": "Liste des Activités",
+        "inLanguage": ["en", "fr"],
+        "numberOfItems": 5,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Thing",
+              "name": "Eiffel Tower Guided Tour",
+              "alternateName": "Visite guidée de la Tour Eiffel",
+              "url": "https://fastlifetraveltour.com/activity/tour-eiffel"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "Thing",
+              "name": "Caribbean Scuba Diving",
+              "alternateName": "Plongée sous-marine aux Caraïbes",
+              "url": "https://fastlifetraveltour.com/activity/scuba-caribbean"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "Thing",
+              "name": "Colosseum Tour Rome",
+              "alternateName": "Visite du Colisée à Rome",
+              "url": "https://fastlifetraveltour.com/activity/rome-colosseum"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "Thing",
+              "name": "Paris Gourmet Food Tour",
+              "alternateName": "Circuit gastronomique à Paris",
+              "url": "https://fastlifetraveltour.com/activity/paris-food-tour"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "Thing",
+              "name": "Bali Temple & Culture Tour",
+              "alternateName": "Visite des temples et culture à Bali",
+              "url": "https://fastlifetraveltour.com/activity/bali-temple-tour"
+            }
+          }
+        ]
+      }
+      </script>
+      
+  
+    <!-- Styles & Icons -->
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
   </head>
+  
   <body>
     <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">

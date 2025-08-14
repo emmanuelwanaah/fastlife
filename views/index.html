@@ -201,7 +201,7 @@
             <section class="home" id="home">
               <!-- Video background instead of image -->
               <video autoplay muted loop playsinline class="home__img">
-                  <source src="/asset/video/carribean.mp4" type="video/mp4">
+                  <source src="/asset/video/cari1.mp4" type="video/mp4">
                   Votre navigateur ne supporte pas la vidéo HTML5.
               </video>
           
@@ -784,5 +784,14 @@
 
         <!--=============== MAIN JS ===============-->
         <script src="/asset/js/main.js"></script>
+        <script src="/asset/js/main.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const video = document.querySelector('.home__img');
+              if (video) {
+                video.load(); // Ensures browser loads only when DOM is ready
+              }
+            });
+            </script>
     </body>
 </html>

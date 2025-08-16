@@ -793,5 +793,16 @@
               }
             });
             </script>
+            <script>
+                document.getElementById("homeSearchForm").addEventListener("submit", function(e) {
+                  e.preventDefault();
+                  const query = document.getElementById("homeSearchInput").value.trim();
+                  if (query) {
+                    // Redirect with search term in query string
+                    window.location.href = `dashboard.html?search=${encodeURIComponent(query)}`;
+                  }
+                });
+                </script>
+            
     </body>
 </html>

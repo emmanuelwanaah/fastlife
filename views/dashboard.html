@@ -52,6 +52,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
     <link rel="icon" type="image/png" href="/asset/img/favicon.png">
   
     <!-- JSON-LD - Organization -->
@@ -126,6 +132,7 @@
   
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
   </head>
   
   <body>
@@ -326,6 +333,7 @@
     </div>
  <!-- scripts  -->
 
+ 
  <script>
   let currentSort = '';
   let searchTerm = '';
@@ -334,7 +342,7 @@
 
   async function fetchexplore() {
     const params = new URLSearchParams();
-    if (currentSort) params.append('sortBy', currentSort); // still included if you decide to use it later
+    if (currentSort) params.append('sortBy', currentSort);
     if (searchTerm) params.append('search', searchTerm);
     params.append('page', currentPage);
     params.append('limit', limit);
@@ -343,6 +351,35 @@
     const data = await res.json();
 
     const container = document.getElementById('experience-grid');
+
+    // 🔹 If no results found, show suggestion
+    if (data.length === 0) {
+      container.innerHTML = `
+        <div class="text-center text-gray-500 py-10">
+          <p>No results found for "<strong>${searchTerm}</strong>".</p>
+          <p class="mt-2">
+            Maybe try searching for 
+            <button id="suggestCaribbean" class="text-blue-500 underline hover:text-blue-700">
+              Caribbean
+            </button>?
+          </p>
+        </div>
+      `;
+      document.getElementById('pagination').innerHTML = ''; // Clear pagination
+
+      // 🔹 Suggestion click handler
+      document.getElementById('suggestCaribbean').addEventListener('click', () => {
+        searchTerm = "Caribbean";
+        currentPage = 1;
+        const searchInput = document.getElementById("search");
+        if (searchInput) searchInput.value = "Caribbean"; // update search box if exists
+        fetchexplore(); // reload results instantly
+      });
+
+      return; // stop here
+    }
+
+    // 🔹 Render results if found
     container.innerHTML = data.map(exp => `
       <div class="flex flex-col gap-3 pb-3 cursor-pointer experience-card" data-id="${exp.id}">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
@@ -356,7 +393,7 @@
 
     renderPagination(data.length);
 
-    // 🔗 Make cards clickable
+    // 🔹 Make cards clickable
     document.querySelectorAll('.experience-card').forEach(card => {
       card.addEventListener('click', async () => {
         const sessionRes = await fetch('/session');
@@ -369,7 +406,6 @@
 
         const id = card.dataset.id;
         window.location.href = `/activities.html?id=${id}`;
-
       });
     });
   }
@@ -410,6 +446,14 @@
     currentPage = 1;
     fetchexplore();
   });
+
+  // Get search param from URL
+  const params = new URLSearchParams(window.location.search);
+  const searchFromUrl = params.get("search");
+  if (searchFromUrl) {
+    searchTerm = searchFromUrl;
+    document.getElementById("search").value = searchFromUrl;
+  }
 
   // Init
   fetchexplore();

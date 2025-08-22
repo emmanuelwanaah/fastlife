@@ -463,6 +463,34 @@
 </script>
 
  <!-- scripts  -->
+ <script>
+  (function() {
+      // Use a unique name instead of "params"
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedDestination = urlParams.get("destination");
+  
+      // Debug
+      console.log("Selected destination:", selectedDestination);
+  
+      // Optional: Show title change
+      const header = document.querySelector(".dashboard-title");
+      if (header && selectedDestination) {
+          header.textContent = "Activités à " + selectedDestination;
+      }
+  
+      // Filter cards
+      document.querySelectorAll(".card").forEach(card => {
+          const destination = card.getAttribute("data-destination");
+  
+          if (!selectedDestination || destination === selectedDestination) {
+              card.style.display = "block";
+          } else {
+              card.style.display = "none";
+          }
+      });
+  })();
+  </script>
+  
     
   </body>
 </html>

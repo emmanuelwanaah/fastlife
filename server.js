@@ -164,50 +164,108 @@ app.post('/adminlogin', async (req, res) => {
     }
   });
   
+  // // Password Reset Flow
+  // app.post('/api/request-password-reset', async (req, res) => {
+  //   const { email, newPassword } = req.body;
+  //   if (!email || !newPassword)
+  //     return res.status(400).json({ success: false, message: "Email and new password required." });
+  
+  //   const [rows] = await db.execute("SELECT password FROM users WHERE email = ?", [email]);
+  //   if (!rows.length)
+  //     return res.status(400).json({ success: false, message: "Email not found." });
+  
+  //   const result = await validateAndHashPassword(newPassword, rows[0].password);
+  //   if (!result.success)
+  //     return res.status(400).json({ success: false, message: result.message });
+  
+  //   const code = Math.floor(100000 + Math.random() * 900000);
+  //   req.session.resetEmail = email;
+  //   req.session.resetHash = result.hash;
+  //   req.session.resetCode = code;
+  //   req.session.resetExpires = Date.now() + 10 * 60 * 1000;
+  //   await sendVerificationCode(email, code);
+  //   res.json({ success: true, message: "Verification code sent." });
+  // });
+  
+  // app.post('/api/verify-reset-code', async (req, res) => {
+  //   const { code } = req.body;
+  //   const session = req.session;
+  //   if (!session.resetCode || !session.resetEmail || !session.resetHash || !session.resetExpires)
+  //     return res.status(400).json({ success: false, message: "Invalid session." });
+  
+  //   if (Date.now() > session.resetExpires)
+  //     return res.status(400).json({ success: false, message: "Code expired." });
+  
+  //   if (parseInt(code) !== parseInt(session.resetCode))
+  //     return res.status(400).json({ success: false, message: "Incorrect code." });
+  
+  //   await db.execute("UPDATE users SET password = ? WHERE email = ?", [session.resetHash, session.resetEmail]);
+  
+  //   delete session.resetCode;
+  //   delete session.resetEmail;
+  //   delete session.resetHash;
+  //   delete session.resetExpires;
+  
+  //   res.json({ success: true, message: "Password reset successful." });
+  // });
   // Password Reset Flow
-  app.post('/api/request-password-reset', async (req, res) => {
-    const { email, newPassword } = req.body;
-    if (!email || !newPassword)
-      return res.status(400).json({ success: false, message: "Email and new password required." });
-  
-    const [rows] = await db.execute("SELECT password FROM users WHERE email = ?", [email]);
-    if (!rows.length)
-      return res.status(400).json({ success: false, message: "Email not found." });
-  
-    const result = await validateAndHashPassword(newPassword, rows[0].password);
-    if (!result.success)
-      return res.status(400).json({ success: false, message: result.message });
-  
-    const code = Math.floor(100000 + Math.random() * 900000);
-    req.session.resetEmail = email;
-    req.session.resetHash = result.hash;
-    req.session.resetCode = code;
-    req.session.resetExpires = Date.now() + 10 * 60 * 1000;
+app.post('/api/request-password-reset', async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword)
+    return res.status(400).json({ success: false, message: "Email and new password required." });
+
+  const [rows] = await db.execute("SELECT password FROM users WHERE email = ?", [email]);
+  if (!rows.length)
+    return res.status(400).json({ success: false, message: "Email not found." });
+
+  const result = await validateAndHashPassword(newPassword, rows[0].password);
+  if (!result.success)
+    return res.status(400).json({ success: false, message: result.message });
+
+  // Generate 6-digit code
+  const code = Math.floor(100000 + Math.random() * 900000);
+
+  // Save data in session
+  req.session.resetEmail = email;
+  req.session.resetHash = result.hash;
+  req.session.resetCode = code;
+  req.session.resetExpires = Date.now() + 10 * 60 * 1000; // 10 mins
+
+  // Send via Brevo
+  try {
     await sendVerificationCode(email, code);
     res.json({ success: true, message: "Verification code sent." });
-  });
-  
-  app.post('/api/verify-reset-code', async (req, res) => {
-    const { code } = req.body;
-    const session = req.session;
-    if (!session.resetCode || !session.resetEmail || !session.resetHash || !session.resetExpires)
-      return res.status(400).json({ success: false, message: "Invalid session." });
-  
-    if (Date.now() > session.resetExpires)
-      return res.status(400).json({ success: false, message: "Code expired." });
-  
-    if (parseInt(code) !== parseInt(session.resetCode))
-      return res.status(400).json({ success: false, message: "Incorrect code." });
-  
-    await db.execute("UPDATE users SET password = ? WHERE email = ?", [session.resetHash, session.resetEmail]);
-  
-    delete session.resetCode;
-    delete session.resetEmail;
-    delete session.resetHash;
-    delete session.resetExpires;
-  
-    res.json({ success: true, message: "Password reset successful." });
-  });
+  } catch (err) {
+    console.error("❌ Email send error:", err);
+    res.status(500).json({ success: false, message: "Failed to send verification email." });
+  }
+});
+
+app.post('/api/verify-reset-code', async (req, res) => {
+  const { code } = req.body;
+  const session = req.session;
+
+  if (!session.resetCode || !session.resetEmail || !session.resetHash || !session.resetExpires)
+    return res.status(400).json({ success: false, message: "Invalid session." });
+
+  if (Date.now() > session.resetExpires)
+    return res.status(400).json({ success: false, message: "Code expired." });
+
+  if (parseInt(code) !== parseInt(session.resetCode))
+    return res.status(400).json({ success: false, message: "Incorrect code." });
+
+  await db.execute("UPDATE users SET password = ? WHERE email = ?", [session.resetHash, session.resetEmail]);
+
+  // Clear session
+  delete session.resetCode;
+  delete session.resetEmail;
+  delete session.resetHash;
+  delete session.resetExpires;
+
+  res.json({ success: true, message: "Password reset successful." });
+});
+
   
   // Session Info
   app.get('/session', (req, res) => {

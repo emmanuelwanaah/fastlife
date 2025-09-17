@@ -163,6 +163,15 @@ input {
 }
 
 /*=============== REUSABLE CSS CLASSES ===============*/
+
+.place__content {
+ 
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: #fff;
+  z-index: 2;
+}
+
+
 .section {
   padding: 4.5rem 0 2.5rem;
 }

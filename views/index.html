@@ -1,807 +1,549 @@
 <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <!-- Icône du site -->
-        <link rel="shortcut icon" href="/asset/img/favicon.png" type="image/png">
-    
-        <!--=============== REMIXICONS ===============-->
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-        
-        <!--=============== SWIPER CSS ===============-->
-        <link rel="stylesheet" href="/asset/css/swiper-bundle.min.css">
-    
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="/asset/css/styles.css">
-    
- <!-- Informations principales -->
-<title>FastLifeTravelTour - Voyages, Activités et Séjours aux Caraïbes</title>
-<meta name="description" content="FastLifeTravelTour vous emmène découvrir les plus belles îles des Caraïbes : plages paradisiaques, activités nautiques, croisières et séjours sur mesure.">
-<meta name="keywords" content="voyage Caraïbes, tourisme, plages, croisières, Martinique, Guadeloupe, Saint-Martin, République dominicaine, activités nautiques, séjours tout inclus, FastLifeTravelTour">
+<html class="light" lang="en">
+<head>
+<title>FastLifeTravelTour | Voyages, Activités & Excursions aux Caraïbes et en France</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<meta name="description" content="Découvrez et réservez des activités, excursions, visites et expériences inoubliables aux Caraïbes et en France avec FastLifeTravelTour.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="FastLifeTravelTour">
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<meta name="theme-color" content="#0099ff">
+<link rel="canonical" href="https://fastlifetraveltour.com/">
 <meta name="language" content="fr">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="geo.region" content="GP">
-<meta name="geo.placename" content="Pointe-à-Pitre">
-<meta name="geo.position" content="16.2410;-61.5331">
-<meta name="ICBM" content="16.2410, -61.5331">
-
-<!-- Hreflang (international SEO) -->
-<link rel="alternate" href="https://fastlifetraveltour.com" hreflang="fr" />
-<link rel="alternate" href="https://fastlifetraveltour.com/en" hreflang="en" />
-
-<!-- Open Graph -->
-<meta property="og:title" content="FastLifeTravelTour - Voyages et Activités aux Caraïbes">
-<meta property="og:description" content="Vivez des expériences inoubliables aux Caraïbes : plages de rêve, croisières, activités nautiques et séjours sur mesure.">
+<meta name="theme-color" content="#0099ff">
+<link rel="alternate" hreflang="fr" href="https://fastlifetraveltour.com/">
+<link rel="alternate" hreflang="en" href="https://fastlifetraveltour.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://fastlifetraveltour.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FastLifeTravelTour">
+<meta property="og:title" content="FastLifeTravelTour | Voyages, Activités & Excursions">
+<meta property="og:description" content="Explorez les Caraïbes et la France à travers des activités, excursions et expériences soigneusement sélectionnées.">
+<meta property="og:url" content="https://fastlifetraveltour.com/">
 <meta property="og:image" content="https://fastlifetraveltour.com/asset/img/meta.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://fastlifetraveltour.com">
-<meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FastLifeTravelTour - Voyages et Activités aux Caraïbes">
-<meta name="twitter:description" content="Plages paradisiaques, croisières, séjours tout inclus aux Caraïbes.">
+<meta name="twitter:title" content="FastLifeTravelTour | Voyages, Activités & Excursions">
+<meta name="twitter:description" content="Découvrez des activités, excursions et expériences inoubliables aux Caraïbes et en France.">
 <meta name="twitter:image" content="https://fastlifetraveltour.com/asset/img/meta.jpg">
-
-<!-- Lien canonique -->
-<link rel="canonical" href="https://fastlifetraveltour.com">
-
-<!-- Données structurées JSON-LD - Agence de voyage -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
   "name": "FastLifeTravelTour",
-  "url": "https://fastlifetraveltour.com",
+  "url": "https://fastlifetraveltour.com/",
   "logo": "https://fastlifetraveltour.com/asset/img/favicon.png",
-  "description": "FastLifeTravelTour organise des voyages et activités sur mesure dans les plus belles îles des Caraïbes.",
+  "image": "https://fastlifetraveltour.com/asset/img/meta.jpg",
+  "description": "FastLifeTravelTour propose des voyages, activités, excursions et expériences aux Caraïbes et en France.",
   "telephone": "+33 6 84 99 40 49",
   "email": "Estelleeustachecle@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Adresse personnalisée",
-    "addressLocality": "Pointe-à-Pitre",
-    "postalCode": "97110",
-    "addressCountry": "GP"
-  },
-  "sameAs": [
-    "https://www.facebook.com/",
-    "https://www.instagram.com/",
-    "https://twitter.com/"
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Catalogue des activités et séjours aux Caraïbes",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "TouristAttraction",
-          "name": "Plage des Salines - Martinique",
-          "description": "Détente et baignade sur l'une des plus belles plages des Caraïbes.",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Sainte-Anne",
-            "addressCountry": "MQ"
-          }
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "TouristAttraction",
-          "name": "Excursion en catamaran en Guadeloupe",
-          "description": "Journée en mer avec snorkeling, repas local et découverte des îlets.",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Pointe-à-Pitre",
-            "addressCountry": "GP"
-          }
-        }
-      }
-    ]
-  }
-}
-</script>
-
-<!-- Données structurées JSON-LD - Site Web -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "https://fastlifetraveltour.com",
-  "name": "FastLifeTravelTour",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://fastlifetraveltour.com/recherche?query={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-
-<!-- Données structurées JSON-LD - Fil d'Ariane -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
+  "areaServed": [
     {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Accueil",
-      "item": "https://fastlifetraveltour.com"
+      "@type": "Place",
+      "name": "Caraïbes"
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Activités",
-      "item": "https://fastlifetraveltour.com/activities.html"
+      "@type": "Country",
+      "name": "France"
     }
   ]
 }
 </script>
-
-
-    </head>
-    
-    <body>
-        <header class="header" id="header">
-            <nav class="nav container">
-                <a href="#" class="nav__logo">FastLifeTravel</a>
-
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
-                        <li class="nav__item">
-                            <a href="#home" class="nav__link active-link">Accueil</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#about" class="nav__link">À propos</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#discover" class="nav__link">Découvrir</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#place" class="nav__link">Destinations</a>
-                        </li>
-                    </ul>
-                    
-
-                    <div class="nav__dark">
-                        <!-- Theme change button -->
-                        <span class="change-theme-name">Mode sombre</span>
-                        <i class="ri-moon-line change-theme" id="theme-button"></i>
-                        <a href="login.html" class="nav__login" id="loginBtn">
-                            <span class="change-theme-name">Connexion</span>
-                            <i class="ri-user-line change-theme"></i>
-                        </a>
-                    </div>
-                    
-                   
-                    
-                
-                    
-
-                    <i class="ri-close-line nav__close" id="nav-close"></i>
-                </div>
-
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class="ri-function-line"></i>
-                </div>
-            </nav>
-        </header>
-
-        <main class="main">
-            <!--==================== HOME ====================-->
-            <section class="home" id="home">
-            <!-- Video background instead of image -->
-            <video autoplay muted loop playsinline class="home__img">
-                <source src="/asset/video/cari1.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la vidéo HTML5.
-            </video>
-              <div class="home__container container grid">
-                  <div class="home__data">
-                      <span class="home__data-subtitle">Votre aventure commence ici</span>
-                      <h1 class="home__data-title">
-                        Des expériences inoubliables dans la Caraïbe
-                      </h1>
-                      <!-- <a href="#" class="button">Commencer le voyage</a> -->
-                    
-                      
-                  </div>
-                  <form id="homeSearchForm" class="home__search">
-                    <input 
-                      type="text" 
-                      id="homeSearchInput" 
-                      class="home__search-input" 
-                      placeholder="Rechercher une destination..." 
-                      required
-                    >
-                    <button type="submit" class="home__search-button">
-                      <i class="ri-search-line"></i>
-                    </button>
-                  </form>
-                  <div class="home__social">
-                      <a href="https://www.facebook.com/" target="_blank" class="home__social-link">
-                          <i class="ri-facebook-box-fill"></i>
-                      </a>
-                      <a href="https://www.instagram.com/" target="_blank" class="home__social-link">
-                          <i class="ri-instagram-fill"></i>
-                      </a>
-                    
-                  </div>
-          
-                  <div class="home__info">
-                    <div>
-                      <span class="home__info-title">Top 5 des lieux à visiter</span>
-                      <a href="dashboard.html?sortBy=mostBooked" class="button button--flex button--link home__info-button">
-                        Découvrir <i class="ri-arrow-right-line"></i>
-                      </a>
-                    </div>
-                  
-                    <div class="home__info-overlay">
-                      <img src="/asset/img/home2.jpg" alt="" class="home__info-img">
-                    </div>
-                  </div>
-                  
-              </div>
-          </section>
-   
-
-   <!--==================== ACTIVITIES ====================-->
-
- <section class="place section" id="place">
-    <h2 class="section__title">Choisissez Votre Activité</h2>
-  
-    <div class="place__container container grid">
-       <!--==================== ACTIVITÉ 4 ====================-->
-<div class="place__card" onclick="goToDashboard('Martinique Whitewater Boat Excursion')">
-    <img src="/asset/img/mart.png" alt="Martinique Whitewater Boat Excursion" class="place__img">
-    
-    <div class="place__content">
-        <span class="place__rating">
-            <i class="ri-star-line place__rating-icon"></i>
-            <span class="place__rating-number">4.8</span>
-        </span>
-
-        <div class="place__data">
-            <h3 class="place__title">Excursion bateau fonds blancs Martinique</h3>
-            <span class="place__subtitle"> Ilets du François et du Robert</span>
-            <span class="place__price">80€</span>
-        </div>
-    </div>
-
-    <button class="button button--flex place__button">
-        <i class="ri-arrow-right-line"></i>
-    </button>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "FastLifeTravelTour",
+  "url": "https://fastlifetraveltour.com/",
+  "description": "Voyages, activités, excursions et expériences aux Caraïbes et en France."
+}
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0f9f9a",
+                        "on-primary": "#ffffff",
+                        "surface": "#ffffff",
+                        "on-surface": "#1e293b",
+                        "surface-variant": "#f1f5f9",
+                        "on-surface-variant": "#64748b",
+                        "outline": "#cbd5e1",
+                        "outline-variant": "#e2e8f0"
+                    },
+                    "fontFamily": {
+                        "sans": ["Inter", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    "spacing": {
+                        "container": "1200px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .shadow-soft {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        .shadow-hover:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#FAFAFA] text-on-surface font-sans antialiased">
+<!-- HEADER -->
+<header class="bg-white fixed top-0 w-full z-50 py-4 px-6 md:px-12 flex justify-between items-center shadow-sm">
+<a class="font-display font-bold text-2xl text-primary tracking-tight" href="login.html"><img src="assets/img/logo.png" alt="Fast Life Travel" class="h-10 w-auto object-contain"></a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="index.html">home</a>
+<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="login.html">Ticket</a>
+<a class="text-on-surface hover:text-primary font-semibold text-sm transition-colors" href="login.html">Explore</a>
+<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="login.html">Activity</a>
+</nav>
+<div class="flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors hidden sm:block" href="login.html">Sign In</a>
+<button class="bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-[#0c8a85] transition-colors shadow-md">Sign Up</button>
+</div>
+</header>
+<main class="pt-24 pb-20 px-4 md:px-8">
+<div class="max-w-container mx-auto space-y-32">
+<!-- HERO SECTION -->
+<section class="relative">
+<div class="w-full h-[500px] rounded-3xl overflow-hidden relative">
+<img alt="Beautiful tropical beach" class="w-full h-full object-cover" src="/images/hero.jpg"/>
+<div class="absolute inset-0 bg-black/20"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white font-bold mb-4 tracking-tight max-w-3xl leading-tight">Explore the whole world and enjoy its beauty</h1>
+<p class="text-white/90 text-lg md:text-xl font-medium">Find and book your experiences around the world.</p>
+</div>
 </div>
 
-
-        <!--==================== ACTIVITÉ 1 ====================-->
-        <div class="place__card" onclick="goToDashboard('Jetski Caraïbes')">
-            <img src="/asset/img/jetski.png" alt="Vivez une montée d’adrénaline sur les eaux turquoise des Caraïbes !
-            " class="place__img">
-            
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.9</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">Jetski</h3>
-                    <span class="place__subtitle">Caraïbes</span>
-                    <span class="place__price">120€</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-
-        <!--==================== ACTIVITÉ 2 ====================-->
-        <div class="place__card" onclick="goToDashboard(' Randonnée en Quad')">
-            <img src="/asset/img/quad.png" alt=" Randonnée en Quad" class="place__img">
-            
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">5.0</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title"> Randonnée en Quad</h3>
-                    <span class="place__subtitle"> martiniquaise</span>
-                    <span class="place__price">45€</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-
-        <!--==================== ACTIVITÉ 3 ====================-->
-        <div class="place__card" onclick="goToDashboard('Kite Surf Martinique')">
-            <img src="/asset/img/place5.png" alt="Kite Surf Martinique" class="place__img">
-            
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.8</span>
-                </span>
-        
-                <div class="place__data">
-                    <h3 class="place__title">Kite Surf</h3>
-                    <span class="place__subtitle">Martinique</span>
-                    <span class="place__price">75€</span>
-                </div>
-            </div>
-        
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-        
-        <!--==================== ACTIVITÉ 4 ====================-->
-        <div class="place__card" onclick="goToDashboard('Catamaran Caraïbes Mer des Caraïbes')">
-            <img src="/asset/img/place4.png" alt="Caraïbes / Mer des Caraïbes" class="place__img">
-            
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.7</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">Catamaran</h3>
-                    <span class="place__subtitle">Caraïbes Mer des Caraïbes</span>
-                    <span class="place__price">60€ - Randonnée Guidée</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-
-        <!--==================== ACTIVITÉ 5 ====================-->
-        <div class="place__card" onclick="goToDashboard(' La savane des esclaves ,Martinique')">
-            <img src="/asset/img/slave.png" alt="La savane des esclaves Martinique" class="place__img">
-            
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.9</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">La savane des esclaves</h3>
-                    <span class="place__subtitle">Martinique</span>
-                    <span class="place__price">55€</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-    </div>
+</div>
 </section>
-
-
-
-
-<!--==================== activiy ====================-->
-
-
-
-            <!--==================== ABOUT ====================-->
-            <section class="about section" id="about">
-                <div class="about__container container grid">
-                  <div class="about__data">
-                    <h2 class="section__title about__title">
-                      
-                      Découvrez la Caraibe avec <br> Fast Life Travel
-                    </h2>
-                    <p class="about__description">
-                        
-                        Plongez au cœur de la Caraïbe et explorez ses trésors culturels et ses écosystèmes fascinants !
-                    </p>
-                    <p class="about__description">
-                        
-                        Fast Life Travel vous propose de vivre des moments inoubliables lors de votre voyage à travers des activités de loisirs uniques et des expériences culturelles authentiques pour découvrir la diversité et la richesse des îles de la Caraïbe
-                    </p>
-                    <!-- <a href="#" class="button me-2">Explorer les activités</a> -->
-                    <a href="#" class="button">Réserver maintenant</a>
-                  </div>
-                  
-
-                    <div class="about__img">
-                        <div class="about__img-overlay">
-                            <img src="/asset/img/about1.jpg" alt="" class="about__img-one">
+<!-- POPULAR PLACE -->
+<section class="pt-20">
+<div class="flex flex-col md:flex-row justify-between items-end mb-10">
+<div>
+<h2 class="font-display text-3xl font-bold text-on-surface mb-2">Popular Place</h2>
+<p class="text-on-surface-variant text-sm">Let's enjoy this heaven on earth</p>
+</div>
+<p class="text-on-surface-variant text-sm max-w-md md:text-right mt-4 md:mt-0">Many places are very famous, beautiful, clean, and will give a very deep impression to visitors and will make them come back.</p>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-square rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Mindanao" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAcR-DNjFaLRncpXw7jsd_dFu0BDp2G0zZ6dLZfMpQKIuhPU-QsgK6SsWjGCB6qPr6D279GqMRSzcr5xDayfnjhuShJ250GhlXYB5D_aHVwNXG7hT3Y0HowGv2qDzdsBvrg89gF3JTuaH3iZM8Zppdrf2I21g3-rxzn03AibIWA0C_ff_fmx8ZFR97XH3TooHJ7CY8ExZ0IOFPdjX85PsSFGOHfUuFrqimQ2ePGL5m_ezm4-kViNCj"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">20% OFF</div>
+</div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">SC. Mindanao</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Mindanao, Philippines
                         </div>
-
-                        <div class="about__img-overlay">
-                            <img src="/asset/img/about2.jpg" alt="" class="about__img-two">
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-square rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Disney" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuEs-wHKQ9DXkWg1-pTT5fqwuX05xYOvoHeY1gsaBD7j3kMzIIyb-jqspppO38ldNAtXD6o2miD8l0KiRn8tcIgsWMyNEtxg6ReDN7Dqlc5Ee00ZCz90RyXZXmASbKMn3orSIOmTaZZWP2orh-gbd6LD7jXtj-dlrd0bABVGauZEl-Mg2sLRPMRBBo6lm_XhvULQ5ZwvHm-lQP0Zu0_HqfXD8E8J3hsph9gn3oiws6S0m-lOGHi4rJ"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">20% OFF</div>
+</div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Disneyland Tokyo</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Tokyo, Japan
                         </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!--==================== DISCOVER ====================-->
-          <!--==================== DISCOVER ====================-->
-          <section class="discover section" id="discover">
-            <h2 class="section__title">Catégories d’activités</h2>
-            
-            <div class="discover__container container swiper-container">
-              <div class="swiper-wrapper">
-          
-                <!--==================== SPORT ====================-->
-                <div class="discover__card swiper-slide">
-                  <img src="/asset/img/place2.png" alt="" class="discover__img">
-                  <div class="discover__data">
-                    <h2 class="discover__title">Sport</h2>
-                    <span class="discover__description">
-                      Adrénaline et sensations fortes<br>
-                      <small>Faites le plein de sensations avec des activités sportives en pleines nature : quad, initiation à la yole</small>
-                    </span>
-                  </div>
-                </div>
-          
-                <!--==================== CULTURE ====================-->
-                <div class="discover__card swiper-slide">
-                  <img src="/asset/img/culture.png" alt="" class="discover__img">
-                  <div class="discover__data">
-                    <h2 class="discover__title">Culture</h2>
-                    <span class="discover__description">
-                      Traditions et histoire<br>
-                      <small>Partez à la découverte des richesses et des trésors culturelles de la Caraïbe : balade riche d'histoire, street art, musées..</small>
-                    </span>
-                  </div>
-                </div>
-          
-                <!--==================== GASTRONOMIE ====================-->
-                <div class="discover__card swiper-slide">
-                  <img src="/asset/img/gast.png" alt="" class="discover__img">
-                  <div class="discover__data">
-                    <h2 class="discover__title">Gastronomie</h2>
-                    <span class="discover__description">
-                      Savourez chaque destination<br>
-                      <small>Découvrez et dégustez les saveurs et les spécialités locales : ateliers culinaires, visites des marchés, pêche,
-                      </small>
-                    </span>
-                  </div>
-                </div>
-          
-                <!--==================== ESCAPADE ====================-->
-                <div class="discover__card swiper-slide">
-                  <img src="/asset/img/nature.png" alt="" class="discover__img">
-                  <div class="discover__data">
-                    <h2 class="discover__title">Nature</h2>
-                    <span class="discover__description">
-                      Aventures de dernière minute<br>
-                      <small> Évadez vous au plus près de la nature : cascade, immersion dans la mangrove, spa naturel</small>
-                    </span>
-                  </div>
-                </div>
-          
-              </div>
-            </div>
-          </section>
-
-          <!--==================== DESTINATIONS ====================-->
-<section class="place section" id="destinations">
-    <h2 class="section__title">Choisissez votre destination</h2>
-
-    <div class="place__container container grid destination">
-        <!--==================== DESTINATION 1 ====================-->
-
-        
-          <div class="place__card" onclick="goToDashboard('Martinique')">
-            <img src="/asset/img/m1.jpg" alt="Martinique" class="place__img">
-
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.8</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">Martinique</h3>
-                    <span class="place__subtitle">Culture créole et nature sauvage</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-  <!--==================== DESTINATION 2 ====================-->
-        <div class="place__card" onclick="goToDashboard('Sainte-Lucie')">
-            <img src="/asset/img/sl.jpg" alt="Sainte-Lucie" class="place__img">
-
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">4.9</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">Sainte-Lucie</h3>
-                    <span class="place__subtitle">Île volcanique et plages paradisiaques</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-
-        <!--==================== DESTINATION 3 ====================-->
-        <div class="place__card" onclick="goToDashboard('Guadeloupe')">
-            <img src="/asset/img/g.png" alt="Guadeloupe" class="place__img">
-
-            <div class="place__content">
-                <span class="place__rating">
-                    <i class="ri-star-line place__rating-icon"></i>
-                    <span class="place__rating-number">5.0</span>
-                </span>
-
-                <div class="place__data">
-                    <h3 class="place__title">Guadeloupe</h3>
-                    <span class="place__subtitle">Île aux belles cascades et forêts</span>
-                </div>
-            </div>
-
-            <button class="button button--flex place__button">
-                <i class="ri-arrow-right-line"></i>
-            </button>
-        </div>
-
-       
-
-       
-
-     
-    </div>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-square rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Thousand Island" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK8m0OeK5w6Qsfl57Suv-HblQdW08VxkCTSUVCA9UBPpYIXeKMHzxUO9PdBBqTP9pfBu1Nfi3xHQY_wlazNwtYPmBuOCUakqdz1WScpipTOSMmdTK4UWvgToJJInQQG_ELUSLh68NXFQfYW7SCVf7BaYRi2ciW8eDsSRR99N6yk4za6gPgl3CUEvXqHo0JusoK6OJ-2bGIKfUVFjTQdMsrcxEHeHsqchMshn8kdPZh-i4bFhWf4_jN"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">20% OFF</div>
+</div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Thousand Island</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Java, Indonesia
+                        </div>
+</div>
+<!-- Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-square rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Venice" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRSg6qL0A1M4pF8-itP7xXJ1CjE6S45rSzQpXaKkRwii6hCZ2wk9PwwOC66yGT6-QsVw7sEXA_s5WpV4jOc9R31kHko1IFxr9spinGHiDFWumiBgOGLOnDVNdoHn-2836aQ1TTUOuoocu6FqgfgkLkwkGMC48fva-fEFihOnnBYUarsiwxaR6J-j4hLLoxHLVGGjsLd55zmwKx9aWWomkkM0ksGWJ7kgq3mkdBsMKjoSDAM4Sgx9Dr"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">20% OFF</div>
+</div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Basilika Santo</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Venice, Italy
+                        </div>
+</div>
+</div>
 </section>
-
-            <!--==================== EXPERIENCE ====================-->
-          <!--==================== EXPÉRIENCE ====================-->
-<!-- <section class="experience section">
-  <h2 class="section__title">Avec notre expertise,<br> nous guidons vos aventures
-</h2>
-
-  <div class="experience__container container grid">
-      <div class="experience__content grid">
-          <div class="experience__data">
-              <h2 class="experience__number">20</h2>
-              <span class="experience__description">Années <br> d’expérience</span>
-          </div>
-
-          <div class="experience__data">
-              <h2 class="experience__number">75</h2>
-              <span class="experience__description">Circuits <br> personnalisés</span>
-          </div>
-
-          <div class="experience__data">
-              <h2 class="experience__number">650+</h2>
-              <span class="experience__description">Destinations <br> accompagnées</span>
-          </div>
-      </div>
-
-      <div class="experience__img grid">
-          <div class="experience__overlay">
-              <img src="/asset/img/experience1.jpg" alt="" class="experience__img-one">
-          </div>
-
-          <div class="experience__overlay">
-              <img src="/asset/img/experience2.jpg" alt="" class="experience__img-two">
-          </div>
-      </div>
-  </div>
-</section> -->
-
-            <!--==================== VIDEO ====================-->
-            <!-- <section class="video section">
-              <h2 class="section__title">Visite Vidéo</h2>
-          
-              <div class="video__container container">
-                  <p class="video__description">
-                    Découvrez nos services de guide touristique à travers une vidéo immersive. Explorez les plus beaux lieux accompagnés de nos experts locaux.
-
-                  </p>
-          
-                  <div class="video__content">
-                      <video id="video-file">
-                          <source src="/asset/video/video.mp4" type="video/mp4">
-                      </video>
-          
-                      <button class="button button--flex video__button" id="video-button">
-                          <i class="ri-play-line video__button-icon" id="video-icon"></i>
-                      </button>
-                  </div>
-              </div>
-          </section> -->
-          
-        
-          
-            <!--==================== S'ABONNER ====================-->
-<section class="subscribe section">
-    <div class="subscribe__bg">
-        <div class="subscribe__container container">
-            <h2 class="section__title subscribe__title">Abonnez-vous à <br> notre Newsletter</h2>
-            <p class="subscribe__description">Inscrivez-vous à notre newsletter et profitez 
-                d’une remise spéciale de 30%.
-            </p>
-            
-            <form action="https://formspree.io/f/mjkodale" method="post" class="subscribe__form">
-                <input type="text" placeholder="Entrez votre email" class="subscribe__input" name="Email client">
-    
-                <button class="button">
-                    S'abonner
-                </button>
-            </form>
-        </div>
-    </div>
+<!-- EDITORIAL / MEMORIES -->
+<section class="py-10">
+<div class="text-center mb-16">
+<h2 class="font-display text-3xl font-bold text-on-surface mb-3">Travel to make sweet memories</h2>
+<p class="text-on-surface-variant text-sm">Find trips that fit a flexible lifestyle</p>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+<div class="w-full md:w-1/2 space-y-10">
+<div>
+<div class="bg-primary text-white text-xs font-bold w-8 h-6 rounded flex items-center justify-center mb-4">01</div>
+<h3 class="font-display text-xl font-bold text-on-surface mb-2">Find trips that fit your freedom</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Travelling offers freedom and flexibility, solitude and spontaneity, and privacy and purpose.</p>
+</div>
+<div>
+<div class="bg-primary text-white text-xs font-bold w-8 h-6 rounded flex items-center justify-center mb-4">02</div>
+<h3 class="font-display text-xl font-bold text-on-surface mb-2">Get back to nature by travel</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">The world is a playground and you can finally explore Mother Nature's inimitable canvas.</p>
+</div>
+<div>
+<div class="bg-primary text-white text-xs font-bold w-8 h-6 rounded flex items-center justify-center mb-4">03</div>
+<h3 class="font-display text-xl font-bold text-on-surface mb-2">Reignite those travel tastebuds</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">There are infinite reasons to love travel, one of them being the food, glorious food.</p>
+</div>
+<button class="bg-primary text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-[#0c8a85] transition-colors mt-4">Start your explore</button>
+</div>
+<div class="w-full md:w-1/2 relative">
+<img alt="Mountain Landscape" class="w-full rounded-[40px] shadow-soft object-cover h-[600px]" src="/images/moun.jpg"/>
+<!-- Floating Review 1 -->
+<div class="absolute top-20 -left-10 bg-white rounded-xl shadow-lg p-3 flex items-center gap-3 hidden lg:flex">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMAfnKIqxHyKrmbkGXABmOdryyOGtYngaG5QRq5VpDNHK_M-CWKehRZkhTQwerI1Qz8kXn1tuQG02AVoYdER_a_UNhsY0ItBT898zwa4SivZCZ7yZPV6nMYpkX9AF57f_A5-uylxoD9wYiYBBoblAVJC0Ou7c9iz4nw1jcEo6aa0Goivuem3h6R3M-XJ-jLPxX6Wgn4D55sm7t5lFt-uS4buPf1eYiWu_UNzD-TzRa2_y2aX_6yB1V"/>
+<div>
+<p class="text-xs font-bold text-on-surface">Kamelia Diana</p>
+<div class="flex items-center text-[10px] text-amber-400 font-bold">
+<span class="material-symbols-outlined text-[12px] fill-current">star</span> 4.9
+                                </div>
+</div>
+</div>
+<!-- Floating Review 2 -->
+<div class="absolute bottom-40 -left-6 bg-white rounded-xl shadow-lg p-3 flex items-center gap-3 hidden lg:flex">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Md2hrp2epnqbaRsFIw_cI9FvBG0oDZ4RO_-dyh_CNv8R8NCg5-kt-bqKmiFFAuY6ZiHlyn0Gskl1eb1omJ5qCtbczVuzIfZ0GBYToibTEUjONyVZN9ROG3ozZDcfWsjGPfm2HxMxs2fZ-kj5_A8zDXjB5FEUxg4M80edt0WC4CMvLV6SV7UpsNlkYiyzB6NEgkRlveEhwyoB9sfnpmZqI3bo4N7gDI42dbjB5reb5mwKSlkRII4H"/>
+<div>
+<p class="text-xs font-bold text-on-surface">Joe Zefrano</p>
+<div class="flex items-center text-[10px] text-amber-400 font-bold">
+<span class="material-symbols-outlined text-[12px] fill-current">star</span> 4.9
+                                </div>
+</div>
+</div>
+<!-- Floating Review 3 -->
+<div class="absolute top-1/2 -right-8 bg-white rounded-xl shadow-lg p-3 flex items-center gap-3 hidden lg:flex">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzWnjXRqunER-uuiG7kBuylOlxh3Tome09SGd1Jm7PXmsJoOjSvvbjVB6v9HKSXGB5o319gC3SJCutOqvwDGpy8kTcLAvj7NAQ7b0A5hQdApnpLzP4hKLM6yrsRLlNNyMToJTEn_0yVvmXJdFtM6Z0m10mvMV5WzYcZ1_XzbThV6Xm7bgi6zgTwSYxOqj315X_LQGiSEUWzG0E7kFxzfIkoPIRAXINjo-bpqDHspVdfecAZ1Ivt234"/>
+<div>
+<p class="text-xs font-bold text-on-surface">Haikal Adam</p>
+<div class="flex items-center text-[10px] text-amber-400 font-bold">
+<span class="material-symbols-outlined text-[12px] fill-current">star</span> 4.9
+                                </div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-            <!--==================== SPONSORS ====================-->
-            <section class="sponsor section">
-                <div class="sponsor__container container grid">
-                    <div class="sponsor__content">
-                        <img src="/asset/img/sponsors1.png" alt="" class="sponsor__img">
-                    </div>
-                    <!-- <div class="sponsor__content">
-                        <img src="/asset/img/sponsors2.png" alt="" class="sponsor__img">
-                    </div> -->
-                    <div class="sponsor__content">
-                        <img src="/asset/img/sponsors3.png" alt="" class="sponsor__img">
-                    </div>
-                    <div class="sponsor__content">
-                        <img src="/asset/img/sponsors4.png" alt="" class="sponsor__img">
-                    </div>
-                    <div class="sponsor__content">
-                        <img src="/asset/img/sponsors5.png" alt="" class="sponsor__img">
-                    </div>
-                </div>
-            </section>
-        </main>
-
-    <!--==================== PIED DE PAGE ====================-->
-<footer class="footer section">
-    <div class="footer__container container grid">
-        <div class="footer__content grid">
-            <div class="footer__data">
-                <!-- <h3 class="footer__title">FastLifeTravel</h3> -->
-                <img src="/assets/img/logo.png" alt="" style="width: 70px;">
-                <p class="footer__description">FastLifeTravel, vous choisissez la <br> destination, 
-                    nous vous offrons <br> l’expérience.
+<!-- EXPLORE MORE (6 Cards) -->
+<section>
+<div class="flex flex-col md:flex-row justify-between items-end mb-8">
+<div>
+<h2 class="font-display text-3xl font-bold text-on-surface mb-2">Explore more</h2>
+<p class="text-on-surface-variant text-sm">Let's go on an adventure</p>
+</div>
+<p class="text-on-surface-variant text-xs max-w-sm md:text-right mt-4 md:mt-0">All-inclusive vacations and flights to the Caribbean, Indonesian, and more than 1,300 destinations worldwide. Let's explore now.</p>
+</div>
+<!-- Filters -->
+<div class="flex items-center justify-between mb-8 overflow-x-auto hide-scrollbar">
+<div class="flex gap-2 min-w-max">
+<button class="bg-[#1e293b] text-white px-5 py-2 rounded-full text-xs font-medium">Popular destination</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Islands</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Surfing</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Nation parks</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Lake</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Beach</button>
+<button class="bg-white border border-outline-variant text-on-surface px-5 py-2 rounded-full text-xs font-medium hover:bg-surface-variant transition-colors">Camp</button>
+</div>
+<button class="bg-white border border-outline-variant text-on-surface px-4 py-2 rounded-full text-xs font-medium flex items-center ml-4 shrink-0">
+                        Filters <span class="material-symbols-outlined ml-1 text-[16px]">tune</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Amalfi Coast" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE481pa7hUf3OG1KEHfBCZnniD6woYCKLgYzE_t3Ro5VKaSiavy8ZjN-mZeDvsL72CdTbCWiALmo3QFI0WNhNlPxyeVWaB-DokfwyLEiZewZ2t1GzhB9dZc0zJSQjtUEFz0-iQXx9FAPQO12Hxi5hd-Nt9tTjo_46LfcY6nharlzR_HFdOR_tNZJPr4pFPXHntBqmsQPDDA3HjZVamGcp4KiNsDdfZVojQkmMYPKKzenPw3PDZW-kc"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Amalfi Coast</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Amalfi, Italy
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$148<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Taj Mahal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Ye3a_NJzp0j_EbJsTjwTrCSeNQ0ZvbJTXYmYw0AcwD_pIzchDoF1LKCo5Y5h3mDH0DMU4bBF2MH63bM4FJkMPS785aQMvJqJzbTVIF9SIoU7lvjSRlIzPEMZGm0j6ViZzLPV8DUAN9AdHhNslXSs94G37pgv7AXysmwJ5iBhfv45Z9JnqLMd81vG3XQFRlJv1dVxm4uyJE9XxTnX2wpiPEwEaPsOvE4zDDmLJNy_VDDm6bihMa8q"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Taj Mahal</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Agra, India
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$140<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Tanah Gajah" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-3t_3hrQOzoCRRLFUzYfUSBIY6uzsMJM16pvJ4advYCLpEBi4Ww7Lr0hJSSASFVGRa2HBWfmkEKcbEyNPKXQoZe9spEAzgfRUtsMdr6fguPVB8QIbH53Kt8hs4DweVUqQ63CWXuaGci7VFNp0-0_obU7NGpNySaxV4Ib9FPCuYO9TjdtbBhR9iI-G1bf0FHrT8NusqtUIEbwD60v2uokY1VGTZF8-I2aIoCL5x4C0-WyEUG5G-bJQ"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Tanah Gajah</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Bali, Indonesia
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$148<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Osaka Castle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfBrq4Xx6DfEFeQpW0ma5xms6orKJbLab-owyQJqbElGEJku09K-YSBtnfQZENWiVHXL5vG4cSiMxMxnwXXWVfJhkM-n1oKlJ91aV8RHa1tV9_LCTazOop13HStzKGNa6iW7OQIDI6OpXY796s-5QHRdJtZWOCyFHf4VImo5G6rv1d1-z9xXI7iI_8i2NAIhMhtQlQRNWyMGBscum4GFn1gztcHZkpDTh_BJJYQpoI_AfFo1JVPdr1"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Osaka Castle</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Osaka, Japan
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$156<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Cape Reinga" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYNe4IYgNUCyBmh04jmSkndfS5VkJcrGkeIyDyuOIy_lqRKLnjsjVtm9hy_j-oMyLG7T3QxiwnSB5EO8xJLS38AwXOl__e1UDv0XJwTgtsuzl0bUWXX30sGVnZDmIR52KW0s22cunYoF073jx9CWbtMkuPuBUHtfOKlU4e4M9u4GgxWgKYMo8XfwUmD1Gz6c-u5t47SQlnBZeRo6KRUBt2sL-MwVqkraEEyf8QgbWYvPvnQIYTxGI-"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Cape Reinga</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Northland, New Zealand
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$164<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group cursor-pointer">
+<div class="relative h-48 rounded-3xl overflow-hidden mb-4 shadow-soft">
+<img alt="Sorrento" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbKji8KDCtygV4hzZnPxKH99neC8pFQIO945IwI0PwgWLHMuAPNAA6rGRLjUhykmQymU6IA55mgkRA2NA1v6j2yU7-yaVd0C3upKo1RwAlsDWqR6rkduIb0LlQKNbsO8YT6mXR6oaxDfSaNZLNhpIbwhgXsamwaCXdsrbPdtH6szsL6X5-eWp_y3mPED8gDPeQbY4cNZ6J815bj4WhEiTj1VBZncxxwGNzAlFw-LQiRmdzOWTjHsjv"/>
+<div class="absolute top-3 right-3 bg-white text-on-surface text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined text-amber-400 text-[12px] fill-current mr-1">star</span> 4.9
+                            </div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">Sorrento, Italy</h3>
+<div class="flex items-center text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-[14px] mr-1">location_on</span> Amalfi, Italy
+                                </div>
+</div>
+<div class="text-right">
+<p class="font-bold text-base text-on-surface">$172<span class="text-xs font-normal text-on-surface-variant">/Pax</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center mt-10">
+<button class="bg-white border border-outline-variant text-on-surface px-6 py-2 rounded-full text-sm font-medium hover:bg-surface-variant transition-colors shadow-sm">Show more</button>
+</div>
+</section>
+<!-- LET'S GO ON ADVENTURE (Small cards strip) -->
+<section class="py-10">
+<div class="text-center mb-12">
+<h2 class="font-display text-3xl font-bold text-on-surface mb-2">Let's go on an adventure</h2>
+<p class="text-on-surface-variant text-sm">Find and book a great experience.</p>
+</div>
+<div class="flex justify-center gap-6 overflow-x-auto hide-scrollbar pb-8">
+<!-- Icon Card 1 -->
+<div class="flex flex-col items-center gap-4 shrink-0 cursor-pointer group">
+<div class="relative w-32 h-32 rounded-3xl overflow-hidden border border-outline-variant/30 shadow-soft group-hover:-translate-y-2 transition-transform">
+<div class="absolute top-2 left-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10 text-white">
+<span class="material-symbols-outlined text-[14px]">flight</span>
+</div>
+<img alt="Paris" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy-pepXlrQdPCXNtceHAW89R5MRHfC4P97t41lbEPzPzPxO778XVWUCkAYcqOtfbmjd9Ft7pdWnm5ItZiDj--h0DXHxH0XqtIV1TGIn5FvQHQA6IKk48p0az2P5twsyMYtMiNThcMNCI_NF_44X0u9Rpzd8fKpZGnDtZWxlWfWvMnqeSsRWlVR-gH_D9nwPs4eo_st8Ga2baCwQHuxSJv81VObVYExHNW5oNevVvx-0yGkuhIiyqbo"/>
+</div>
+<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase group-hover:text-primary transition-colors">Paris</span>
+</div>
+<!-- Icon Card 2 -->
+<div class="flex flex-col items-center gap-4 shrink-0 cursor-pointer group">
+<div class="relative w-32 h-32 rounded-3xl overflow-hidden border border-outline-variant/30 shadow-soft group-hover:-translate-y-2 transition-transform">
+<div class="absolute top-2 left-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10 text-white">
+<span class="material-symbols-outlined text-[14px]">flight</span>
+</div>
+<img alt="New York" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQIKpXTI9W71RxrYLCaoezyFBivbWDNMKDZTS3fq7U_dqiDJoql5D5Il4Rbw-uOrj7XpTB-ClqsCbLW9QDMllhgml8oxUAVANE9MhdYVPBygVVkl-80FdWIEtemXyqkVNQchRG5mTCkFyhX0yTAPUwx_Li7zfId59UMawwbfXLftwCmziJ5zsaymjL7jP5sYguouOermRcP8vWzHQyoUpLX_sBsJ0wlfxyybh8Jhre4NSWhw0dzLfh"/>
+</div>
+<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase group-hover:text-primary transition-colors">New York</span>
+</div>
+<!-- Icon Card 3 -->
+<div class="flex flex-col items-center gap-4 shrink-0 cursor-pointer group">
+<div class="relative w-32 h-32 rounded-3xl overflow-hidden border border-outline-variant/30 shadow-soft group-hover:-translate-y-2 transition-transform">
+<div class="absolute top-2 left-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10 text-white">
+<span class="material-symbols-outlined text-[14px]">flight</span>
+</div>
+<img alt="Seoul" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdX6P5QxmFqsaW-z0VemMsP2_EnZZ0HHYlmbL8X1_QchZcPf12oSvBAOiv4iGr2c0aNluyCcwVZlAvKQxkUOPEkxhBGpQelmAE9CPsMgRp43tY8SxSH8badhqYvAfkDLO2pFapHXCQSfXHGBTnk4RsJyllP3LxK3EgXulqCpDHFypjFUkXGqD9z4KEnT7dKXif6T2MgzJAzpQLnuHbikkKjlOnEW7YqtZQH41wGYi8YWHOf-keDNbC"/>
+</div>
+<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase group-hover:text-primary transition-colors">Seoul</span>
+</div>
+<!-- Icon Card 4 -->
+<div class="flex flex-col items-center gap-4 shrink-0 cursor-pointer group">
+<div class="relative w-32 h-32 rounded-3xl overflow-hidden border border-outline-variant/30 shadow-soft group-hover:-translate-y-2 transition-transform">
+<div class="absolute top-2 left-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10 text-white">
+<span class="material-symbols-outlined text-[14px]">flight</span>
+</div>
+<img alt="Bali" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQMJN_y4S344RuOzOKcyTvIYrkZ0PsutPWF6B4jRt7w8njted2BeZ7DW1qeDyRAQ1NNzEZYWQWVeUDOOO013WGRdnnS9aUsThtdFTEnoKcJ6f46kK-SNEBRVRYnHQWASWBcCw5AFgWldni9yyoSJSXB2AVUGRwzAc1ZMkRgIYXpE0qL1dNlHBmxxBvsBJ3i7013y7M2pnuiUblUtZca4ktrENqqIXVFtk0nSmNNRJytG2EfkH5K-rZ"/>
+</div>
+<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase group-hover:text-primary transition-colors">Bali</span>
+</div>
+</div>
+<div class="flex justify-center gap-2 mt-4">
+<button class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-on-surface-variant hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-on-surface-variant hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- BOOK TICKETS PROMO -->
+<section class="pb-10">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-display text-3xl font-bold text-on-surface">Book tickets and go now!</h2>
+<button class="bg-primary text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-[#0c8a85] transition-colors shadow-md">Book now</button>
+</div>
+<div class="relative h-[400px] md:h-[500px] rounded-[2.5rem] overflow-hidden group">
+<img alt="Kayaking in clear water" class="w-full h-full object-cover" src="/images/view-architecture-isle-white-landmark.jpg"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined text-3xl fill-current">play_arrow</span>
+</button>
+<!-- Custom slider dots -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-8 h-1.5 bg-white rounded-full"></div>
+<div class="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
+<div class="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
+<div class="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="bg-white pt-20 pb-10 border-t border-outline-variant">
+<div class="max-w-container mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
+<!-- Brand -->
+<div class="lg:col-span-2">
+<a class="font-display font-bold text-2xl text-primary tracking-tight block mb-4" href="login.html"><img src="assets/img/logo.png" alt="Fast Life Travel" class="h-10 w-auto object-contain"></a>
+<p class="text-on-surface-variant text-xs leading-relaxed max-w-xs mb-6">
+                    30 Great Peter St, Westminster,<br/>London SW1P 2BU, United Kingdom
                 </p>
-                <div>
-                    <a href="https://www.facebook.com/" target="_blank" class="footer__social">
-                        <i class="ri-facebook-box-fill"></i>
-                    </a>
-                    <a href="https://twitter.com/" target="_blank" class="footer__social">
-                        <i class="ri-twitter-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank" class="footer__social">
-                        <i class="ri-instagram-fill"></i>
-                    </a>
-                    <a href="https://www.youtube.com/" target="_blank" class="footer__social">
-                        <i class="ri-youtube-fill"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer__data">
-                <h3 class="footer__subtitle">À propos</h3>
-                <ul>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">À propos de nous</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Fonctionnalités</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Nouveautés & Blog</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="footer__data">
-                <h3 class="footer__subtitle">Entreprise</h3>
-                <ul>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Équipe</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Plans et Tarifs</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Devenir membre</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="footer__data">
-                <h3 class="footer__subtitle">Support</h3>
-                <ul>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">FAQs</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Centre d’aide</a>
-                    </li>
-                    <li class="footer__item">
-                        <a href="" class="footer__link">Contactez-nous</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer__rights">
-            <p class="footer__copy">&#169; 2025 FastLifeTravel. Tous droits réservés.</p>
-            <div class="footer__terms">
-                <a href="#" class="footer__terms-link">Conditions générales</a>
-                <a href="#" class="footer__terms-link">Politique de confidentialité</a>
-            </div>
-        </div>
-    </div>
+<div class="flex gap-3 text-primary">
+<a class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-colors" href="login.html">
+<span class="material-symbols-outlined text-[16px] fill-current">facebook</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-colors" href="login.html">
+<span class="material-symbols-outlined text-[16px] fill-current">camera_alt</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-colors" href="login.html">
+<span class="material-symbols-outlined text-[16px] fill-current">play_arrow</span>
+</a>
+</div>
+</div>
+<!-- Links -->
+<div>
+<h4 class="font-bold text-sm text-on-surface mb-6">About</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">About us</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Features</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">News</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Plans</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm text-on-surface mb-6">Company</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Why Fast Life</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Partner with us</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">FAQ</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">blog.html</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm text-on-surface mb-6">Support</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Account</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Support center</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Feedback</a></li>
+<li><a class="text-on-surface-variant text-xs hover:text-primary transition-colors" href="login.html">Contact us</a></li>
+</ul>
+</div>
+<!-- Newsletter -->
+<div class="lg:col-span-1">
+<h4 class="font-bold text-sm text-on-surface mb-6">Newsletter</h4>
+<p class="text-on-surface-variant text-xs mb-4 leading-relaxed">Subscribe our newsletter and get exciting offers</p>
+<div class="relative">
+<input class="w-full bg-surface-variant border-none rounded-xl py-3 px-4 text-xs focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/70" placeholder="Enter your email address" type="email"/>
+<button class="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-[#0c8a85] transition-colors">
+<span class="material-symbols-outlined text-[14px]">send</span>
+</button>
+</div>
+</div>
+</div>
 </footer>
-
-         <!--========== SCROLL UP ==========-->
-        <a href="#" class="scrollup" id="scroll-up">
-            <i class="ri-arrow-up-line scrollup__icon"></i>
-        </a>
-
-        <!--=============== SCROLL REVEAL===============-->
-        <script src="/asset/js/scrollreveal.min.js"></script>
-        
-        <!--=============== SWIPER JS ===============-->
-        <script src="/asset/js/swiper-bundle.min.js"></script>
-
-        <!--=============== MAIN JS ===============-->
-        <script src="/asset/js/main.js"></script>
-        <script src="/asset/js/main.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-              const video = document.querySelector('.home__img');
-              if (video) {
-                video.load(); // Ensures browser loads only when DOM is ready
-              }
-            });
-            </script>
-            <script>
-                document.getElementById("homeSearchForm").addEventListener("submit", function(e) {
-                  e.preventDefault();
-                  const query = document.getElementById("homeSearchInput").value.trim();
-                  if (query) {
-                    // Redirect with search term in query string
-                    window.location.href = `dashboard.html?search=${encodeURIComponent(query)}`;
-                  }
-                });
-                </script>
-                <!-- Script to handle navigation -->
-<script>
-    function goToDashboard(destination) {
-        // Navigate to dashboard and pass the destination as a query parameter
-        window.location.href = "/dashboard.html?destination=" + encodeURIComponent(destination);
-    }
-    </script>
-    <script>
-        function goToDashboard(activity) {
-            window.location.href = "dashboard.html?activity=" + encodeURIComponent(activity);
-        }
-      </script>
-            
-    </body>
+</body>
 </html>

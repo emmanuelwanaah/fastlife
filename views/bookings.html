@@ -273,7 +273,7 @@
 
   
     </div>
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', async () => {
           const container = document.getElementById('wishlist-activities');
       
@@ -316,7 +316,7 @@
             container.innerHTML = '<p class="text-red-600">An error occurred.</p>';
           }
         });
-      </script>
+      </script> -->
 
 
 
@@ -324,198 +324,9 @@
       <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
       
-      <!-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('date-range');
-            const nightsDisplay = document.getElementById('nights-display');
-            const dateDisplay = document.getElementById('date-display');
-          
-            const picker = new Litepicker({
-              element: input,
-              singleMode: false,
-              numberOfMonths: 2,
-              numberOfColumns: 2,
-              minDate: new Date(),
-              autoApply: true,
-              format: 'YYYY-MM-DD',
-              setup: (picker) => {
-                picker.on('selected', (start, end) => {
-                  const nights = end.diff(start, 'day');
-                  const formattedStart = start.format('MMMM D, YYYY');
-                  const formattedEnd = end.format('MMMM D, YYYY');
-          
-                  nightsDisplay.textContent = `${nights} night${nights !== 1 ? 's' : ''}`;
-                  dateDisplay.textContent = `From ${formattedStart} to ${formattedEnd}`;
-                  input.value = `${formattedStart} → ${formattedEnd}`;
-                });
-              }
-            });
-          });
-          
-    </script>
-
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-          const summaryContainer = document.getElementById('trip-summary');
-          const subtotalElement = document.getElementById('trip-subtotal');
-          const totalElement = document.getElementById('trip-total');
         
-          const urlParams = new URLSearchParams(window.location.search);
-          const idsParam = urlParams.get('activityIds');
-          if (!idsParam) {
-            subtotalElement.textContent = '€0.00';
-            totalElement.textContent = '€0.00';
-            return;
-          }
-        
-          try {
-            const res = await fetch('/api/wishlist', { credentials: 'include' });
-            const activities = await res.json();
-            const selectedIds = idsParam.split(',').map(id => parseInt(id));
-        
-            const selectedActivities = activities.filter(item => selectedIds.includes(item.id));
-            let subtotal = 0;
-        
-            const subtotalRow = subtotalElement.closest('div.col-span-2');
-        
-            for (const activity of selectedActivities) {
-              const row = document.createElement('div');
-              row.className = "col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5";
-              row.innerHTML = `
-                <p class="text-[#677683] text-sm font-normal leading-normal">${activity.title}</p>
-                <p class="text-[#121517] text-sm font-normal leading-normal">€${Number(activity.price).toFixed(2)}</p>
-              `;
-              summaryContainer.insertBefore(row, subtotalRow);
-              subtotal += parseFloat(activity.price || 0);
-            }
-        
-            subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-        
-            // Add taxes or fees if you want (e.g., 10% fee)
-            const serviceFee = 0; // or: const serviceFee = subtotal * 0.1;
-            const total = subtotal + serviceFee;
-        
-            totalElement.textContent = `€${total.toFixed(2)}`;
-        
-          } catch (err) {
-            console.error('❌ Failed to load trip summary:', err);
-            subtotalElement.textContent = 'Error';
-            totalElement.textContent = 'Error';
-          }
-        });
-        </script>
-
-
-
-            <script>
-                let formattedDateRange = '';
-                let formattedNights = '';
               
-                // Setup date picker
-                document.addEventListener('DOMContentLoaded', () => {
-                  const input = document.getElementById('date-range');
-                  const nightsDisplay = document.getElementById('nights-display');
-                  const dateDisplay = document.getElementById('date-display');
-              
-                  const picker = new Litepicker({
-                    element: input,
-                    singleMode: false,
-                    numberOfMonths: 2,
-                    numberOfColumns: 2,
-                    minDate: new Date(),
-                    autoApply: true,
-                    format: 'YYYY-MM-DD',
-                    setup: (picker) => {
-                      picker.on('selected', (start, end) => {
-                        const nights = end.diff(start, 'day');
-                        const formattedStart = start.format('MMMM D, YYYY');
-                        const formattedEnd = end.format('MMMM D, YYYY');
-              
-                        formattedDateRange = `${formattedStart} → ${formattedEnd}`;
-                        formattedNights = `${nights} night${nights !== 1 ? 's' : ''}`;
-              
-                        nightsDisplay.textContent = formattedNights;
-                        dateDisplay.textContent = `From ${formattedStart} to ${formattedEnd}`;
-                        input.value = formattedDateRange;
-                      });
-                    }
-                  });
-                });
-                document.getElementById('continue-btn').addEventListener('click', async () => {
-                  const dateRange = formattedDateRange;
-                  const nights = formattedNights;
-                  const total = document.getElementById('trip-total').textContent;
-                
-                  const paymentActivities = document.getElementById('payment-activities');
-                  const paymentTotal = document.getElementById('payment-total-display');
-                
-                  const urlParams = new URLSearchParams(window.location.search);
-                  const idsParam = urlParams.get('activityIds');
-                  const selectedIds = idsParam ? idsParam.split(',').map(id => parseInt(id)) : [];
-                
-                  if (!dateRange || selectedIds.length === 0) {
-                    alert('Please select a date range and at least one activity before continuing.');
-                    return;
-                  }
-                
-                  try {
-                    const res = await fetch('/api/wishlist', { credentials: 'include' });
-                    const wishlist = await res.json();
-                    const activities = wishlist.filter(item => selectedIds.includes(item.id));
-                    const activitySummary = [];
-                
-                    paymentActivities.innerHTML = activities.map(act => {
-                      // ✅ PUT THIS HERE:
-                      activitySummary.push({
-                        id: act.id, // <--- Important!
-                        title: act.title,
-                        price: Number(act.price),
-                        location: act.location,
-                        image: act.image_url,
-                        dateRange,
-                        nights
-                      });
-                
-                      return `
-                        <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
-                          <div class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0" style="background-image: url('${act.image_url}')"></div>
-                          <div class="flex flex-col flex-1">
-                            <p class="text-[#121517] font-semibold text-sm">${act.title}</p>
-                            <p class="text-[#677683] text-sm">${act.location}</p>
-                            <p class="text-[#677683] text-xs">${dateRange}</p>
-                            <p class="text-[#677683] text-xs">${nights}</p>
-                          </div>
-                          <p class="text-[#121517] font-medium text-sm">€${Number(act.price).toFixed(2)}</p>
-                        </div>
-                      `;
-                    }).join('');
-                
-                    paymentTotal.textContent = total;
-                
-                    // ✅ Store full booking data including activity IDs
-                    window.bookingData = {
-                      dateRange,
-                      nights,
-                      total,
-                      activities: activitySummary
-                    };
-                
-                    // Show the payment section
-                    document.getElementById('order-content').classList.add('hidden');
-                    document.getElementById('payment-section').classList.remove('hidden');
-                  } catch (err) {
-                    console.error('❌ Booking display error:', err);
-                    alert('Something went wrong.');
-                  }
-                });
-                
-              </script>
-              -->
-              
-              
-              <script>
+              <!-- <script>
                 let selectedDate = '';
                 let selectedTime = '';
                 let selectedPersons = 1;
@@ -703,50 +514,1231 @@
                     alert('Payment failed to start. Please try again.');
                   }
                 });
-              </script>
-              
-              
-              <!-- <script>
-                const payNowBtn = document.getElementById('pay-now');
-              
-                payNowBtn.addEventListener('click', async () => {
-                  try {
-                    const booking = window.bookingData;
-              
-                    if (!booking || !booking.activities || booking.activities.length === 0) {
-                      alert('No booking information found. Please try again.');
-                      return;
-                    }
-              
-                    // ✅ Generate a reference if it doesn't exist
-                    if (!booking.reference) {
-                      booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
-                    }
-              
-                    // ✅ Store booking info temporarily (will be confirmed on success page)
-                    localStorage.setItem('booking', JSON.stringify(booking));
-                    localStorage.removeItem('bookingConfirmed'); // Reset in case user retries
-              
-                    const response = await fetch('/api/create-checkout-session', {
-                      method: 'POST',
-                      credentials: 'include',
-                      headers: {
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(booking)
-                    });
-              
-                    const session = await response.json();
-                    if (!session.id) throw new Error('No session ID returned from Stripe.');
-              
-                    const stripe = Stripe('pk_test_51RXWEQ2ZQv0CP5NuQC2KjGUfXKeTB5Zv5eqDlQ1KEcLEvvv7L8JupHFIL6O51DvSn50sNgE0ITrNP4Kg3kLD1WZR006lY54SrJ'); // ✅ Your Stripe public key
-                    stripe.redirectToCheckout({ sessionId: session.id });
-                  } catch (err) {
-                    console.error('❌ Payment initiation failed:', err);
-                    alert('Payment failed to start. Please try again.');
-                  }
-                });
               </script> -->
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // =========================================================
+  // WISHLIST DISPLAY
+  // =========================================================
+
+  const wishlistContainer =
+    document.getElementById('wishlist-activities');
+
+  if (wishlistContainer) {
+
+    try {
+
+      const wishlistResponse = await fetch(
+        '/api/wishlist',
+        {
+          credentials: 'include'
+        }
+      );
+
+      if (!wishlistResponse.ok) {
+
+        if (wishlistResponse.status === 401) {
+
+          wishlistContainer.innerHTML =
+            '<p class="text-gray-500 text-sm">Please log in to view your wishlist.</p>';
+
+        } else {
+
+          wishlistContainer.innerHTML =
+            '<p class="text-red-600">Failed to load wishlist.</p>';
+
+        }
+
+      } else {
+
+        const wishlist =
+          await wishlistResponse.json();
+
+        if (
+          !Array.isArray(wishlist) ||
+          wishlist.length === 0
+        ) {
+
+          wishlistContainer.innerHTML =
+            '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
+
+        } else {
+
+          wishlistContainer.innerHTML =
+            wishlist.map(item => `
+
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+
+                  <div class="flex flex-col gap-1">
+
+                    <p class="text-[#677683] text-sm font-normal leading-normal">
+                      Wishlist
+                    </p>
+
+                    <p class="text-[#121517] text-base font-bold leading-tight">
+                      ${escapeHtml(item.title)}
+                    </p>
+
+                    <p class="text-[#677683] text-sm font-normal leading-normal">
+                      ${escapeHtml(item.location || 'Location unavailable')}
+                      ·
+                      ${new Date().toLocaleDateString()}
+                    </p>
+
+                  </div>
+
+                  <button
+                    type="button"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 flex-row-reverse bg-[#f1f2f4] text-[#121517] text-sm font-medium leading-normal w-fit"
+                  >
+
+                    <span class="truncate">
+                      €${Number(item.price || 0).toFixed(2)}
+                    </span>
+
+                  </button>
+
+                </div>
+
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style="background-image: url('${escapeAttribute(
+                    item.image_url || item.image || ''
+                  )}')"
+                ></div>
+
+              </div>
+
+            `).join('');
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        '❌ Failed to fetch wishlist:',
+        error
+      );
+
+      wishlistContainer.innerHTML =
+        '<p class="text-red-600">An error occurred while loading your wishlist.</p>';
+
+    }
+
+  }
+
+
+  // =========================================================
+  // BOOKING VARIABLES
+  // =========================================================
+
+  let selectedDate = '';
+  let selectedTime = '';
+  let selectedPersons = 1;
+  let activitySummary = [];
+
+
+  // =========================================================
+  // GET ELEMENTS
+  // =========================================================
+
+  const input =
+    document.getElementById('date-range');
+
+  const dateDisplay =
+    document.getElementById('date-display');
+
+  const timeSelect =
+    document.getElementById('time-period');
+
+  const personsSelect =
+    document.getElementById('persons-select');
+
+  const continueBtn =
+    document.getElementById('continue-btn');
+
+  const payNowBtn =
+    document.getElementById('pay-now');
+
+
+  // =========================================================
+  // DATE PICKER
+  // =========================================================
+
+  if (input && typeof Litepicker !== 'undefined') {
+
+    new Litepicker({
+
+      element: input,
+
+      singleMode: true,
+
+      minDate: new Date(),
+
+      format: 'YYYY-MM-DD',
+
+      setup: (picker) => {
+
+        picker.on('selected', (start) => {
+
+          selectedDate =
+            start.format('YYYY-MM-DD');
+
+          const formatted =
+            start.format('MMMM D, YYYY');
+
+          if (dateDisplay) {
+
+            dateDisplay.textContent =
+              `Selected Date: ${formatted}`;
+
+          }
+
+          input.value =
+            formatted;
+
+          updateTripSummary();
+
+        });
+
+      }
+
+    });
+
+  }
+
+
+  // =========================================================
+  // TIME
+  // =========================================================
+
+  if (timeSelect) {
+
+    timeSelect.addEventListener(
+      'change',
+      () => {
+
+        selectedTime =
+          timeSelect.value;
+
+        updateTripSummary();
+
+      }
+    );
+
+  }
+
+
+  // =========================================================
+  // NUMBER OF PERSONS
+  // =========================================================
+
+  if (personsSelect) {
+
+    selectedPersons =
+      parseInt(
+        personsSelect.value,
+        10
+      ) || 1;
+
+
+    personsSelect.addEventListener(
+      'change',
+      () => {
+
+        selectedPersons =
+          parseInt(
+            personsSelect.value,
+            10
+          ) || 1;
+
+        updateTripSummary();
+
+      }
+    );
+
+  }
+
+
+  // =========================================================
+  // GET ACTIVITY IDS FROM URL
+  // =========================================================
+
+  const urlParams =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const idsParam =
+    urlParams.get('activityIds');
+
+
+  /*
+   * Example:
+   *
+   * /bookings.html?activityIds=15
+   *
+   * OR:
+   *
+   * /bookings.html?activityIds=15,20,25
+   */
+
+  const selectedIds =
+    idsParam
+      ? idsParam
+          .split(',')
+          .map(id => Number(id.trim()))
+          .filter(id => Number.isInteger(id) && id > 0)
+      : [];
+
+
+  // =========================================================
+  // NO ACTIVITY SELECTED
+  // =========================================================
+
+  if (
+    selectedIds.length === 0
+  ) {
+
+    setTotalsToZero();
+
+    return;
+
+  }
+
+
+  // =========================================================
+  // LOAD ACTIVITIES
+  // =========================================================
+
+  try {
+
+    /*
+     * IMPORTANT:
+     *
+     * We DO NOT require the activities to be
+     * inside the wishlist.
+     *
+     * Every activity is loaded directly from:
+     *
+     * /api/activities/:id
+     *
+     * This makes direct Book Now work.
+     */
+
+    const loadedActivities = [];
+
+
+    for (
+      const activityId
+      of selectedIds
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            `/api/activities/${encodeURIComponent(activityId)}`,
+            {
+              credentials: 'include'
+            }
+          );
+
+
+        if (!response.ok) {
+
+          console.error(
+            `❌ Activity ${activityId} could not be loaded.`
+          );
+
+          continue;
+
+        }
+
+
+        const activity =
+          await response.json();
+
+
+        /*
+         * Make sure the returned activity
+         * has a valid ID.
+         */
+
+        const id =
+          Number(
+            activity.id || activity.activity_id
+          );
+
+
+        if (!id) {
+
+          console.error(
+            `❌ Activity ${activityId} returned without a valid ID.`
+          );
+
+          continue;
+
+        }
+
+
+        /*
+         * Normalize the activity object.
+         *
+         * This makes the rest of the booking
+         * code independent of the API's exact
+         * property naming.
+         */
+
+        loadedActivities.push({
+
+          id,
+
+          title:
+            activity.title ||
+            activity.name ||
+            'Untitled Activity',
+
+          price:
+            Number(
+              activity.price
+            ) || 0,
+
+          location:
+            activity.location ||
+            activity.address ||
+            'Location unavailable',
+
+          image:
+            activity.image_url ||
+            activity.image ||
+            ''
+
+        });
+
+
+      } catch (error) {
+
+        console.error(
+          `❌ Error loading activity ${activityId}:`,
+          error
+        );
+
+      }
+
+    }
+
+
+    // =======================================================
+    // SET ACTIVITY SUMMARY
+    // =======================================================
+
+    activitySummary =
+      loadedActivities;
+
+
+    // =======================================================
+    // NO ACTIVITIES FOUND
+    // =======================================================
+
+    if (
+      activitySummary.length === 0
+    ) {
+
+      console.error(
+        '❌ No activities were loaded for booking.'
+      );
+
+
+      showBookingError(
+        'The selected activity could not be loaded. Please go back and try again.'
+      );
+
+
+      return;
+
+    }
+
+
+    // =======================================================
+    // UPDATE SUMMARY
+    // =======================================================
+
+    updateTripSummary();
+
+
+  } catch (error) {
+
+    console.error(
+      '❌ Failed to load trip summary:',
+      error
+    );
+
+
+    showBookingError(
+      'Unable to load the selected activity. Please try again.'
+    );
+
+  }
+
+
+  // =========================================================
+  // CONTINUE TO PAYMENT
+  // =========================================================
+
+  if (continueBtn) {
+
+    continueBtn.addEventListener(
+      'click',
+      async () => {
+
+        const total =
+          document.getElementById(
+            'trip-total'
+          )?.textContent || '€0.00';
+
+
+        // ===================================================
+        // VALIDATION
+        // ===================================================
+
+        if (
+          !selectedDate ||
+          !selectedTime ||
+          !activitySummary.length ||
+          selectedPersons <= 0
+        ) {
+
+          alert(
+            'Please select a date, time, persons, and activities.'
+          );
+
+          return;
+
+        }
+
+
+        const paymentActivities =
+          document.getElementById(
+            'payment-activities'
+          );
+
+        const paymentTotal =
+          document.getElementById(
+            'payment-total-display'
+          );
+
+
+        try {
+
+          // =================================================
+          // BUILD PAYMENT SUMMARY
+          // =================================================
+
+          if (paymentActivities) {
+
+            paymentActivities.innerHTML =
+              activitySummary
+                .map(
+                  act => {
+
+                    const activityTotal =
+                      act.price *
+                      selectedPersons;
+
+
+                    return `
+
+                      <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
+
+                        <div
+                          class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0"
+                          style="background-image: url('${escapeAttribute(
+                            act.image
+                          )}')"
+                        ></div>
+
+                        <div class="flex flex-col flex-1">
+
+                          <p class="text-[#121517] font-semibold text-sm">
+                            ${escapeHtml(act.title)}
+                          </p>
+
+                          <p class="text-[#677683] text-sm">
+                            ${escapeHtml(act.location)}
+                          </p>
+
+                          <p class="text-[#677683] text-xs">
+                            ${escapeHtml(selectedDate)}
+                            at
+                            ${escapeHtml(selectedTime)}
+                          </p>
+
+                          <p class="text-[#677683] text-xs">
+                            ${selectedPersons}
+                            person${selectedPersons > 1 ? 's' : ''}
+                          </p>
+
+                        </div>
+
+                        <p class="text-[#121517] font-medium text-sm">
+                          €${activityTotal.toFixed(2)}
+                        </p>
+
+                      </div>
+
+                    `;
+
+                  }
+                )
+                .join('');
+
+          }
+
+
+          if (paymentTotal) {
+
+            paymentTotal.textContent =
+              total;
+
+          }
+
+
+          // =================================================
+          // STORE BOOKING DATA
+          // =================================================
+
+          window.bookingData = {
+
+            date:
+              selectedDate,
+
+            time:
+              selectedTime,
+
+            numberOfPersons:
+              selectedPersons,
+
+            total,
+
+            activities:
+              activitySummary.map(
+                activity => ({
+                  ...activity
+                })
+              )
+
+          };
+
+
+          // =================================================
+          // SWITCH TO PAYMENT SECTION
+          // =================================================
+
+          const orderContent =
+            document.getElementById(
+              'order-content'
+            );
+
+          const paymentSection =
+            document.getElementById(
+              'payment-section'
+            );
+
+
+          if (orderContent) {
+
+            orderContent.classList.add(
+              'hidden'
+            );
+
+          }
+
+
+          if (paymentSection) {
+
+            paymentSection.classList.remove(
+              'hidden'
+            );
+
+          }
+
+
+        } catch (error) {
+
+          console.error(
+            '❌ Booking display error:',
+            error
+          );
+
+          alert(
+            'Something went wrong while preparing your booking.'
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // =========================================================
+  // PAY NOW
+  // =========================================================
+
+  if (payNowBtn) {
+
+    payNowBtn.addEventListener(
+      'click',
+      async () => {
+
+        try {
+
+          const booking =
+            window.bookingData;
+
+
+          // =================================================
+          // VALIDATE BOOKING
+          // =================================================
+
+          if (
+            !booking ||
+            !booking.activities ||
+            booking.activities.length === 0
+          ) {
+
+            alert(
+              'No booking information found. Please try again.'
+            );
+
+            return;
+
+          }
+
+
+          // =================================================
+          // CREATE REFERENCE
+          // =================================================
+
+          if (!booking.reference) {
+
+            booking.reference =
+              'REF' +
+              Math.floor(
+                100000000 +
+                Math.random() *
+                900000000
+              );
+
+          }
+
+
+          // =================================================
+          // SAVE BOOKING LOCALLY
+          // =================================================
+
+          localStorage.setItem(
+            'booking',
+            JSON.stringify(booking)
+          );
+
+          localStorage.removeItem(
+            'bookingConfirmed'
+          );
+
+
+          // =================================================
+          // CREATE STRIPE SESSION
+          // =================================================
+
+          const response =
+            await fetch(
+              '/api/create-checkout-session',
+              {
+
+                method: 'POST',
+
+                credentials: 'include',
+
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
+
+                body:
+                  JSON.stringify(
+                    booking
+                  )
+
+              }
+            );
+
+
+          let session = {};
+
+          try {
+
+            session =
+              await response.json();
+
+          } catch {
+
+            session = {};
+
+          }
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              session.error ||
+              session.message ||
+              'Unable to create payment session.'
+            );
+
+          }
+
+
+          if (!session.id) {
+
+            throw new Error(
+              'No session ID returned from Stripe.'
+            );
+
+          }
+
+
+          // =================================================
+          // STRIPE
+          // =================================================
+
+          if (
+            typeof Stripe !== 'function'
+          ) {
+
+            throw new Error(
+              'Stripe could not be loaded.'
+            );
+
+          }
+
+
+          const stripe =
+            Stripe(
+              'pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh'
+            );
+
+
+          const result =
+            await stripe.redirectToCheckout({
+              sessionId:
+                session.id
+            });
+
+
+          if (result?.error) {
+
+            throw new Error(
+              result.error.message
+            );
+
+          }
+
+
+        } catch (error) {
+
+          console.error(
+            '❌ Payment initiation failed:',
+            error
+          );
+
+
+          alert(
+            error.message ||
+            'Payment failed to start. Please try again.'
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // =========================================================
+  // UPDATE TRIP SUMMARY
+  // =========================================================
+
+  function updateTripSummary() {
+
+    const summaryContainer =
+      document.getElementById(
+        'trip-summary'
+      );
+
+    const subtotalElem =
+      document.getElementById(
+        'trip-subtotal'
+      );
+
+    const totalElem =
+      document.getElementById(
+        'trip-total'
+      );
+
+
+    if (
+      !summaryContainer ||
+      !subtotalElem ||
+      !totalElem
+    ) {
+
+      return;
+
+    }
+
+
+    // =======================================================
+    // REMOVE PREVIOUS ACTIVITY ROWS
+    // =======================================================
+
+    const oldRows =
+      summaryContainer.querySelectorAll(
+        '.summary-row'
+      );
+
+
+    oldRows.forEach(
+      row =>
+        row.remove()
+    );
+
+
+    // =======================================================
+    // NO ACTIVITIES
+    // =======================================================
+
+    if (
+      !activitySummary ||
+      activitySummary.length === 0
+    ) {
+
+      subtotalElem.textContent =
+        '€0.00';
+
+      totalElem.textContent =
+        '€0.00';
+
+      return;
+
+    }
+
+
+    // =======================================================
+    // CALCULATE TOTAL
+    // =======================================================
+
+    let subtotal = 0;
+
+
+    activitySummary.forEach(
+      activity => {
+
+        const totalPrice =
+          Number(activity.price || 0) *
+          Number(selectedPersons || 1);
+
+
+        subtotal +=
+          totalPrice;
+
+
+        // ===================================================
+        // CREATE SUMMARY ROW
+        // ===================================================
+
+        const row =
+          document.createElement(
+            'div'
+          );
+
+
+        row.className =
+          'col-span-2 grid grid-cols-subgrid border-t border-t-[#dde1e4] py-5 summary-row';
+
+
+        row.innerHTML = `
+
+          <div class="flex items-center gap-x-4">
+
+            ${
+              activity.image
+                ? `
+                  <img
+                    src="${escapeAttribute(activity.image)}"
+                    alt="${escapeAttribute(activity.title)}"
+                    class="w-[70px] h-[70px] object-cover rounded-xl"
+                  />
+                `
+                : `
+                  <div class="w-[70px] h-[70px] rounded-xl bg-gray-100 flex items-center justify-center">
+                    <span class="text-xs text-gray-400">
+                      No image
+                    </span>
+                  </div>
+                `
+            }
+
+            <div>
+
+              <p class="text-sm font-medium text-[#121517]">
+                ${escapeHtml(activity.title)}
+              </p>
+
+              <p class="text-xs text-[#677683]">
+                ${escapeHtml(selectedDate || '--')},
+                ${escapeHtml(selectedTime || '--')}
+              </p>
+
+              <p class="text-xs text-[#677683]">
+                ${selectedPersons}
+                person${selectedPersons > 1 ? 's' : ''}
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="text-right">
+
+            <p class="text-sm font-semibold text-[#121517]">
+              €${totalPrice.toFixed(2)}
+            </p>
+
+          </div>
+
+        `;
+
+
+        // ===================================================
+        // INSERT BEFORE SUBTOTAL
+        // ===================================================
+
+        const subtotalParent =
+          subtotalElem.parentElement;
+
+
+        if (subtotalParent) {
+
+          subtotalParent.before(
+            row
+          );
+
+        } else {
+
+          summaryContainer.appendChild(
+            row
+          );
+
+        }
+
+      }
+    );
+
+
+    // =======================================================
+    // UPDATE TOTALS
+    // =======================================================
+
+    subtotalElem.textContent =
+      `€${subtotal.toFixed(2)}`;
+
+
+    totalElem.textContent =
+      `€${subtotal.toFixed(2)}`;
+
+  }
+
+
+  // =========================================================
+  // SET TOTALS TO ZERO
+  // =========================================================
+
+  function setTotalsToZero() {
+
+    const subtotal =
+      document.getElementById(
+        'trip-subtotal'
+      );
+
+    const total =
+      document.getElementById(
+        'trip-total'
+      );
+
+
+    if (subtotal) {
+
+      subtotal.textContent =
+        '€0.00';
+
+    }
+
+
+    if (total) {
+
+      total.textContent =
+        '€0.00';
+
+    }
+
+  }
+
+
+  // =========================================================
+  // BOOKING ERROR
+  // =========================================================
+
+  function showBookingError(message) {
+
+    const summaryContainer =
+      document.getElementById(
+        'trip-summary'
+      );
+
+
+    if (!summaryContainer) {
+
+      alert(message);
+
+      return;
+
+    }
+
+
+    const errorElement =
+      document.createElement(
+        'div'
+      );
+
+
+    errorElement.className =
+      'col-span-2 py-8 text-center';
+
+
+    errorElement.innerHTML = `
+
+      <div class="flex flex-col items-center justify-center">
+
+        <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-3">
+
+          <svg
+            class="w-6 h-6 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v4m0 4h.01M10.29 3.86l-7.82 14a2 2 0 001.74 3h15.58a2 2 0 001.74-3l-7.82-14a2 2 0 00-3.48 0z"
+            />
+
+          </svg>
+
+        </div>
+
+        <p class="text-sm font-medium text-gray-900">
+          Unable to load activity
+        </p>
+
+        <p class="text-xs text-gray-500 mt-1">
+          ${escapeHtml(message)}
+        </p>
+
+      </div>
+
+    `;
+
+
+    summaryContainer.appendChild(
+      errorElement
+    );
+
+
+    setTotalsToZero();
+
+  }
+
+
+  // =========================================================
+  // ESCAPE HTML
+  // =========================================================
+
+  function escapeHtml(value) {
+
+    const div =
+      document.createElement(
+        'div'
+      );
+
+    div.textContent =
+      String(value ?? '');
+
+    return div.innerHTML;
+
+  }
+
+
+  // =========================================================
+  // ESCAPE HTML ATTRIBUTE
+  // =========================================================
+
+  function escapeAttribute(value) {
+
+    return String(
+      value ?? ''
+    )
+      .replace(
+        /&/g,
+        '&amp;'
+      )
+      .replace(
+        /"/g,
+        '&quot;'
+      )
+      .replace(
+        /'/g,
+        '&#39;'
+      )
+      .replace(
+        /</g,
+        '&lt;'
+      )
+      .replace(
+        />/g,
+        '&gt;'
+      );
+
+  }
+
+});
+</script>
+            
+             
               <script src="/js/auth-guard.js"></script>
               
   </body>

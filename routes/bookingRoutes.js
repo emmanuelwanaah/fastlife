@@ -1,32 +1,41 @@
 const express = require('express');
 
 const {
-  createCheckoutSession,
-  confirmBooking,
-  getCompletedBookings
+    createCheckoutSession,
+    confirmBooking,
+    getCompletedBookings
 } = require('../controllers/bookingController');
 
 const router = express.Router();
 
 
-// Create Stripe checkout session
+// ============================================================
+// CREATE STRIPE CHECKOUT SESSION
+// ============================================================
+
 router.post(
-  '/api/create-checkout-session',
-  createCheckoutSession
+    '/api/create-checkout-session',
+    createCheckoutSession
 );
 
 
-// Confirm booking
+// ============================================================
+// CONFIRM BOOKING AFTER STRIPE PAYMENT
+// ============================================================
+
 router.post(
-  '/api/confirm-booking',
-  confirmBooking
+    '/api/confirm-booking',
+    confirmBooking
 );
 
 
-// Get completed bookings
+// ============================================================
+// GET COMPLETED BOOKINGS
+// ============================================================
+
 router.get(
-  '/api/completed-bookings',
-  getCompletedBookings
+    '/api/completed-bookings',
+    getCompletedBookings
 );
 
 

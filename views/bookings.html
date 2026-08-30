@@ -96,6 +96,7 @@
     <script src="https://js.stripe.com/v3/"></script>
   
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/button-loader.css">
   </head>
   
   <body>
@@ -114,22 +115,12 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#121517] text-sm font-medium leading-normal" href="#">Explore</a>
+              <a class="text-[#121517] text-sm font-medium leading-normal" href="dashboard.html">Explore</a>
               <a class="text-[#121517] text-sm font-medium leading-normal" href="wishlist.html">Wishlist</a>
               <a class="text-[#121517] text-sm font-medium leading-normal" href="completedbookings.html">Trips</a>
-              <a class="text-[#121517] text-sm font-medium leading-normal" href="#">Messages</a>
+            
             </div>
-            <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f1f2f4] text-[#121517] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-            >
-              <div class="text-[#121517]" data-icon="Globe" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                  <path
-                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM101.63,168h52.74C149,186.34,140,202.87,128,215.89,116,202.87,107,186.34,101.63,168ZM98,152a145.72,145.72,0,0,1,0-48h60a145.72,145.72,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.79a161.79,161.79,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154.37,88H101.63C107,69.66,116,53.13,128,40.11,140,53.13,149,69.66,154.37,88Zm19.84,16h38.46a88.15,88.15,0,0,1,0,48H174.21a161.79,161.79,0,0,0,0-48Zm32.16-16H170.94a142.39,142.39,0,0,0-20.26-45A88.37,88.37,0,0,1,206.37,88ZM105.32,43A142.39,142.39,0,0,0,85.06,88H49.63A88.37,88.37,0,0,1,105.32,43ZM49.63,168H85.06a142.39,142.39,0,0,0,20.26,45A88.37,88.37,0,0,1,49.63,168Zm101.05,45a142.39,142.39,0,0,0,20.26-45h35.43A88.37,88.37,0,0,1,150.68,213Z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
+           
             <a href="usersettings.html">
               <div
               class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -146,7 +137,7 @@
       <div id="payment-activities" class="space-y-4 mb-4"></div>
   
       <div class="text-right text-[#121517] text-lg font-bold">
-        Total: <span id="payment-total-display">€0.00</span>
+        Total: <span id="payment-total-display"></span>
       </div>
   
       <div class="flex justify-end mt-6">
@@ -517,124 +508,8 @@
               </script> -->
 
 
-
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-
-  // =========================================================
-  // WISHLIST DISPLAY
-  // =========================================================
-
-  const wishlistContainer =
-    document.getElementById('wishlist-activities');
-
-  if (wishlistContainer) {
-
-    try {
-
-      const wishlistResponse = await fetch(
-        '/api/wishlist',
-        {
-          credentials: 'include'
-        }
-      );
-
-      if (!wishlistResponse.ok) {
-
-        if (wishlistResponse.status === 401) {
-
-          wishlistContainer.innerHTML =
-            '<p class="text-gray-500 text-sm">Please log in to view your wishlist.</p>';
-
-        } else {
-
-          wishlistContainer.innerHTML =
-            '<p class="text-red-600">Failed to load wishlist.</p>';
-
-        }
-
-      } else {
-
-        const wishlist =
-          await wishlistResponse.json();
-
-        if (
-          !Array.isArray(wishlist) ||
-          wishlist.length === 0
-        ) {
-
-          wishlistContainer.innerHTML =
-            '<p class="text-gray-500 text-sm">Your wishlist is empty.</p>';
-
-        } else {
-
-          wishlistContainer.innerHTML =
-            wishlist.map(item => `
-
-              <div class="flex items-stretch justify-between gap-4 rounded-xl">
-
-                <div class="flex flex-[2_2_0px] flex-col gap-4">
-
-                  <div class="flex flex-col gap-1">
-
-                    <p class="text-[#677683] text-sm font-normal leading-normal">
-                      Wishlist
-                    </p>
-
-                    <p class="text-[#121517] text-base font-bold leading-tight">
-                      ${escapeHtml(item.title)}
-                    </p>
-
-                    <p class="text-[#677683] text-sm font-normal leading-normal">
-                      ${escapeHtml(item.location || 'Location unavailable')}
-                      ·
-                      ${new Date().toLocaleDateString()}
-                    </p>
-
-                  </div>
-
-                  <button
-                    type="button"
-                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 flex-row-reverse bg-[#f1f2f4] text-[#121517] text-sm font-medium leading-normal w-fit"
-                  >
-
-                    <span class="truncate">
-                      €${Number(item.price || 0).toFixed(2)}
-                    </span>
-
-                  </button>
-
-                </div>
-
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
-                  style="background-image: url('${escapeAttribute(
-                    item.image_url || item.image || ''
-                  )}')"
-                ></div>
-
-              </div>
-
-            `).join('');
-
-        }
-
-      }
-
-    } catch (error) {
-
-      console.error(
-        '❌ Failed to fetch wishlist:',
-        error
-      );
-
-      wishlistContainer.innerHTML =
-        '<p class="text-red-600">An error occurred while loading your wishlist.</p>';
-
-    }
-
-  }
-
 
   // =========================================================
   // BOOKING VARIABLES
@@ -644,7 +519,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   let selectedTime = '';
   let selectedPersons = 1;
   let activitySummary = [];
-
 
   // =========================================================
   // GET ELEMENTS
@@ -673,16 +547,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // DATE PICKER
   // =========================================================
 
-  if (input && typeof Litepicker !== 'undefined') {
+  if (
+    input &&
+    typeof Litepicker !== 'undefined'
+  ) {
 
     new Litepicker({
-
       element: input,
-
       singleMode: true,
-
       minDate: new Date(),
-
       format: 'YYYY-MM-DD',
 
       setup: (picker) => {
@@ -696,17 +569,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             start.format('MMMM D, YYYY');
 
           if (dateDisplay) {
-
             dateDisplay.textContent =
               `Selected Date: ${formatted}`;
-
           }
 
-          input.value =
-            formatted;
+          input.value = formatted;
 
           updateTripSummary();
-
         });
 
       }
@@ -749,7 +618,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         10
       ) || 1;
 
-
     personsSelect.addEventListener(
       'change',
       () => {
@@ -780,23 +648,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   const idsParam =
     urlParams.get('activityIds');
 
-
-  /*
-   * Example:
-   *
-   * /bookings.html?activityIds=15
-   *
-   * OR:
-   *
-   * /bookings.html?activityIds=15,20,25
-   */
-
   const selectedIds =
     idsParam
       ? idsParam
           .split(',')
           .map(id => Number(id.trim()))
-          .filter(id => Number.isInteger(id) && id > 0)
+          .filter(
+            id =>
+              Number.isInteger(id) &&
+              id > 0
+          )
       : [];
 
 
@@ -820,19 +681,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // =========================================================
 
   try {
-
-    /*
-     * IMPORTANT:
-     *
-     * We DO NOT require the activities to be
-     * inside the wishlist.
-     *
-     * Every activity is loaded directly from:
-     *
-     * /api/activities/:id
-     *
-     * This makes direct Book Now work.
-     */
 
     const loadedActivities = [];
 
@@ -868,14 +716,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           await response.json();
 
 
-        /*
-         * Make sure the returned activity
-         * has a valid ID.
-         */
-
         const id =
           Number(
-            activity.id || activity.activity_id
+            activity.id ||
+            activity.activity_id
           );
 
 
@@ -889,14 +733,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         }
 
-
-        /*
-         * Normalize the activity object.
-         *
-         * This makes the rest of the booking
-         * code independent of the API's exact
-         * property naming.
-         */
 
         loadedActivities.push({
 
@@ -924,7 +760,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         });
 
-
       } catch (error) {
 
         console.error(
@@ -936,10 +771,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     }
 
-
-    // =======================================================
-    // SET ACTIVITY SUMMARY
-    // =======================================================
 
     activitySummary =
       loadedActivities;
@@ -953,27 +784,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       activitySummary.length === 0
     ) {
 
-      console.error(
-        '❌ No activities were loaded for booking.'
-      );
-
-
       showBookingError(
         'The selected activity could not be loaded. Please go back and try again.'
       );
-
 
       return;
 
     }
 
 
-    // =======================================================
-    // UPDATE SUMMARY
-    // =======================================================
-
     updateTripSummary();
-
 
   } catch (error) {
 
@@ -981,7 +801,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       '❌ Failed to load trip summary:',
       error
     );
-
 
     showBookingError(
       'Unable to load the selected activity. Please try again.'
@@ -1003,7 +822,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const total =
           document.getElementById(
             'trip-total'
-          )?.textContent || '€0.00';
+          )?.textContent ||
+          '€0.00';
 
 
         // ===================================================
@@ -1047,58 +867,56 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             paymentActivities.innerHTML =
               activitySummary
-                .map(
-                  act => {
+                .map(act => {
 
-                    const activityTotal =
-                      act.price *
-                      selectedPersons;
+                  const activityTotal =
+                    act.price *
+                    selectedPersons;
 
 
-                    return `
+                  return `
 
-                      <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
+                    <div class="flex gap-4 items-start border-b border-[#dde1e4] pb-4">
 
-                        <div
-                          class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0"
-                          style="background-image: url('${escapeAttribute(
-                            act.image
-                          )}')"
-                        ></div>
+                      <div
+                        class="w-24 h-16 rounded-lg bg-cover bg-center shrink-0"
+                        style="background-image: url('${escapeAttribute(
+                          act.image
+                        )}')"
+                      ></div>
 
-                        <div class="flex flex-col flex-1">
+                      <div class="flex flex-col flex-1">
 
-                          <p class="text-[#121517] font-semibold text-sm">
-                            ${escapeHtml(act.title)}
-                          </p>
+                        <p class="text-[#121517] font-semibold text-sm">
+                          ${escapeHtml(act.title)}
+                        </p>
 
-                          <p class="text-[#677683] text-sm">
-                            ${escapeHtml(act.location)}
-                          </p>
+                        <p class="text-[#677683] text-sm">
+                          ${escapeHtml(act.location)}
+                        </p>
 
-                          <p class="text-[#677683] text-xs">
-                            ${escapeHtml(selectedDate)}
-                            at
-                            ${escapeHtml(selectedTime)}
-                          </p>
+                        <p class="text-[#677683] text-xs">
+                          ${escapeHtml(selectedDate)}
+                          at
+                          ${escapeHtml(selectedTime)}
+                        </p>
 
-                          <p class="text-[#677683] text-xs">
-                            ${selectedPersons}
-                            person${selectedPersons > 1 ? 's' : ''}
-                          </p>
-
-                        </div>
-
-                        <p class="text-[#121517] font-medium text-sm">
-                          €${activityTotal.toFixed(2)}
+                        <p class="text-[#677683] text-xs">
+                          ${selectedPersons}
+                          person${selectedPersons > 1 ? 's' : ''}
                         </p>
 
                       </div>
 
-                    `;
+                      <p class="text-[#121517] font-medium text-sm">
+                        €${activityTotal.toFixed(2)}
+                      </p>
 
-                  }
-                )
+                    </div>
+
+                  `;
+
+                })
                 .join('');
 
           }
@@ -1113,7 +931,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
           // =================================================
-          // STORE BOOKING DATA
+          // CREATE BOOKING DATA
           // =================================================
 
           window.bookingData = {
@@ -1140,7 +958,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
           // =================================================
-          // SWITCH TO PAYMENT SECTION
+          // SHOW PAYMENT SECTION
           // =================================================
 
           const orderContent =
@@ -1171,7 +989,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           }
 
-
         } catch (error) {
 
           console.error(
@@ -1195,21 +1012,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   // PAY NOW
   // =========================================================
 
-  if (payNowBtn) {
+ if (payNowBtn) {
 
     payNowBtn.addEventListener(
       'click',
       async () => {
 
+        // =======================================================
+        // PREVENT DOUBLE CLICK
+        // =======================================================
+
+        if (payNowBtn.disabled) {
+          return;
+        }
+
         try {
 
-          const booking =
-            window.bookingData;
+          const booking = window.bookingData;
 
-
-          // =================================================
+          // =======================================================
           // VALIDATE BOOKING
-          // =================================================
+          // =======================================================
 
           if (
             !booking ||
@@ -1222,13 +1045,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
 
             return;
-
           }
 
 
-          // =================================================
-          // CREATE REFERENCE
-          // =================================================
+          if (
+            !booking.date ||
+            !booking.time ||
+            !booking.numberOfPersons
+          ) {
+
+            alert(
+              'Please complete your booking details first.'
+            );
+
+            return;
+          }
+
+
+          // =======================================================
+          // DISABLE PAY BUTTON
+          // =======================================================
+
+          payNowBtn.disabled = true;
+
+          payNowBtn.setAttribute(
+            'aria-busy',
+            'true'
+          );
+
+
+          // =======================================================
+          // GENERATE BOOKING REFERENCE
+          // =======================================================
+          //
+          // IMPORTANT:
+          // This reference DOES NOT mean the booking is paid.
+          //
+          // Payment will only be considered successful after
+          // the backend verifies the Stripe Checkout Session.
+          //
 
           if (!booking.reference) {
 
@@ -1236,30 +1091,46 @@ document.addEventListener('DOMContentLoaded', async () => {
               'REF' +
               Math.floor(
                 100000000 +
-                Math.random() *
-                900000000
+                Math.random() * 900000000
               );
 
           }
 
 
-          // =================================================
-          // SAVE BOOKING LOCALLY
-          // =================================================
+          // =======================================================
+          // REMOVE OLD PAYMENT DATA
+          // =======================================================
+
+          delete booking.sessionId;
+          delete booking.stripeSessionId;
+
+          localStorage.removeItem(
+            'bookingConfirmed'
+          );
+
+          localStorage.removeItem(
+            'stripeSessionId'
+          );
+
+
+          // =======================================================
+          // SAVE PENDING BOOKING
+          // =======================================================
+          //
+          // This is ONLY pending information.
+          //
+          // It must NOT be treated as a completed booking.
+          //
 
           localStorage.setItem(
             'booking',
             JSON.stringify(booking)
           );
 
-          localStorage.removeItem(
-            'bookingConfirmed'
-          );
 
-
-          // =================================================
-          // CREATE STRIPE SESSION
-          // =================================================
+          // =======================================================
+          // CREATE STRIPE CHECKOUT SESSION
+          // =======================================================
 
           const response =
             await fetch(
@@ -1284,6 +1155,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
 
 
+          // =======================================================
+          // READ SERVER RESPONSE
+          // =======================================================
+
           let session = {};
 
           try {
@@ -1298,6 +1173,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
 
 
+          // =======================================================
+          // SERVER ERROR
+          // =======================================================
+
           if (!response.ok) {
 
             throw new Error(
@@ -1309,18 +1188,77 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
 
 
-          if (!session.id) {
+          // =======================================================
+          // VALIDATE STRIPE SESSION
+          // =======================================================
+
+          const stripeSessionId =
+            session.sessionId ||
+            session.id;
+
+
+          if (!stripeSessionId) {
 
             throw new Error(
-              'No session ID returned from Stripe.'
+              'No Stripe Checkout Session was created.'
             );
 
           }
 
 
-          // =================================================
-          // STRIPE
-          // =================================================
+          // =======================================================
+          // SAVE STRIPE SESSION ID
+          // =======================================================
+          //
+          // THIS IS VERY IMPORTANT.
+          //
+          // The completed page will use this ID to ask the
+          // backend whether Stripe actually marked the payment
+          // as paid.
+          //
+
+          booking.sessionId =
+            stripeSessionId;
+
+          booking.stripeSessionId =
+            stripeSessionId;
+
+
+          // =======================================================
+          // SAVE UPDATED PENDING BOOKING
+          // =======================================================
+
+          localStorage.setItem(
+            'booking',
+            JSON.stringify(booking)
+          );
+
+          localStorage.setItem(
+            'stripeSessionId',
+            stripeSessionId
+          );
+
+
+          // =======================================================
+          // SAVE REFERENCE RETURNED BY SERVER
+          // =======================================================
+
+          if (session.reference) {
+
+            booking.reference =
+              session.reference;
+
+            localStorage.setItem(
+              'booking',
+              JSON.stringify(booking)
+            );
+
+          }
+
+
+          // =======================================================
+          // CHECK STRIPE.JS
+          // =======================================================
 
           if (
             typeof Stripe !== 'function'
@@ -1333,27 +1271,43 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
 
 
+          // =======================================================
+          // STRIPE PUBLIC KEY
+          // =======================================================
+
           const stripe =
             Stripe(
               'pk_live_51RXWECF0u1kVovWslAF2u2DZU70INihfDWtufawFsPIB6dq2B9OzO8kPYpzB7TfqRozZokW13s7Z2v8TJTLkoIJN007BxuXbQh'
             );
 
 
+          // =======================================================
+          // REDIRECT TO STRIPE CHECKOUT
+          // =======================================================
+
           const result =
             await stripe.redirectToCheckout({
+
               sessionId:
-                session.id
+                stripeSessionId
+
             });
 
 
-          if (result?.error) {
+          // =======================================================
+          // STRIPE REDIRECT ERROR
+          // =======================================================
+
+          if (
+            result &&
+            result.error
+          ) {
 
             throw new Error(
               result.error.message
             );
 
           }
-
 
         } catch (error) {
 
@@ -1368,13 +1322,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             'Payment failed to start. Please try again.'
           );
 
+
+          // =======================================================
+          // ONLY RESET BUTTON IF STILL ON BOOKING PAGE
+          // =======================================================
+
+          payNowBtn.disabled =
+            false;
+
+          payNowBtn.removeAttribute(
+            'aria-busy'
+          );
+
         }
 
       }
     );
 
   }
-
 
   // =========================================================
   // UPDATE TRIP SUMMARY
@@ -1410,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     // =======================================================
-    // REMOVE PREVIOUS ACTIVITY ROWS
+    // REMOVE OLD ROWS
     // =======================================================
 
     const oldRows =
@@ -1456,8 +1421,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       activity => {
 
         const totalPrice =
-          Number(activity.price || 0) *
-          Number(selectedPersons || 1);
+          Number(
+            activity.price || 0
+          ) *
+          Number(
+            selectedPersons || 1
+          );
 
 
         subtotal +=
@@ -1485,18 +1454,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             ${
               activity.image
                 ? `
+
                   <img
                     src="${escapeAttribute(activity.image)}"
                     alt="${escapeAttribute(activity.title)}"
                     class="w-[70px] h-[70px] object-cover rounded-xl"
                   />
+
                 `
                 : `
+
                   <div class="w-[70px] h-[70px] rounded-xl bg-gray-100 flex items-center justify-center">
+
                     <span class="text-xs text-gray-400">
                       No image
                     </span>
+
                   </div>
+
                 `
             }
 
@@ -1507,23 +1482,35 @@ document.addEventListener('DOMContentLoaded', async () => {
               </p>
 
               <p class="text-xs text-[#677683]">
-                ${escapeHtml(selectedDate || '--')},
-                ${escapeHtml(selectedTime || '--')}
+
+                ${escapeHtml(
+                  selectedDate || '--'
+                )},
+
+                ${escapeHtml(
+                  selectedTime || '--'
+                )}
+
               </p>
 
               <p class="text-xs text-[#677683]">
+
                 ${selectedPersons}
                 person${selectedPersons > 1 ? 's' : ''}
+
               </p>
 
             </div>
 
           </div>
 
+
           <div class="text-right">
 
             <p class="text-sm font-semibold text-[#121517]">
+
               €${totalPrice.toFixed(2)}
+
             </p>
 
           </div>
@@ -1563,7 +1550,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     subtotalElem.textContent =
       `€${subtotal.toFixed(2)}`;
-
 
     totalElem.textContent =
       `€${subtotal.toFixed(2)}`;
@@ -1610,7 +1596,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // BOOKING ERROR
   // =========================================================
 
-  function showBookingError(message) {
+  function showBookingError(
+    message
+  ) {
 
     const summaryContainer =
       document.getElementById(
@@ -1661,9 +1649,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         </div>
 
+
         <p class="text-sm font-medium text-gray-900">
           Unable to load activity
         </p>
+
 
         <p class="text-xs text-gray-500 mt-1">
           ${escapeHtml(message)}
@@ -1695,8 +1685,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         'div'
       );
 
+
     div.textContent =
-      String(value ?? '');
+      String(
+        value ?? ''
+      );
+
 
     return div.innerHTML;
 
@@ -1704,7 +1698,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
   // =========================================================
-  // ESCAPE HTML ATTRIBUTE
+  // ESCAPE ATTRIBUTE
   // =========================================================
 
   function escapeAttribute(value) {
@@ -1740,7 +1734,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
              
               <script src="/js/auth-guard.js"></script>
-              
+              <script src="/js/button-loader.js"></script>
   </body>
 </html>
 

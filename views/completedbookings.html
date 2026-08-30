@@ -135,88 +135,566 @@
       </div>
     </div>
   
-    <script>
-      const formatBookingDate = dateStr => {
-        const date = new Date(dateStr);
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
-      };
-    
-      document.addEventListener('DOMContentLoaded', async () => {
-        const container = document.getElementById('completed-bookings');
-    
-        try {
-          const booking = JSON.parse(localStorage.getItem('booking'));
-          const alreadyConfirmed = localStorage.getItem('bookingConfirmed');
-    
-          if (booking && !alreadyConfirmed) {
-            if (!booking.reference) {
-              booking.reference = 'REF' + Math.floor(100000000 + Math.random() * 900000000);
-            }
-    
-            const confirmRes = await fetch('/api/confirm-booking', {
-              method: 'POST',
-              credentials: 'include',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(booking)
-            });
-    
-            const confirmData = await confirmRes.json();
-            if (confirmData.success) {
-              console.log('✅ Booking confirmed and saved!');
-              localStorage.setItem('bookingConfirmed', 'true');
-            } else {
-              console.warn('❌ Booking confirmation failed:', confirmData.message);
-            }
-    
-            localStorage.removeItem('booking');
+<script>
+
+  // ============================================================
+  // FORMAT BOOKING DATE
+  // ============================================================
+
+  const formatBookingDate = (dateStr) => {
+
+    const date = new Date(dateStr);
+
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    };
+
+    return date.toLocaleDateString(
+      'en-US',
+      options
+    );
+  };
+
+
+  // ============================================================
+  // ESCAPE HTML
+  // ============================================================
+
+  const escapeHtml = (value) => {
+
+    const div =
+      document.createElement('div');
+
+    div.textContent =
+      String(value ?? '');
+
+    return div.innerHTML;
+  };
+
+
+  // ============================================================
+  // PAGE LOAD
+  // ============================================================
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+
+      const container =
+        document.getElementById(
+          'completed-bookings'
+        );
+
+
+      if (!container) {
+
+        console.error(
+          '❌ completed-bookings container not found.'
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        // ========================================================
+        // GET STRIPE SESSION ID FROM URL
+        // ========================================================
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+
+        const sessionId =
+          params.get('session_id');
+
+
+        console.log(
+          'Stripe session:',
+          sessionId
+        );
+
+
+        // ========================================================
+        // VERIFY PAYMENT
+        // ========================================================
+        //
+        // IMPORTANT:
+        //
+        // We DO NOT create the booking directly from localStorage.
+        //
+        // The backend must verify the Stripe Checkout Session
+        // using the Stripe SECRET KEY.
+        //
+        // Only after Stripe confirms:
+        //
+        // payment_status === "paid"
+        //
+        // should the database booking be created.
+        //
+        // ========================================================
+
+        if (sessionId) {
+
+          container.innerHTML = `
+
+            <div class="col-span-full flex flex-col items-center justify-center py-16">
+
+              <div class="w-10 h-10 border-4 border-gray-200 border-t-black rounded-full animate-spin mb-4"></div>
+
+              <p class="text-gray-900 font-semibold">
+                Verifying your payment...
+              </p>
+
+              <p class="text-gray-500 text-sm mt-1">
+                Please wait while we confirm your booking.
+              </p>
+
+            </div>
+
+          `;
+
+
+          console.log(
+            '🔍 Verifying Stripe payment...'
+          );
+
+
+          // ======================================================
+          // CALL BACKEND
+          // ======================================================
+
+          const verifyRes =
+            await fetch(
+              '/api/confirm-booking',
+              {
+                method: 'POST',
+
+                credentials: 'include',
+
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
+
+                body: JSON.stringify({
+                  sessionId:
+                    sessionId
+                })
+              }
+            );
+
+
+          // ======================================================
+          // READ RESPONSE SAFELY
+          // ======================================================
+
+          let verifyData = {};
+
+          try {
+
+            verifyData =
+              await verifyRes.json();
+
+          } catch (jsonError) {
+
+            console.error(
+              '❌ Invalid server response:',
+              jsonError
+            );
+
+            throw new Error(
+              'The server returned an invalid response.'
+            );
+
           }
-    
-          // ✅ Fetch completed bookings
-          const res = await fetch('/api/completed-bookings', { credentials: 'include' });
-          const data = await res.json();
-          container.innerHTML = '';
-    
-          if (!data.bookings || data.bookings.length === 0) {
-            container.innerHTML = `<p class="text-center col-span-full text-[#60758a]">No completed bookings found.</p>`;
-            return;
+
+
+          console.log(
+            'Stripe verification result:',
+            verifyData
+          );
+
+
+          // ======================================================
+          // PAYMENT VERIFIED
+          // ======================================================
+
+          if (
+            verifyRes.ok &&
+            verifyData.success === true
+          ) {
+
+            console.log(
+              '✅ Payment verified and booking saved!'
+            );
+
+
+            // ====================================================
+            // REMOVE PENDING BOOKING
+            // ====================================================
+
+            localStorage.removeItem(
+              'booking'
+            );
+
+
+            localStorage.removeItem(
+              'bookingConfirmed'
+            );
+
+
+            localStorage.removeItem(
+              'stripeSessionId'
+            );
+
+
+            // ====================================================
+            // REMOVE SESSION ID FROM URL
+            // ====================================================
+
+            window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+            );
+
           }
-    
-          data.bookings.forEach(b => {
-            const date = b.booking_date ? formatBookingDate(b.booking_date) : 'N/A';
-            const price = b.price ? Number(b.price).toFixed(2) : 'N/A';
-            const title = b.title || 'Untitled Booking';
-            const image = b.image || 'https://via.placeholder.com/400x225?text=No+Image';
-            const reference = b.reference || 'N/A';
-            const time = b.time_selected || 'N/A';
-            const persons = b.number_of_persons || 'N/A';
-    
-            const card = document.createElement('div');
-            card.className = 'flex items-stretch justify-between gap-4 rounded-xl bg-[#f9fafb] p-4';
-            card.innerHTML = `
-              <div class="flex flex-col gap-1 flex-[2_2_0px]">
-                <p class="text-[#00aa66] text-sm font-medium">✅ Confirmed</p>
-                <p class="text-[#111418] text-base font-bold">${title}</p>
-                <p class="text-[#60758a] text-sm">Date: ${date}</p>
-                <p class="text-[#60758a] text-sm">Time: ${time}</p>
-                <p class="text-[#60758a] text-sm">Persons: ${persons}</p>
-                <p class="text-[#60758a] text-sm">Booking · €${price}</p>
-                <p class="text-[#60758a] text-xs">Reference: #${reference}</p>
+
+
+          // ======================================================
+          // PAYMENT NOT VERIFIED
+          // ======================================================
+
+          else {
+
+            console.warn(
+              '❌ Payment was not verified:',
+              verifyData.message
+            );
+
+
+            // IMPORTANT:
+            //
+            // Do NOT leave pending booking data around because
+            // the payment was not verified.
+            //
+
+            localStorage.removeItem(
+              'booking'
+            );
+
+            localStorage.removeItem(
+              'bookingConfirmed'
+            );
+
+            localStorage.removeItem(
+              'stripeSessionId'
+            );
+
+
+            container.innerHTML = `
+
+              <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
+
+                <div class="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
+
+                  <svg
+                    class="w-7 h-7 text-red-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <p class="text-gray-900 font-semibold text-lg">
+
+                  Payment could not be verified
+
+                </p>
+
+
+                <p class="text-gray-500 text-sm mt-2 max-w-md">
+
+                  Your booking has not been confirmed.
+                  If you believe your payment was successful,
+                  please contact us.
+
+                </p>
+
+
+                <a
+                  href="/bookings.html"
+                  class="inline-flex mt-6 px-5 py-2.5 rounded-lg bg-black text-white text-sm font-medium hover:opacity-90 transition"
+                >
+
+                  Return to Booking
+
+                </a>
+
               </div>
+
+            `;
+
+
+            return;
+
+          }
+
+        }
+
+
+        // ========================================================
+        // FETCH COMPLETED BOOKINGS
+        // ========================================================
+
+        const res =
+          await fetch(
+            '/api/completed-bookings',
+            {
+              credentials: 'include'
+            }
+          );
+
+
+        if (!res.ok) {
+
+          throw new Error(
+            'Failed to load completed bookings.'
+          );
+
+        }
+
+
+        const data =
+          await res.json();
+
+
+        // ========================================================
+        // CLEAR LOADING
+        // ========================================================
+
+        container.innerHTML = '';
+
+
+        // ========================================================
+        // NO BOOKINGS
+        // ========================================================
+
+        if (
+          !data.bookings ||
+          data.bookings.length === 0
+        ) {
+
+          container.innerHTML = `
+
+            <p class="text-center col-span-full text-[#60758a]">
+
+              No completed bookings found.
+
+            </p>
+
+          `;
+
+          return;
+
+        }
+
+
+        // ========================================================
+        // DISPLAY BOOKINGS
+        // ========================================================
+
+        data.bookings.forEach(
+          (b) => {
+
+            const date =
+              b.booking_date
+                ? formatBookingDate(
+                    b.booking_date
+                  )
+                : 'N/A';
+
+
+            const price =
+              b.price !== null &&
+              b.price !== undefined
+                ? Number(
+                    b.price
+                  ).toFixed(2)
+                : 'N/A';
+
+
+            const title =
+              escapeHtml(
+                b.title ||
+                'Untitled Booking'
+              );
+
+
+            const image =
+              b.image ||
+              'https://via.placeholder.com/400x225?text=No+Image';
+
+
+            const reference =
+              escapeHtml(
+                b.reference ||
+                'N/A'
+              );
+
+
+            const time =
+              escapeHtml(
+                b.time_selected ||
+                'N/A'
+              );
+
+
+            const persons =
+              b.number_of_persons ||
+              'N/A';
+
+
+            const card =
+              document.createElement(
+                'div'
+              );
+
+
+            card.className =
+              'flex items-stretch justify-between gap-4 rounded-xl bg-[#f9fafb] p-4';
+
+
+            card.innerHTML = `
+
+              <div class="flex flex-col gap-1 flex-[2_2_0px]">
+
+                <p class="text-[#00aa66] text-sm font-medium">
+
+                  ✅ Confirmed
+
+                </p>
+
+
+                <p class="text-[#111418] text-base font-bold">
+
+                  ${title}
+
+                </p>
+
+
+                <p class="text-[#60758a] text-sm">
+
+                  Date: ${escapeHtml(date)}
+
+                </p>
+
+
+                <p class="text-[#60758a] text-sm">
+
+                  Time: ${time}
+
+                </p>
+
+
+                <p class="text-[#60758a] text-sm">
+
+                  Persons: ${escapeHtml(persons)}
+
+                </p>
+
+
+                <p class="text-[#60758a] text-sm">
+
+                  Booking · €${price}
+
+                </p>
+
+
+                <p class="text-[#60758a] text-xs">
+
+                  Reference: #${reference}
+
+                </p>
+
+              </div>
+
+
               <div
                 class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
                 style="background-image: url('${image}')"
               ></div>
+
             `;
-            container.appendChild(card);
-          });
-    
-        } catch (err) {
-          console.error('❌ Error loading bookings:', err);
-          container.innerHTML = `<p class="text-red-600 text-center col-span-full">Something went wrong while loading bookings. Please try again later.</p>`;
-        }
-      });
-    </script>
+
+
+            container.appendChild(
+              card
+            );
+
+          }
+        );
+
+      }
+
+
+      // ==========================================================
+      // ERROR
+      // ==========================================================
+
+      catch (err) {
+
+        console.error(
+          '❌ Error loading bookings:',
+          err
+        );
+
+
+        container.innerHTML = `
+
+          <div class="col-span-full text-center py-10">
+
+            <p class="text-red-600 font-semibold">
+
+              Something went wrong while loading bookings.
+
+            </p>
+
+
+            <p class="text-gray-500 text-sm mt-2">
+
+              Please refresh the page and try again.
+
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+  );
+
+</script>
     <script src="/js/auth-guard.js"></script>
     
   </body>

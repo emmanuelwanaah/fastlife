@@ -109,19 +109,102 @@
 </head>
 <body class="bg-[#FAFAFA] text-on-surface font-sans antialiased">
 <!-- HEADER -->
-<header class="bg-white fixed top-0 w-full z-50 py-4 px-6 md:px-12 flex justify-between items-center shadow-sm">
-<a class="font-display font-bold text-2xl text-primary tracking-tight" href="login.html"><img src="assets/img/logo.png" alt="Fast Life Travel" class="h-10 w-auto object-contain"></a>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="index.html">home</a>
-<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="login.html">Ticket</a>
-<a class="text-on-surface hover:text-primary font-semibold text-sm transition-colors" href="login.html">Explore</a>
-<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors" href="login.html">Activity</a>
-</nav>
-<div class="flex items-center gap-6">
-<a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors hidden sm:block" href="login.html">Sign In</a>
-<button class="bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-[#0c8a85] transition-colors shadow-md">Sign Up</button>
-</div>
+<!-- HEADER -->
+<header class="bg-white fixed top-0 w-full z-50 py-4 px-4 sm:px-6 md:px-12 flex justify-between items-center shadow-sm">
+
+    <!-- Logo -->
+    <a class="font-display font-bold text-2xl text-primary tracking-tight"
+       href="index.html">
+        <img src="assets/img/logo.png"
+             alt="Fast Life Travel"
+             class="h-10 w-auto object-contain">
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8">
+        <a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors"
+           href="index.html">Home</a>
+
+        <a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors"
+           href="login.html">Ticket</a>
+
+        <a class="text-on-surface hover:text-primary font-semibold text-sm transition-colors"
+           href="login.html">Explore</a>
+
+        <a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors"
+           href="login.html">Activity</a>
+    </nav>
+
+    <!-- Desktop Actions -->
+    <div class="hidden md:flex items-center gap-6">
+        <a class="text-on-surface-variant hover:text-primary font-medium text-sm transition-colors"
+           href="login.html">
+            Sign In
+        </a>
+
+        <a href="login.html"
+           class="bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-[#0c8a85] transition-colors shadow-md">
+            Sign Up
+        </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+        id="mobileMenuButton"
+        class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-variant transition-colors"
+        aria-label="Open navigation menu">
+
+        <span id="menuIcon"
+              class="material-symbols-outlined text-3xl">
+            menu
+        </span>
+    </button>
+
 </header>
+
+
+<!-- MOBILE MENU -->
+<div
+    id="mobileMenu"
+    class="fixed top-[72px] left-0 w-full bg-white shadow-lg z-40 hidden md:hidden border-t border-outline-variant">
+
+    <nav class="flex flex-col px-6 py-6 space-y-2">
+
+        <a href="index.html"
+           class="py-3 px-4 rounded-xl text-on-surface font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+            Home
+        </a>
+
+        <a href="login.html"
+           class="py-3 px-4 rounded-xl text-on-surface font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+            Ticket
+        </a>
+
+        <a href="login.html"
+           class="py-3 px-4 rounded-xl text-on-surface font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+            Explore
+        </a>
+
+        <a href="login.html"
+           class="py-3 px-4 rounded-xl text-on-surface font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+            Activity
+        </a>
+
+        <hr class="my-3 border-outline-variant">
+
+        <a href="login.html"
+           class="py-3 px-4 rounded-xl text-on-surface font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+            Sign In
+        </a>
+
+        <a href="login.html"
+           class="bg-primary text-white text-center py-3 px-4 rounded-xl font-medium hover:bg-[#0c8a85] transition-colors">
+            Sign Up
+        </a>
+
+    </nav>
+
+</div>
 <main class="pt-24 pb-20 px-4 md:px-8">
 <div class="max-w-container mx-auto space-y-32">
 <!-- HERO SECTION -->
@@ -545,5 +628,20 @@
 </div>
 </div>
 </footer>
+<script>
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+
+        if (mobileMenu.classList.contains('hidden')) {
+            menuIcon.textContent = 'menu';
+        } else {
+            menuIcon.textContent = 'close';
+        }
+    });
+</script>
 </body>
 </html>

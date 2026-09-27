@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -64,22 +63,21 @@ body {
 
   <header
     class="w-full bg-white border-b border-gray-200 shadow-sm
-           px-6 md:px-10 py-4
-           flex items-center justify-between"
+           px-4 sm:px-6 md:px-10 py-3 md:py-4
+           flex items-center justify-between gap-3"
   >
 
-    <div class="flex items-center gap-8">
+    <div class="flex items-center gap-3 sm:gap-8 min-w-0">
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 shrink-0">
         <img
           src="/assets/img/logo.png"
           alt="Fast Life Travel"
-          width="90"
-          class="object-contain"
+          class="w-16 sm:w-20 md:w-[90px] h-auto object-contain"
         />
       </div>
 
-      <nav class="flex items-center gap-8">
+      <nav class="flex items-center gap-4 sm:gap-8 overflow-x-auto scrollbar-hide whitespace-nowrap min-w-0">
         <a
           class="text-[#121517] text-sm font-medium hover:text-teal-500 transition"
           href="dashboard.html"
@@ -104,7 +102,7 @@ body {
 
     </div>
 
-    <div class="flex items-center gap-6">
+    <div class="flex items-center gap-3 sm:gap-6 shrink-0">
 
       <!-- Wishlist -->
       <div class="relative">
@@ -180,31 +178,32 @@ body {
 
     <div
       class="w-full md:w-[65%]
-             p-6 md:p-8 lg:p-10
-             border-r border-brand-border
+             p-4 sm:p-6 md:p-8 lg:p-10
+             md:border-r border-brand-border
              bg-white
              flex flex-col
-             h-[800px]
-             overflow-y-auto
+             h-auto md:h-[800px]
+             overflow-visible md:overflow-y-auto
              scrollbar-hide
-             rounded-l-[32px]"
+             rounded-2xl md:rounded-l-[32px] md:rounded-r-none"
     >
 
       <!-- IMAGE GALLERY -->
 
-      <section class="flex flex-col sm:flex-row gap-4 mb-8 h-[350px]">
+      <section class="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 mb-8 sm:h-[350px]">
 
         <!-- THUMBNAILS -->
 
         <div
-          class="flex sm:flex-col gap-4
+          class="flex sm:flex-col gap-3 sm:gap-4
                  w-full sm:w-[150px]
-                 overflow-x-auto sm:overflow-y-visible"
+                 overflow-x-auto sm:overflow-y-visible
+                 scrollbar-hide"
         >
 
           <div
-            class="relative w-[150px] h-[100px] shrink-0
-                   rounded-2xl overflow-hidden"
+            class="relative w-20 h-16 sm:w-[150px] sm:h-[100px] shrink-0
+                   rounded-xl sm:rounded-2xl overflow-hidden"
           >
             <img
               id="thumb-1"
@@ -215,8 +214,8 @@ body {
           </div>
 
           <div
-            class="relative w-[150px] h-[100px] shrink-0
-                   rounded-2xl overflow-hidden"
+            class="relative w-20 h-16 sm:w-[150px] sm:h-[100px] shrink-0
+                   rounded-xl sm:rounded-2xl overflow-hidden"
           >
             <img
               id="thumb-2"
@@ -227,8 +226,8 @@ body {
           </div>
 
           <div
-            class="relative w-[150px] h-[100px] shrink-0
-                   rounded-2xl overflow-hidden"
+            class="relative w-20 h-16 sm:w-[150px] sm:h-[100px] shrink-0
+                   rounded-xl sm:rounded-2xl overflow-hidden"
           >
             <img
               id="thumb-3"
@@ -244,7 +243,7 @@ body {
         <!-- MAIN IMAGE -->
 
         <div
-          class="flex-1 relative rounded-[24px] overflow-hidden group"
+          class="flex-1 min-w-0 relative h-56 sm:h-full rounded-2xl sm:rounded-[24px] overflow-hidden group"
         >
 
           <img
@@ -334,11 +333,11 @@ body {
 
       <section class="mb-8">
 
-        <div class="flex justify-between items-start mb-2">
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
 
           <h1
             id="activity-title"
-            class="text-3xl font-bold text-gray-900"
+            class="text-2xl sm:text-3xl font-bold text-gray-900"
           >
             Loading activity...
           </h1>
@@ -401,7 +400,7 @@ body {
         <!-- INFO BAR -->
 
         <div
-          class="flex flex-wrap items-center gap-6
+          class="flex flex-wrap items-center gap-4 sm:gap-6
                  py-4 border-y border-gray-100"
         >
 
@@ -591,7 +590,7 @@ body {
           </p>
 
 
-          <div class="flex items-center gap-4 mt-6">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-6">
 
             <button
             type="button"
@@ -605,7 +604,7 @@ body {
                      transition
                      shadow-sm
                      shadow-red-200
-                     flex items-center gap-2"
+                     flex items-center justify-center gap-2"
             >
 
               <svg
@@ -629,7 +628,7 @@ body {
 
             <button
               id="favorite-btn"
-              class="flex items-center gap-2
+              class="flex items-center justify-center gap-2
                      text-gray-600
                      hover:text-red-500
                      transition
